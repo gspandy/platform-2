@@ -20,37 +20,4 @@ public class AdminAction {
     @Autowired
     private PublicService publicService;
 
-    /**
-     * 删除一个分类
-     */
-    @ResponseBody
-    @RequestMapping("/delCategory")
-    public Response delCategory(CategoryDeleteRequest request)throws Exception{
-        Response response = new Response(request);
-        publicService.deleteCategory(request);
-
-        return response;
-    }
-
-    @ResponseBody
-    @RequestMapping("/addCategory")
-    public Response addCategory(CategoryAddRequest request)throws Exception{
-        Response response = new Response(request);
-        publicService.addCategory(request);
-
-        return response;
-    }
-
-    /**
-     * 删除一个视频
-     */
-    @ResponseBody
-    @RequestMapping("/delVideo")
-    public Response delVideo(VideoDeleteRequest request)throws Exception{
-        Response response = new Response(request);
-        publicService.deleteVideo(request);
-
-        return response;
-    }
-
 }

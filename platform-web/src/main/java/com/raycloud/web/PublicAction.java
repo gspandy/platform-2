@@ -1,18 +1,17 @@
 package com.raycloud.web;
 
-import com.raycloud.pojo.Video;
-import com.raycloud.request.Request;
-import com.raycloud.request.UploadVideoRequest;
-import com.raycloud.request.VideoGetRequest;
-import com.raycloud.request.VideoListGetRequest;
+import com.raycloud.request.TeacherAddRequest;
+import com.raycloud.request.TeacherListGetRequest;
+import com.raycloud.request.TrainingInformationGetRequest;
+import com.raycloud.request.TrainingInformationUpdateRequest;
 import com.raycloud.response.Response;
-import com.raycloud.response.ViewCategoryList;
-import com.raycloud.response.ViewPreVideoList;
-import com.raycloud.response.ViewVideoList;
+import com.raycloud.response.ViewTeacherList;
+import com.raycloud.response.ViewTrainingInformation;
 import com.raycloud.service.impl.PublicService;
-import com.raycloud.util.BooleanStatusResponse;
+import org.apache.http.auth.AUTH;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -22,81 +21,64 @@ import java.util.List;
  * Created by on 2016/5/10.
  */
 @Controller
+@RequestMapping("/ufree")
 public class PublicAction extends BaseAction {
 
     @Autowired
     private PublicService publicService;
 
-    /**
-     * 获取视频列表
-     * @param request
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping("/getVideoList")
-    public Response getVideoList(VideoListGetRequest request)throws Exception{
-        Response response = new Response(request);
-        System.out.println("获取视频列表");
-        if(request.getCategoryNum() != null && request.getVideoNum() != null){
-            ViewPreVideoList viewPreVideoList = publicService.getPreVideo(request);
-            response.setData(viewPreVideoList);
-        }else {
-            ViewVideoList viewVideoList = publicService.getVideoList(request);
-            response.setData(viewVideoList);
-        }
-        return response;
-    }
 
     /**
-     * 获取单一的视频信息
+     * 获取机构信息
      * @param request
      * @return
      * @throws Exception
      */
     @ResponseBody
-    @RequestMapping("/getVideo")
-    public Response getVideo(VideoGetRequest request)throws Exception{
+    @RequestMapping("/getTrainingInformation/{username}")
+    public Response getTrainingInformation(TrainingInformationGetRequest request)throws Exception{
         Response response = new Response(request);
-        System.out.println("获取视频");
-        ViewVideoList.VideoListBean v = publicService.getVideo(request);
-        response.setData(v);
+        ViewTrainingInformation view = publicService.getTrainingInformation(request);
+        response.setData(view);
         return response;
     }
 
     /**
-     * 获取分类列表
+     * 修改机构信息
      * @param request
      * @return
      * @throws Exception
      */
     @ResponseBody
-    @RequestMapping("/getCategoryList")
-    public Response getCategoryList(Request request)throws Exception{
+    @RequestMapping("/updateTrainingInformation")
+    public Response updateTrainingInformation(TrainingInformationUpdateRequest request)throws Exception{
         Response response = new Response(request);
-        System.out.println("获取分类列表");
-        ViewCategoryList viewCategoryList = publicService.getCategoryList();
-        response.setData(viewCategoryList);
+        publicService.updateTrainingInformation(request, getUser());
         return response;
     }
 
     /**
-     * 上传视频
+     * 添加老师
      * @param request
      * @return
+     * @throws Exception
      */
     @ResponseBody
-    @RequestMapping("/uploadVideo")
-    public Response uploadVideo(UploadVideoRequest request)throws Exception{
+    @RequestMapping("/addTeacher")
+    public Response addTeacher(TeacherAddRequest request)throws Exception{
         Response response = new Response(request);
-        System.out.println("正在上传");
-        boolean status = false;
-        publicService.uploadVideo(request,getUser());
-        response.setData(new BooleanStatusResponse(status = true));
+        publicService.addTeacher(request, getUser());
         return response;
     }
 
-
-
+    @ResponseBody
+    @RequestMapping("/getTeacherList/{username}")
+    public Response getTeacherList(TeacherListGetRequest request)throws Exception{
+        Response response = new Response(request);
+        ViewTeacherList view = publicService.getTeacherList(request);
+        response.setData(view);
+        return response;
+    }
     
 
 }

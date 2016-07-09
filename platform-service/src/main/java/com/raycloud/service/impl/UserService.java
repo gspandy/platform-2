@@ -100,14 +100,7 @@ public class UserService {
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(MD5Utils.toHexString(MD5Utils.encodeByMD5(request.getPassword().getBytes())));
-        user.setNick(request.getNick());
-        user.setHeadPhotoUrl("/resources/img/img"+ (int)(Math.random()*3+1)+".png");
-        user.setAddress(request.getAddress());
-        user.setEmail(request.getEmail());
-        user.setPhone(request.getPhone());
-        //user.setConfigRule(JSONObject.toJSONString(new User.DbConfig()));
         user.setCreated(new Date());
-        user.setStatus(1);
         try {
             userDao.addUser(user);
             user.setConfigRule(JSONObject.toJSONString(new User.DbConfig(user.getId())));

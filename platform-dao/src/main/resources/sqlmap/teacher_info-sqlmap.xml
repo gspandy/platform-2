@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="TeacherInfo">
+    <!-- 取别名 -->
+    <typeAlias alias="TeacherInfo" type="com.raycloud.pojo.TeacherInfo"/>
+
+    <sql id="fieldAs">
+        a.id,
+        a.user_Id as userId,
+        a.real_Name as realName,
+        a.head_Pic_Url as headPicUrl,
+        a.desc,
+        a.card_Front_Url as cardFrontUrl,
+        a.card_Back_Url as cardBackUrl,
+        a.card_No as cardNo,
+        a.teacher_award_url as teacherAwardUrl,
+        a.authenticate,
+        a.created,a.modified,a.status
+    </sql>
+
+    <sql id="TeacherInfo.selector">
+        select
+        <dynamic>
+            <isNotEmpty property="fields">
+                $fields$
+            </isNotEmpty>
+            <isEmpty property="fields">
+                <include refid="fieldAs"></include>
+            </isEmpty>
+        </dynamic>
+        from teacher_info a
+    </sql>
+    <sql id="TeacherInfo.where">
+        <dynamic prepend="where">
+            <isNotNull property="id" prepend="and">
+                a.id = #id#
+            </isNotNull>
+            <!-- 支持id集合来查找多个 -->
+            <isNotEmpty property="keys" prepend="and">
+                a.id in
+                <iterate open="(" close=")" conjunction="," property="keys">
+                    #keys[]#
+                </iterate>
+            </isNotEmpty>
+            <isNotNull property="userId" prepend="and">
+                a.user_Id = #userId#
+            </isNotNull>
+            <isNull property="status" prepend="and">
+                a.status = 1
+            </isNull>
+            <isNotNull property="status" prepend="and">
+                a.status = #status#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <!-- 切记，order 后面不能用##,而应该用$$ -->
+    <sql id="TeacherInfo.order">
+        <dynamic prepend="order by">
+            <isNotEmpty property="orderFields">
+                <iterate property="orderFields" conjunction="," open="" close="">
+                    $orderFields[].fieldName$ $orderFields[].order$
+                </iterate>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <sql id="TeacherInfo.limit">
+        <dynamic prepend="limit">
+            <isNotEmpty property="startRow">
+                $startRow$,$endRow$
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <select id="get" parameterClass="TeacherInfo" resultClass="TeacherInfo">
+        <include refid="TeacherInfo.selector"></include>
+        <include refid="TeacherInfo.where"></include>
+        limit 1
+    </select>
+
+    <!-- 自定义字段+ 分页 -->
+    <select id="getList" parameterClass="TeacherInfo"  resultClass="TeacherInfo">
+        <include refid="TeacherInfo.selector"></include>
+        <include refid="TeacherInfo.where"></include>
+        <include refid="TeacherInfo.order"></include>
+        <include refid="TeacherInfo.limit"></include>
+    </select>
+
+    <!-- 增加 -->
+    <insert id="add" parameterClass="TeacherInfo">
+                insert into teacher_info
+                (
+        user_Id,
+        real_Name,
+        head_Pic_Url,
+        `desc`,
+        card_Front_Url,
+        card_Back_Url,
+        card_No,
+        teacher_Award_Url,
+        authenticate,
+        created,
+        status
+                )
+                values
+                (
+        #userId#,
+        #realName#,
+        #headPicUrl#,
+        #desc#,
+        #cardFrontUrl#,
+        #cardBackUrl#,
+        #cardNo#,
+        #teacherAwardUrl#,
+        #authenticate#,
+        #created#,
+        #status#
+                 )
+
+        <selectKey resultClass="Long" keyProperty="id">
+            <![CDATA[select last_insert_id() as id]]>
+        </selectKey>
+    </insert>
+
+    <!-- 删除,物理删除，最好采用逻辑删除，增加字段status来判断是否删除-->
+    <delete id="deleteById" parameterClass="long">
+        delete from teacher_info where id = #id#;
+    </delete>
+
+    <!-- 修改 -->
+    <update id="update" parameterClass="TeacherInfo">
+        update teacher_info
+        <dynamic prepend="set">
+            <isNotNull prepend="," property="headPicUrl">
+                head_pic_url = #headPicUrl#
+            </isNotNull>
+            <isNotNull prepend="," property="desc">
+                `desc` = #desc#
+            </isNotNull>
+            <isNotNull prepend="," property="cardFrontUrl">
+                card_front_url = #cardFrontUrl#
+            </isNotNull>
+            <isNotNull prepend="," property="cardBackUrl">
+                card_back_url = #cardBackUrl#
+            </isNotNull>
+            <isNotNull prepend="," property="cardNo">
+                card_no = #cardNo#
+            </isNotNull>
+            <isNotNull prepend="," property="teacherAwardUrl">
+                teacher_award_url = #teacherAwardUrl#
+            </isNotNull>
+            <isNotNull prepend="," property="authenticate">
+                authenticate = #authenticate#
+            </isNotNull>
+        </dynamic>
+        where id = #id#
+    </update>
+
+
+</sqlMap>

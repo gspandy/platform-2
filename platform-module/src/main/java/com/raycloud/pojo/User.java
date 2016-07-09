@@ -16,7 +16,8 @@ import java.util.List;
  */
 public class User extends BasePojo implements Serializable {
 
-    private static final long serialVersionUID = -4073824498623601471L;
+
+    private static final long serialVersionUID = -7677066744837758920L;
     /**
      * 自增ID
      */
@@ -38,15 +39,18 @@ public class User extends BasePojo implements Serializable {
      *
      */
     private String configRule;
-
     private DbConfig dbConfig;
-    private String nick;
-    private String headPhotoUrl;
-    private String birthday;
-    private String address;
-    private String sex;
+    private String owner;
     private String phone;
-    private String email;
+    private String institution;
+    private String desc;
+    private String businessCode;
+    private String addressCode;
+    private String addressDetail;
+    private String logoPicUrl;
+    private String invitationCode;
+    private String contactHotline;
+    private Integer authenticate;
     private Date created;
     private Date modified;
     private Integer status;
@@ -67,10 +71,6 @@ public class User extends BasePojo implements Serializable {
         return this;
     }
 
-    public User orderByPassword(boolean isAsc){
-        orderFields.add(new OrderField("password",isAsc?"ASC":"DESC"));
-        return this;
-    }
     /**====================结束**/
 
     public static class DbConfig{
@@ -123,6 +123,15 @@ public class User extends BasePojo implements Serializable {
 
     public void setOrderFields(List<OrderField> orderFields) {
         this.orderFields = orderFields;
+    }
+
+
+    public String getContactHotline() {
+        return contactHotline;
+    }
+
+    public void setContactHotline(String contactHotline) {
+        this.contactHotline = contactHotline;
     }
 
     public Long getId() {
@@ -180,44 +189,12 @@ public class User extends BasePojo implements Serializable {
         this.dbConfig = dbConfig;
     }
 
-    public String getNick() {
-        return nick;
+    public String getOwner() {
+        return owner;
     }
 
-    public void setNick(String nick) {
-        this.nick = nick;
-    }
-
-    public String getHeadPhotoUrl() {
-        return headPhotoUrl;
-    }
-
-    public void setHeadPhotoUrl(String headPhotoUrl) {
-        this.headPhotoUrl = headPhotoUrl;
-    }
-
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public String getPhone() {
@@ -228,12 +205,60 @@ public class User extends BasePojo implements Serializable {
         this.phone = phone;
     }
 
-    public String getEmail() {
-        return email;
+    public String getInstitution() {
+        return institution;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setInstitution(String institution) {
+        this.institution = institution;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getBusinessCode() {
+        return businessCode;
+    }
+
+    public void setBusinessCode(String businessCode) {
+        this.businessCode = businessCode;
+    }
+
+    public String getAddressCode() {
+        return addressCode;
+    }
+
+    public void setAddressCode(String addressCode) {
+        this.addressCode = addressCode;
+    }
+
+    public String getAddressDetail() {
+        return addressDetail;
+    }
+
+    public void setAddressDetail(String addressDetail) {
+        this.addressDetail = addressDetail;
+    }
+
+    public String getLogoPicUrl() {
+        return logoPicUrl;
+    }
+
+    public void setLogoPicUrl(String logoPicUrl) {
+        this.logoPicUrl = logoPicUrl;
+    }
+
+    public String getInvitationCode() {
+        return invitationCode;
+    }
+
+    public void setInvitationCode(String invitationCode) {
+        this.invitationCode = invitationCode;
     }
 
     public Date getCreated() {
@@ -258,5 +283,13 @@ public class User extends BasePojo implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Integer getAuthenticate() {
+        return authenticate;
+    }
+
+    public void setAuthenticate(Integer authenticate) {
+        this.authenticate = authenticate;
     }
 }

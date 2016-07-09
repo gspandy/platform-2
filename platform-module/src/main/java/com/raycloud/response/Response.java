@@ -2,10 +2,13 @@ package com.raycloud.response;
 
 import com.raycloud.request.Request;
 
+import java.io.Serializable;
+
 /**
  * Created by linjunjie on 2015/11/28 (linjunjie@raycloud.com).
  */
-public class Response {
+public class Response implements Serializable {
+    private static final long serialVersionUID = 4293679040941469997L;
     //参照raycloud规范来写
 
     private String api_name = "";

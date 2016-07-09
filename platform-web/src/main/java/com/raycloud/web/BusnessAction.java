@@ -27,8 +27,8 @@ import javax.servlet.http.HttpServletRequest;
  * Created by linjunjie on 2016/1/25 (linjunjie@raycloud.com).
  */
 @Controller
-@RequestMapping("/user")
-public class UserAction extends BaseAction{
+@RequestMapping("/busness")
+public class BusnessAction extends BaseAction{
 
     @Autowired
     private UserService userService;
