@@ -1,26 +1,26 @@
 package com.raycloud.service.impl;
 
-import com.raycloud.constant.WebContextConstant;
+import com.raycloud.constant.ResponseResultConstant;
+import com.raycloud.dao.ArticleDao;
+import com.raycloud.dao.CourseDao;
 import com.raycloud.dao.TeacherInfoDao;
 import com.raycloud.dao.UserDao;
-
 import com.raycloud.exception.ServiceException;
+import com.raycloud.pojo.Article;
+import com.raycloud.pojo.Course;
 import com.raycloud.pojo.TeacherInfo;
 import com.raycloud.pojo.User;
-import com.raycloud.qiniu.QiniuUtils;
-import com.raycloud.request.TeacherAddRequest;
-import com.raycloud.request.TeacherListGetRequest;
-import com.raycloud.request.TrainingInformationGetRequest;
-import com.raycloud.request.TrainingInformationUpdateRequest;
+import com.raycloud.request.*;
+import com.raycloud.response.ViewCourseList;
 import com.raycloud.response.ViewTeacherList;
 import com.raycloud.response.ViewTrainingInformation;
-import com.raycloud.util.ContentTypeUtil;
+import com.raycloud.util.qiniu.QiniuUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.IOException;
+import java.lang.reflect.Field;
 import java.text.MessageFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,6 +34,12 @@ public class PublicService {
 
     @Autowired
     private TeacherInfoDao teacherInfoDao;
+
+    @Autowired
+    private CourseDao courseDao;
+
+    @Autowired
+    private ArticleDao articleDao;
 
     /**
      * 获取机构信息
@@ -54,10 +60,31 @@ public class PublicService {
         trainingInformationResponse.setBusinessCode(user.getBusinessCode());
         trainingInformationResponse.setDesc(user.getDesc());
         trainingInformationResponse.setInsititution(user.getInstitution());
-        trainingInformationResponse.setLogoPicUrl(user.getLogoPicUrl());
+        trainingInformationResponse.setLogoPicUrl(com.raycloud.util.qiniu.QiniuUtils.getInstance().getDownloadLink(user.getLogoPicUrl()));
         trainingInformationResponse.setContactHotline(user.getContactHotline());
 
         return trainingInformationResponse;
+    }
+
+    /**
+     * 保存logo
+     * @param request
+     * @param user
+     */
+    public void updateLogoPic(TrainingLogoPicUpdateRequest request,User user)throws ServiceException{
+        if(request.getLogoPic() == null){
+            throw new ServiceException("logo_pic参数异常",902);
+        }
+        String fileName = null;
+        try {
+            fileName = QiniuUtils.getInstance().uploadPic(request.getLogoPic());
+        } catch (Exception e) {
+            throw new ServiceException(ResponseResultConstant.resultString.get(ResponseResultConstant.PIC_UPLOAD_ERROR),902,e);
+        }
+        User oldInfo = new User();
+        oldInfo.setId(user.getId());
+        oldInfo.setLogoPicUrl(fileName);
+        userDao.update(oldInfo);
     }
 
     /**
@@ -90,35 +117,18 @@ public class PublicService {
         if(request.getHeadPic() == null){
             throw new ServiceException("head_pic参数异常",902);
         }
-        int index = request.getHeadPic().getOriginalFilename().indexOf(".");
-        StringBuilder fileName = null;
-        fileName = new StringBuilder((index == -1? request.getHeadPic().getOriginalFilename():request.getHeadPic().getOriginalFilename().substring(0,index)));
-        String suffix = ContentTypeUtil.getExtension(request.getHeadPic().getContentType());
-        if("".equals(suffix)){
-            throw new ServiceException("图片格式错误!",902);
-        }
-        fileName.append(System.currentTimeMillis()).append(suffix);
-        String savePath = null;
-        savePath = new StringBuilder(WebContextConstant.webRealPath).append("/resources/upload/").append(fileName).toString();
-        File file = new File(savePath);
+        String fileName = null;
         try {
-            request.getHeadPic().transferTo(file);
-        } catch (IOException e) {
-            throw new ServiceException("服务器无法存储该图片",902,e);
+            fileName = QiniuUtils.getInstance().uploadPic(request.getHeadPic());
+        } catch (Exception e) {
+            throw new ServiceException(ResponseResultConstant.resultString.get(ResponseResultConstant.PIC_UPLOAD_ERROR),902,e);
         }
-        try {
-            QiniuUtils.getInstance().upload(fileName.toString(),savePath);
-        } catch (IOException e) {
-            throw new ServiceException("七牛云无法存储该图片",902,e);
-        }
-        if(file != null) {
-            file.delete();
-        }
+
         TeacherInfo teacherInfo = new TeacherInfo();
         teacherInfo.setUserId(user.getId());
         teacherInfo.setDesc(request.getDesc());
         teacherInfo.setRealName(request.getRealName());
-        teacherInfo.setHeadPicUrl(fileName.toString());
+        teacherInfo.setHeadPicUrl(fileName);
         teacherInfo.setAuthenticate(0);
         teacherInfo.setStatus(1);
         teacherInfoDao.add(teacherInfo);
@@ -137,6 +147,9 @@ public class PublicService {
             throw new ServiceException("用户不存在",902);
         }
         TeacherInfo teacherInfo = new TeacherInfo();
+        int startRow = (request.getPageNo() - 1)*request.getPageSize();
+        teacherInfo.setStartRow(startRow);
+        teacherInfo.setPageSize(request.getPageSize());
         teacherInfo.setUserId(user.getId());
         List<TeacherInfo> teacherInfoList = teacherInfoDao.getList(teacherInfo);
         for(TeacherInfo item : teacherInfoList){
@@ -145,11 +158,161 @@ public class PublicService {
             if(item.getTeacherAwardUrl() != null)
                 item.setTeacherAwardUrl(QiniuUtils.getInstance().getDownloadLink(item.getTeacherAwardUrl()));
         }
+        Integer count = teacherInfoDao.getCount(teacherInfo);
         ViewTeacherList viewTeacherList = new ViewTeacherList();
         viewTeacherList.toResponse(teacherInfoList);
-
+        viewTeacherList.setTotal(count);
 
         return viewTeacherList;
     }
+
+    /**
+     * 获取课程列表
+     * @param request
+     * @throws ServiceException
+     */
+    public ViewCourseList getCourseList(CourseListGetRequest request)throws ServiceException{
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user = userDao.get(user);
+        if(user == null){
+            throw new ServiceException("用户不存在",902);
+        }
+        Course course = new Course();
+        course.setUserId(user.getId());
+        int startRow = (request.getPageNo() - 1)*request.getPageSize();
+        course.setStartRow(startRow);
+        course.setPageSize(request.getPageSize());
+        List<Course> courseList = courseDao.getList(course);
+        int total = courseDao.getCount(course);
+
+        ViewCourseList view = new ViewCourseList();
+        view.setTotal(total);
+        view.toResponse(courseList);
+        return view;
+    }
+
+    /**
+     * 添加课程
+     * @param request
+     */
+    public void addCourse(CourseAddRequest request,User user)throws ServiceException{
+        if(request.getPicUrl() == null){
+            throw new ServiceException("课程图片不能为空",902);
+        }
+
+        String fileName = null;
+        try {
+            fileName = QiniuUtils.getInstance().uploadPic(request.getPicUrl());
+        } catch (Exception e) {
+            throw new ServiceException(ResponseResultConstant.resultString.get(ResponseResultConstant.PIC_UPLOAD_ERROR),902,e);
+        }
+        Course course = new Course();
+        course.setUserId(user.getId());
+        course.setName(request.getName());
+        course.setPicUrl(fileName);
+        course.setCreated(new Date());
+        course.setStatus(1);
+        courseDao.add(course);
+
+    }
+
+    /**
+     * 删除课程
+     * @param request
+     * @param user
+     * @throws ServiceException
+     */
+    public void removeCourse(CourseRemoveRequest request,User user)throws ServiceException{
+        Course course = new Course();
+        course.setId(request.getId());
+        course.setUserId(user.getId());
+        courseDao.remove(course);
+    }
+
+    /**
+     * 添加文章
+     * @param request
+     * @param user
+     * @throws ServiceException
+     */
+    public void addArticle(ArticleAddRequest request,User user)throws ServiceException{
+        String filename = null;
+        try {
+            filename = QiniuUtils.getInstance().uploadPic(request.getHeadPhotoUrl());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Article article = new Article();
+        article.setUsername(user.getUsername());
+        article.setTitle(request.getTitle());
+        article.setContent(request.getContent());
+        article.setHeadPhotoUrl(filename);
+        article.setAuthor(request.getAuthor());
+        article.setCategoryId(request.getCategoryId());
+        article.setBoardNum(0);
+        article.setReadNum(0L);
+        article.setCreated(new Date());
+        article.setStatus(1);
+        articleDao.insert(article);
+    }
+
+    /**
+     * 删除文章
+     * @param request
+     * @param user
+     * @throws ServiceException
+     */
+    public void removeArticle(ArticleRemoveRequest request,User user)throws ServiceException{
+        Article article = new Article();
+        article.setId(request.getId());
+        article.setUsername(user.getUsername());
+        articleDao.remove(article);
+    }
+
+
+
+    public static void main(String[] args) {
+        Request request = new ArticleAddRequest();
+        Article article = new Article();
+            convert(article,request);
+
+
+    }
+
+    public static void convert(Object current,Object target) {
+        try {
+            Class now = current.getClass();
+            Class newer = target.getClass();
+            char[] chars = null;
+            char[] nowname = now.getSimpleName().toCharArray();
+            char[] newname = newer.getSimpleName().toCharArray();
+            nowname[0] = Character.toLowerCase(nowname[0]);
+            newname[0] = Character.toLowerCase(newname[0]);
+            System.out.println(newer.getSimpleName()+" "+String.valueOf(nowname)+" = new "+newer.getSimpleName()+"();");
+            System.out.println(now.getSimpleName()+" "+String.valueOf(nowname)+" = new "+now.getSimpleName()+"();");
+            Field[] fields = now.getDeclaredFields();
+            for (int i = 0; i < fields.length; i++) {
+                if("serialVersionUID".equals(fields[i].getName())){
+                    continue;
+                }
+                chars = fields[i].getName().toCharArray();
+                chars[0] = Character.toUpperCase(chars[0]);
+                StringBuilder sbuid = new StringBuilder().append(nowname)
+                        .append(".set")
+                        .append(String.valueOf(chars))
+                        .append("(")
+                        .append(newname)
+                        .append(".get")
+                        .append(String.valueOf(chars))
+                        .append("());");
+                System.out.println(sbuid.toString());
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
 
 }

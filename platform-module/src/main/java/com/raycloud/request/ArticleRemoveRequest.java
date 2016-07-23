@@ -1,9 +1,11 @@
 package com.raycloud.request;
 
+import org.springframework.web.multipart.MultipartFile;
+
 /**
- * Created by linjunjie(490456661@qq.com) on 2016/6/8.
+ * Created by linjunjie(490456661@qq.com) on 2016/7/9.
  */
-public class CategoryDeleteRequest extends Request{
+public class ArticleRemoveRequest extends Request {
 
     private Long id;
 
@@ -14,4 +16,6 @@ public class CategoryDeleteRequest extends Request{
     public void setId(Long id) {
         this.id = id;
     }
+
+
 }

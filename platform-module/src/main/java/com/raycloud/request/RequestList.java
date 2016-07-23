@@ -5,8 +5,8 @@ package com.raycloud.request;
  */
 public class RequestList extends Request {
 
-    private Integer pageNo;
-    private Integer pageSize;
+    private Integer pageNo = 1;
+    private Integer pageSize = 6;
 
     public Integer getPageNo() {
         return pageNo;

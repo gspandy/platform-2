@@ -14,6 +14,7 @@ import com.raycloud.response.Response;
 import com.raycloud.response.ViewUserLoginInfo;
 import com.raycloud.service.impl.UserService;
 import com.raycloud.util.BooleanStatusResponse;
+import com.raycloud.util.StringUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -61,7 +62,7 @@ public class BusnessAction extends BaseAction{
     @RequestMapping("/login")
     public Response login(UserLoginRequest request)throws Exception {
         Response response = new Response(request);
-        System.out.println("用户登陆");
+        StringUtil.objFilter(request);
         ViewUserLoginInfo viewUserLoginInfo = userService.login(request,getRequest(),getResponse());
         if(viewUserLoginInfo != null){
             response.setMessage("登陆成功!");

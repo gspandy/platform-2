@@ -1,13 +1,11 @@
 package com.raycloud.request;
 
-import org.springframework.web.multipart.MultipartFile;
-
 /**
  * Created by linjunjie(490456661@qq.com) on 2016/7/9.
  */
-public class TeacherListGetRequest extends RequestList {
+public class CourseListGetRequest extends RequestList {
 
-    private static final long serialVersionUID = -3915190473682794349L;
+    private static final long serialVersionUID = -4838956040412412823L;
     private String username;
 
     public String getUsername() {

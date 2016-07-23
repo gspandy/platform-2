@@ -60,7 +60,7 @@
                     <server>tomcat7.00</server>
                     <port>8095</port>
                     <url>http://localhost:8095/</url><!--端口号-->
-                    <path>/</path>
+                    <path>/platform</path>
                     <uriEncoding>utf-8</uriEncoding>
                 </configuration>
             </plugin>

@@ -18,6 +18,10 @@ public class TeacherInfoDao extends BaseDao{
         return getSqlMapClientTemplate().queryForList("TeacherInfo.getList",teacherinfo);
     }
 
+    public Integer getCount(TeacherInfo teacherinfo){
+        return (Integer)getSqlMapClientTemplate().queryForObject("TeacherInfo.getCount",teacherinfo);
+    }
+
     /**
      * 添加
      * @param teacherinfo

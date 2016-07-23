@@ -1,5 +1,10 @@
 package com.raycloud.util;
 
+import com.raycloud.request.TrainingInformationUpdateRequest;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+
 /**
  * Created by linjunjie(490456661@qq.com) on 2016/2/2.
  */
@@ -32,23 +37,61 @@ public class StringUtil {
     }
 
     /**
-     * 过滤掉html
+     * 防止xss攻击
+     * @param content
+     * @return
+     */
+    public static String xssFilter(String content){
+        content =  content.replaceAll("<[/]*script[^>]*>","");
+        /*content = content.replaceAll("<script","&ltscript");
+        content = content.replaceAll("</script>","&ltscript&gt");*/
+        return content;
+    }
+
+    /**
+     * 过滤掉所有html标记
      * @param content
      * @return
      */
     public static String htmlFilter(String content){
-        content = content.replaceAll("<script.*/>","");
-        content = content.replaceAll("<script","&ltscript");
-        content = content.replaceAll("</script>","&ltscript&gt");
+        content = content.replaceAll("<[^>]*>","");
         return content;
     }
 
+    /**
+     * 过滤整个类
+     * @param obj
+     */
+    public static void objFilter(Object obj){
+        Field[] fields = obj.getClass().getDeclaredFields();
+        Object o = null;
+        for(Field item : fields){
+            try {
+                if(Modifier.isFinal(item.getModifiers())){
+                    continue;
+                }
+                item.setAccessible(true);
+                o = item.get(obj);
+                if(o != null && o instanceof String)
+                    item.set(obj,htmlFilter(String.valueOf(o)));
+            } catch (IllegalAccessException e) {
+                //ignore
+            }
+        }
+    }
+
     public static void main(String []args){
-        String content = "wewr<script src='co' type='text/javascript' />cc<script ></script>";
-        content =  content.replaceAll("<script.*/>","");
-        content = content.replaceAll("<script","&ltscript");
-        content = content.replaceAll("</script>","&ltscript&gt");
+        String content = "wewr<script src='co' type='text/javascript'/><img src='http://linjunjie.com' no='' /><sdddc>c<script ></script>";
+        //content =  content.replaceAll("<[/]*script[^>]*>","");
+        //content = content.replaceAll("<script","&ltscript");
+        //content = content.replaceAll("</script>","&ltscript&gt");
+        content = htmlFilter(content);
         System.out.println(content);
+
+        TrainingInformationUpdateRequest request = new TrainingInformationUpdateRequest();
+        request.setAddressDetail("<script> hello 大家好啊 </script>  <img src='' /> ww");
+        objFilter(request);
+        System.out.println(request.getAddressDetail());
     }
 
 }

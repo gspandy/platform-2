@@ -68,7 +68,7 @@
     <sql id="TeacherInfo.limit">
         <dynamic prepend="limit">
             <isNotEmpty property="startRow">
-                $startRow$,$endRow$
+                $startRow$,$pageSize$
             </isNotEmpty>
         </dynamic>
     </sql>
@@ -85,6 +85,11 @@
         <include refid="TeacherInfo.where"></include>
         <include refid="TeacherInfo.order"></include>
         <include refid="TeacherInfo.limit"></include>
+    </select>
+
+    <select id="getCount" parameterClass="TeacherInfo"  resultClass="int">
+        select  count(1) from teacher_info a
+        <include refid="TeacherInfo.where"></include>
     </select>
 
     <!-- 增加 -->

@@ -48,6 +48,11 @@ public class ResponseResultConstant {
      */
     public static int ALREADY_EXISTS_ERROR = 208;
 
+    /**
+     * 图片上传失败
+     */
+    public static int PIC_UPLOAD_ERROR = 209;
+
 
     static{
         resultString.put(CODE_SERVICE_DB_ERROR,"数据库连接错误");
@@ -59,6 +64,7 @@ public class ResponseResultConstant {
         resultString.put(USER_NOT_EXISTS,"用户不存在");
         resultString.put(USER_REGISTER_ERROR,"创建用户失败");
         resultString.put(ALREADY_EXISTS_ERROR,"请勿重复添加");
+        resultString.put(PIC_UPLOAD_ERROR,"图片上传失败,请稍后再试");
 
     }
 

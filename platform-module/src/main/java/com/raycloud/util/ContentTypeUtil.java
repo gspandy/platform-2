@@ -14,6 +14,8 @@ public class ContentTypeUtil {
             return ".png";
         }else if("image/jpeg".equals(contentType)){
             return ".jpg";
+        }else if("image/jpg".equals(contentType)){
+            return ".jpg";
         }else if("image/gif".equals(contentType)){
             return ".gif";
         }else if("video/mpeg4".equals(contentType)){
