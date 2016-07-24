@@ -3,10 +3,7 @@ package com.raycloud.web;
 import com.raycloud.exception.ServiceException;
 import com.raycloud.pojo.User;
 import com.raycloud.request.*;
-import com.raycloud.response.Response;
-import com.raycloud.response.ViewCourseList;
-import com.raycloud.response.ViewTeacherList;
-import com.raycloud.response.ViewTrainingInformation;
+import com.raycloud.response.*;
 import com.raycloud.service.impl.PublicService;
 import com.raycloud.util.StringUtil;
 import org.apache.http.auth.AUTH;
@@ -161,6 +158,35 @@ public class PublicAction extends BaseAction {
     public Response addArticle(ArticleAddRequest request)throws Exception{
         Response response = new Response(request);
         publicService.addArticle(request,getUser());
+        return response;
+    }
+
+    /**
+     * 删除文章
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping("/removeArticle/{id}")
+    public Response removeArticle(ArticleRemoveRequest request)throws Exception{
+        Response response = new Response(request);
+        publicService.removeArticle(request, getUser());
+        return response;
+    }
+
+    /**
+     * 获取文章列表
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping("/getArticleList/{username}")
+    public Response removeArticle(ArticleListGetRequest request)throws Exception{
+        Response response = new Response(request);
+        ViewArticleList view  = publicService.getArticleList(request);
+        response.setData(view);
         return response;
     }
 

@@ -1,16 +1,11 @@
 package com.raycloud.service.impl;
 
 import com.raycloud.constant.ResponseResultConstant;
-import com.raycloud.dao.ArticleDao;
-import com.raycloud.dao.CourseDao;
-import com.raycloud.dao.TeacherInfoDao;
-import com.raycloud.dao.UserDao;
+import com.raycloud.dao.*;
 import com.raycloud.exception.ServiceException;
-import com.raycloud.pojo.Article;
-import com.raycloud.pojo.Course;
-import com.raycloud.pojo.TeacherInfo;
-import com.raycloud.pojo.User;
+import com.raycloud.pojo.*;
 import com.raycloud.request.*;
+import com.raycloud.response.ViewArticleList;
 import com.raycloud.response.ViewCourseList;
 import com.raycloud.response.ViewTeacherList;
 import com.raycloud.response.ViewTrainingInformation;
@@ -20,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +36,9 @@ public class PublicService {
 
     @Autowired
     private ArticleDao articleDao;
+
+    @Autowired
+    private CategoryDao categoryDao;
 
     /**
      * 获取机构信息
@@ -270,12 +269,40 @@ public class PublicService {
         articleDao.remove(article);
     }
 
+    /**
+     * 获取文章列表
+     * @param request
+     * @return
+     * @throws ServiceException
+     */
+    public ViewArticleList getArticleList(ArticleListGetRequest request)throws ServiceException{
+        int startRow = (request.getPageNo() - 1)*request.getPageSize();
+        Article article = new Article();
+        article.setUsername(request.getUsername());
+        article.setStartRow(startRow);
+        article.setPageSize(request.getPageSize());
+        List<Article> articles = articleDao.getList(article);
+        int total = articleDao.getCount(article);
+        ViewArticleList view = new ViewArticleList();
+        view.setTotal(total);
+        view.toResponse(articles);
 
+        //设置分类名和从七牛获取图片
+        for(ViewArticleList.ArticleListBean a : view.getArticleList()){
+            a.setHeadPhotoUrl(QiniuUtils.getInstance().getDownloadLink(a.getHeadPhotoUrl()));
+            Category category = new Category();
+            category.setId(a.getId());
+            category = categoryDao.get(category);
+            if(category != null)
+                a.setCategory(category.getName());
+        }
+        return view;
+    }
 
     public static void main(String[] args) {
-        Request request = new ArticleAddRequest();
-        Article article = new Article();
-            convert(article,request);
+        Article articles =   new Article();
+        ViewArticleList.ArticleListBean articleList = new ViewArticleList.ArticleListBean();
+            convert(articles,articleList);
 
 
     }

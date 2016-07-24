@@ -103,8 +103,8 @@ public class UserService {
         user.setCreated(new Date());
         try {
             userDao.addUser(user);
-            user.setConfigRule(JSONObject.toJSONString(new User.DbConfig(user.getId())));
-            userDao.update(user);
+            //user.setConfigRule(JSONObject.toJSONString(new User.DbConfig(user.getId())));
+            //userDao.update(user);
             httpRequest.getSession().setAttribute("nick", user.getUsername());
             httpRequest.getSession().setAttribute(UserConstant.USER_INFO_KEY,user);
         }catch(Exception e){
