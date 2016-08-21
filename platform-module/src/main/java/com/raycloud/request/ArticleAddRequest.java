@@ -1,6 +1,5 @@
 package com.raycloud.request;
 
-import com.sun.istack.internal.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 
 /**

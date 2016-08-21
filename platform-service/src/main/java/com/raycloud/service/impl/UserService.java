@@ -95,12 +95,23 @@ public class UserService {
         return false;
     }
 
+    /**
+     * 用户注册
+     * @param request
+     * @param httpRequest
+     * @throws ServiceException
+     */
     @Transactional(rollbackFor = ServiceException.class,propagation = Propagation.REQUIRED)
     public void register(UserRegisterRequest request,HttpServletRequest httpRequest)throws ServiceException{
         User user = new User();
+        user.setPreNo(request.getPreNo());
+        user.setOwner(request.getOwner());
+        user.setPhone(request.getPhone());
+        user.setInstitution(request.getInstitution());
         user.setUsername(request.getUsername());
         user.setPassword(MD5Utils.toHexString(MD5Utils.encodeByMD5(request.getPassword().getBytes())));
         user.setCreated(new Date());
+        user.setStatus(1);
         try {
             userDao.addUser(user);
             //user.setConfigRule(JSONObject.toJSONString(new User.DbConfig(user.getId())));
@@ -109,6 +120,31 @@ public class UserService {
             httpRequest.getSession().setAttribute(UserConstant.USER_INFO_KEY,user);
         }catch(Exception e){
             throw new ServiceException("创建用户失败",ResponseResultConstant.USER_NOT_EXISTS,e);
+        }
+    }
+
+    /**
+     * 管理员为机构分配账号(幼儿园)
+     * @param request
+     * @param httpRequest
+     * @throws ServiceException
+     */
+    @Transactional(rollbackFor = ServiceException.class,propagation = Propagation.REQUIRED)
+    public void addInstitution(UserRegisterRequest request,HttpServletRequest httpRequest)throws ServiceException{
+        User user = new User();
+        user.setPreNo(request.getPreNo());
+        user.setOwner(request.getOwner());
+        user.setPhone(request.getPhone());
+        user.setInstitution(request.getInstitution());
+        user.setUsername(request.getUsername());
+        user.setPassword(MD5Utils.toHexString(MD5Utils.encodeByMD5(request.getPassword().getBytes())));
+        user.setCreated(new Date());
+        user.setStatus(1);
+        user.setAuthenticate(0);
+        try {
+            userDao.addUser(user);
+        }catch(Exception e){
+            throw new ServiceException("分配账号失败",ResponseResultConstant.USER_REGISTER_ERROR,e);
         }
     }
 

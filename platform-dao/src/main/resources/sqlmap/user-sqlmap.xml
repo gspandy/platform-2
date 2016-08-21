@@ -5,16 +5,7 @@
     <typeAlias alias="User" type="com.raycloud.pojo.User"/>
 
     <sql id="fieldAs">
-        a.id,a.username,a.password,a.config_rule as configRule,
-        a.owner,a.phone,a.institution,a.desc,
-        a.business_code as businessCode,
-        a.address_detail as addressDetail,
-        a.address_code as addressCode,
-        a.logo_pic_url as logoPicUrl,
-        a.invitation_code as invitationCode,
-        a.contact_hotline as contactHotline,
-        a.authenticate,
-        a.created,a.modified,a.status
+        a.id,a.username,a.password,a.pre_no as preNo,a.config_rule as configRule,a.owner,a.phone,a.institution,a.desc,a.business_code as businessCode,a.address_detail as addressDetail,a.address_code as addressCode,a.logo_pic_url as logoPicUrl,a.invitation_code as invitationCode,a.contact_hotline as contactHotline,a.authenticate,a.created,a.modified,a.status
     </sql>
 
     <sql id="user.selector">
@@ -89,11 +80,9 @@
     <!-- 增加User -->
     <insert id="addUser" parameterClass="User">
                 insert into user
-                (username,password,config_rule,owner,phone,institution,`desc`,business_code,address_detail,address_code,
-        logo_pic_url,invitation_code,contact_hotline,authenticate,created,status)
+                (username,password,pre_no,config_rule,owner,phone,institution,`desc`,business_code,address_detail,address_code,logo_pic_url,invitation_code,contact_hotline,authenticate,created,modified,status)
                 values
-                (#username#,#password#,#configRule#,#owner#,#phone#,#institution#,#desc#,#businessCode#,#addressDetail#,#addressCode#,
-        #logoPicUrl#,#invitationCode#,#contactHotline#,#authenticate#,#created#,#status#)
+                (#username#,#password#,#preNo#,#configRule#,#owner#,#phone#,#institution#,#desc#,#businessCode#,#addressDetail#,#addressCode#,#logoPicUrl#,#invitationCode#,#contactHotline#,#authenticate#,#created#,#modified#,#status#)
 
         <selectKey resultClass="Long" keyProperty="id">
             <![CDATA[select last_insert_id() as id]]>

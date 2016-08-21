@@ -40,6 +40,8 @@ public class User extends BasePojo implements Serializable {
      */
     private String configRule;
     private DbConfig dbConfig;
+
+    private String preNo;//机构前缀标识
     private String owner;
     private String phone;
     private String institution;
@@ -107,6 +109,14 @@ public class User extends BasePojo implements Serializable {
         String db = "{\"articleDbId\":2}";
         DbConfig dbConfig1 = JSONObject.parseObject(db, DbConfig.class);
         System.out.println(dbConfig1.getArticleDbId());
+    }
+
+    public String getPreNo() {
+        return preNo;
+    }
+
+    public void setPreNo(String preNo) {
+        this.preNo = preNo;
     }
 
     public List<Long> getKeys() {

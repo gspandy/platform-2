@@ -26,7 +26,7 @@
 
 
     <build>
-        <finalName>myblog-web</finalName>
+        <finalName>platform</finalName>
 
         <resources>
             <!-- 将资源拷贝到哪儿,就是编译之后拷贝到编译的目录下，默认就是target -->
