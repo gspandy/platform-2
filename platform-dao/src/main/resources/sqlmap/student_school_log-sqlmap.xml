@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
-<sqlMap namespace="StudentInfo">
+<sqlMap namespace="StudentSchoolLog">
     <!-- 取别名 -->
-    <typeAlias alias="StudentInfo" type="com.raycloud.pojo.StudentInfo"/>
+    <typeAlias alias="StudentSchoolLog" type="com.raycloud.pojo.StudentSchoolLog"/>
 
     <sql id="fieldAs">
-        a.id,a.user_id as userId,a.study_no as studyNo,a.real_name as realName,a.sex,a.birthday,a.phone,a.address,a.train,a.created,a.modified,a.status
+        a.id,a.user_id as userId,a.study_no as studyNo,a.course_name as courseName,a.condition,a.remark,a.created,a.modified,a.status
     </sql>
 
     <sql id="selector">
@@ -18,7 +18,7 @@
                 <include refid="fieldAs"></include>
             </isEmpty>
         </dynamic>
-        from student_info a
+        from student_school_log a
     </sql>
     <sql id="where">
         <dynamic prepend="where">
@@ -66,34 +66,34 @@
         </dynamic>
     </sql>
 
-    <select id="get" parameterClass="StudentInfo" resultClass="StudentInfo">
+    <select id="get" parameterClass="StudentSchoolLog" resultClass="StudentSchoolLog">
         <include refid="selector"></include>
         <include refid="where"></include>
         limit 1
     </select>
 
     <!-- 自定义字段+ 分页 -->
-    <select id="getList" parameterClass="StudentInfo"  resultClass="StudentInfo">
+    <select id="getList" parameterClass="StudentSchoolLog"  resultClass="StudentSchoolLog">
         <include refid="selector"></include>
         <include refid="where"></include>
         <include refid="order"></include>
         <include refid="limit"></include>
     </select>
 
-    <select id="getCount" parameterClass="StudentInfo"  resultClass="int">
-        select  count(1) from student_info a
+    <select id="getCount" parameterClass="StudentSchoolLog"  resultClass="int">
+        select  count(1) from student_school_log a
         <include refid="where"></include>
     </select>
 
     <!-- 增加 -->
-    <insert id="add" parameterClass="StudentInfo">
-        insert into Student_Info
+    <insert id="add" parameterClass="StudentSchoolLog">
+        insert into student_school_log
         (
-        id,user_id,study_no,real_name,sex,birthday,phone,address,train,created,modified,status
+        id,user_id,study_no,course_name,condition,remark,created,modified,status
         )
         values
         (
-        #id#,#userId#,#studyNo#,#realName#,#sex#,#birthday#,#phone#,#address#,#train#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#status#
+        #id#,#userId#,#studyNo#,#courseName#,#condition#,#remark#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#status#
         )
 
         <selectKey resultClass="Long" keyProperty="id">
@@ -103,18 +103,21 @@
 
     <!-- 删除,物理删除，最好采用逻辑删除，增加字段status来判断是否删除-->
     <delete id="deleteById" parameterClass="long">
-        update from Student_Info set status = 0 where id = #id#;
+        update from student_school_log set status = 0 where id = #id#;
     </delete>
 
     <!-- 修改 -->
-    <update id="update" parameterClass="StudentInfo">
-        update Student_Info
+    <update id="update" parameterClass="StudentSchoolLog">
+        update student_school_log
         <dynamic prepend="set">
-            <isNotNull prepend="," property="studyNo">
-                study_no = #studyNo#
+            <isNotNull prepend="," property="courseName">
+                course_name = #courseName#
             </isNotNull>
-            <isNotNull prepend="," property="train">
-                train = #train#
+            <isNotNull prepend="," property="condition">
+                condition = #condition#
+            </isNotNull>
+            <isNotNull prepend="," property="remark">
+                remark = #remark#
             </isNotNull>
         </dynamic>
         where id = #id#

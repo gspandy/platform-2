@@ -7,8 +7,11 @@ import com.raycloud.dao.UserDao;
 import com.raycloud.exception.InvalidSessionException;
 import com.raycloud.exception.ServiceException;
 import com.raycloud.pojo.User;
+import com.raycloud.request.InstitutionListGetRequest;
 import com.raycloud.request.UserLoginRequest;
 import com.raycloud.request.UserRegisterRequest;
+import com.raycloud.response.ViewStudentSchoolLogList;
+import com.raycloud.response.ViewUserList;
 import com.raycloud.response.ViewUserLoginInfo;
 import com.raycloud.session.Session;
 import com.raycloud.util.DataBaseUtil;
@@ -23,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -146,6 +150,26 @@ public class UserService {
         }catch(Exception e){
             throw new ServiceException("分配账号失败",ResponseResultConstant.USER_REGISTER_ERROR,e);
         }
+    }
+
+    /**
+     * 获得机构列表
+     * @param request
+     * @return
+     */
+    public ViewUserList getInstitutionList(InstitutionListGetRequest request){
+        User user = new User();
+        //分页查询
+        user.setStartRow((request.getPageNo() - 1)*request.getPageSize());
+        user.setPageSize(request.getPageSize());
+        List<User> userList = userDao.getUserList(user);
+        //记录结果
+        ViewUserList view = new ViewUserList();
+        view.setTotal(userDao.getCount(user));
+        view.setPageNo(request.getPageNo());
+        view.setPageSize(request.getPageSize());
+        view.toResponse(userList);
+        return view;
     }
 
 }

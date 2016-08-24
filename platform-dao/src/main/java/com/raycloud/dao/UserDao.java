@@ -17,6 +17,10 @@ public class UserDao extends BaseDao{
         return getSqlMapClientTemplate().queryForList("User.getUserList",user);
     }
 
+    public Integer getCount(User user){
+        return (Integer)getSqlMapClientTemplate().queryForObject("User.getCount",user);
+    }
+
     /**
      * 添加用户
      * @param user

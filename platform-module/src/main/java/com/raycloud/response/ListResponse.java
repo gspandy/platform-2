@@ -15,7 +15,7 @@ public class ListResponse {
 
     private long total;//总页数
 
-    private List items = new ArrayList();//存放list集合
+    private List items = null;//存放list集合
 
     public long getPageNo() {
         return pageNo;

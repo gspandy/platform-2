@@ -52,24 +52,7 @@ public class BusnessAction extends BaseAction{
         return response;
     }
 
-    /**
-     * 管理员为机构分配账号(幼儿园)
-     * @param request
-     * @return
-     * @throws Exception
-     */
-    @ResponseBody
-    @RequestMapping("/addInstitution")
-    public Response addInstitution(UserRegisterRequest request)throws Exception {
-        Response response = new Response(request);
-        System.out.println("幼儿园账号添加");
-        boolean status = false;
-        userService.addInstitution(request,getRequest());
-        ViewUserLoginInfo viewUserLoginInfo = new ViewUserLoginInfo();
-        viewUserLoginInfo.setUsername(request.getUsername());
-        response.setData(viewUserLoginInfo);
-        return response;
-    }
+
 
     /**
      * 用户登陆

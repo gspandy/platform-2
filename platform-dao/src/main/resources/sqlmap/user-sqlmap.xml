@@ -77,12 +77,17 @@
         <include refid="user.limit"></include>
     </select>
 
+    <select id="getCount" parameterClass="User" resultClass="int">
+        select count(1) from user
+        <include refid="user.where"></include>
+    </select>
+
     <!-- 增加User -->
     <insert id="addUser" parameterClass="User">
                 insert into user
                 (username,password,pre_no,config_rule,owner,phone,institution,`desc`,business_code,address_detail,address_code,logo_pic_url,invitation_code,contact_hotline,authenticate,created,modified,status)
                 values
-                (#username#,#password#,#preNo#,#configRule#,#owner#,#phone#,#institution#,#desc#,#businessCode#,#addressDetail#,#addressCode#,#logoPicUrl#,#invitationCode#,#contactHotline#,#authenticate#,#created#,#modified#,#status#)
+                (#username#,#password#,#preNo#,#configRule#,#owner#,#phone#,#institution#,#desc#,#businessCode#,#addressDetail#,#addressCode#,#logoPicUrl#,#invitationCode#,#contactHotline#,#authenticate#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#status#)
 
         <selectKey resultClass="Long" keyProperty="id">
             <![CDATA[select last_insert_id() as id]]>
