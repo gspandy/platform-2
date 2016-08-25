@@ -27,6 +27,7 @@ public class ViewUserList extends ListResponse {
             institutionListBean.setPhone(u.getPhone());
             institutionListBean.setCreated(DateUtil.getDateTime(u.getCreated(),
                     DateUtil.DATE_FORMAT));
+            institutionListBean.setStatus(u.getStatus() == 0 ? "停用" : "正常");
             institutionList.add(institutionListBean);
         }
 
@@ -62,6 +63,15 @@ public class ViewUserList extends ListResponse {
         private String owner;
         private String phone;
         private String created;
+        private String status;
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
 
         public String getCreated() {
             return created;

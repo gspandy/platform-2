@@ -35,9 +35,6 @@
             <isNotNull property="username" prepend="and">
                 a.username = #username#
             </isNotNull>
-            <isNull property="status" prepend="and">
-                a.status = 1
-            </isNull>
             <isNotNull property="status" prepend="and">
                 a.status = #status#
             </isNotNull>
@@ -58,7 +55,7 @@
     <sql id="user.limit">
         <dynamic prepend="limit">
             <isNotEmpty property="startRow">
-                $startRow$,$endRow$
+                $startRow$,$pageSize$
             </isNotEmpty>
         </dynamic>
     </sql>
@@ -78,7 +75,7 @@
     </select>
 
     <select id="getCount" parameterClass="User" resultClass="int">
-        select count(1) from user
+        select count(1) from user a
         <include refid="user.where"></include>
     </select>
 
@@ -129,6 +126,9 @@
             </isNotNull>
             <isNotNull prepend="," property="contactHotline">
                 contact_hotline = #contactHotline#
+            </isNotNull>
+            <isNotNull prepend="," property="status">
+                status = #status#
             </isNotNull>
         </dynamic>
         where id = #id#

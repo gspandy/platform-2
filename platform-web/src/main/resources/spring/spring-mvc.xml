@@ -16,7 +16,7 @@
     http://www.springframework.org/schema/aop
     http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
     http://www.springframework.org/schema/mvc
-    http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+    http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
     http://code.alibabatech.com/schema/dubbo
     http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <!-- 本配置文件是工名为mvc-dispatcher的DispatcherServlet使用， 提供其相关的Spring MVC配置 -->
@@ -53,12 +53,22 @@
     <context:component-scan base-package="com.raycloud"></context:component-scan>
 
     <!-- 扩充了注解驱动，可以将请求参数绑定到控制器参数 -->
-    <mvc:annotation-driven />
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes" value="text/html;charset=UTF-8"/>
+                <property name="features">
+                    <value>WriteNullStringAsEmpty</value>    <!-- 去除null -->
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
-    <!-- 静态资源处理， css， js， imgs -->
-    <mvc:resources mapping="/images/**" location="/resources/images/**" />
+    <!-- 静态资源处理， css， js， img -->
+    <mvc:resources mapping="/img/**" location="/resources/img/**" />
     <mvc:resources mapping="/js/**" location="/resources/js/**" />
     <mvc:resources mapping="/css/**" location="/resources/css/**" />
+    <mvc:resources mapping="/fonts/**" location="/resources/fonts/**" />
 
 
 

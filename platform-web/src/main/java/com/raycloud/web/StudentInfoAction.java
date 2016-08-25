@@ -87,11 +87,22 @@ public class StudentInfoAction extends BaseAction {
 
         if(studentInfo.getId() != null){
             //修改
+            StudentInfo exist = studentInfoDao.existStudyNo(studentInfo);
+            if(exist != null){
+                throw new ServiceException("学号已经存在！",902);
+            }
             studentInfoDao.update(studentInfo);
 
         }else{
             //插入
             studentInfo.setUserId(user.getId());
+            //计算学号
+            studentInfo.setStudyNo(user.getPreNo() +
+                    studentInfo.getStudyNo());
+            StudentInfo exist = studentInfoDao.existStudyNo(studentInfo);
+            if(exist != null){
+                throw new ServiceException("学号已经存在！",902);
+            }
             studentInfoDao.add(studentInfo);
         }
 
@@ -112,6 +123,7 @@ public class StudentInfoAction extends BaseAction {
         Response response = new Response(request);
         User user = getUser();
         studentInfo.setUserId(user.getId());
+
         Integer count = studentInfoDao.delete(studentInfo);
         if (count <= 0) {
             throw new ServiceException("请勿重复删除!", 902);

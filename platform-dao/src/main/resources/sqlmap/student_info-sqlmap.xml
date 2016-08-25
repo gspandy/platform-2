@@ -102,8 +102,11 @@
     </insert>
 
     <!-- 删除,物理删除，最好采用逻辑删除，增加字段status来判断是否删除-->
-    <delete id="deleteById" parameterClass="long">
-        update from Student_Info set status = 0 where id = #id#;
+    <delete id="deleteById" parameterClass="StudentInfo">
+        update from Student_Info set status = 0 where id = #id#
+        <isNotNull property="userId" prepend="and">
+            user_id = #userId#
+        </isNotNull>
     </delete>
 
     <!-- 修改 -->
@@ -119,6 +122,12 @@
         </dynamic>
         where id = #id#
     </update>
+
+    <select id="existStudyNo" parameterClass="StudentInfo"  resultClass="StudentInfo">
+        <include refid="selector"></include>
+        where a.studyNo = #studyNo#
+        limit 1
+    </select>
 
 
 </sqlMap>

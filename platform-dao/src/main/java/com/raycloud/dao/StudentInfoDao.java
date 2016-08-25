@@ -57,4 +57,12 @@ public class StudentInfoDao extends BaseDao{
         return  getSqlMapClientTemplate().delete("StudentInfo.deleteById",studentInfo);
     }
 
+    /**
+     * 是否存在该学号的学生
+     * @param studentInfo
+     * @return
+     */
+    public StudentInfo existStudyNo(StudentInfo studentInfo){
+        return (StudentInfo)getSqlMapClientTemplate().queryForObject("StudentInfo.existStudyNo",studentInfo);
+    }
 }

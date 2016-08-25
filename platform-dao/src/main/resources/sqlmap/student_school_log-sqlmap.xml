@@ -102,8 +102,11 @@
     </insert>
 
     <!-- 删除,物理删除，最好采用逻辑删除，增加字段status来判断是否删除-->
-    <delete id="deleteById" parameterClass="long">
-        update from student_school_log set status = 0 where id = #id#;
+    <delete id="deleteById" parameterClass="StudentSchoolLog">
+        update from student_school_log set status = 0 where id = #id#
+        <isNotNull property="userId" prepend="and">
+            user_id = #userId#
+        </isNotNull>
     </delete>
 
     <!-- 修改 -->

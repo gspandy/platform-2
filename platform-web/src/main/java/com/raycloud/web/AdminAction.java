@@ -1,6 +1,10 @@
 package com.raycloud.web;
 
+import com.raycloud.dao.UserDao;
+import com.raycloud.exception.ServiceException;
+import com.raycloud.pojo.User;
 import com.raycloud.request.InstitutionListGetRequest;
+import com.raycloud.request.Request;
 import com.raycloud.request.UserRegisterRequest;
 import com.raycloud.response.Response;
 import com.raycloud.response.ViewUserList;
@@ -24,6 +28,9 @@ public class AdminAction extends BaseAction {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserDao userDao;
 
     /**
      * 管理员为机构分配账号(幼儿园)
@@ -54,10 +61,35 @@ public class AdminAction extends BaseAction {
     @RequestMapping("/getInstitutionList")
     public Response getInstitutionList(InstitutionListGetRequest request)throws Exception {
         Response response = new Response(request);
-        System.out.println("幼儿园账号添加");
         boolean status = false;
         ViewUserList view = userService.getInstitutionList(request);
         response.setData(view);
+        return response;
+    }
+
+    /**
+     * 开关机构账号状态
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping("/switchInstitution")
+    public Response switchInstitution(Long id,Request request)throws Exception {
+        Response response = new Response(request);
+        User user = new User();
+        user.setId(id);
+        user = userDao.get(user);
+        if(user == null){
+            throw new ServiceException("机构信息不存在",902);
+        }
+        if(user.getStatus() == 1){
+            user.setStatus(0);
+            userDao.update(user);
+        }else if(user.getStatus() == 0){
+            user.setStatus(1);
+            userDao.update(user);
+        }
         return response;
     }
 

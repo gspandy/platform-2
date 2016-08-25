@@ -65,7 +65,7 @@ public class BaseAction implements Serializable{
             throw new InvalidSessionException("会话失效invalid-session", ResponseResultConstant.INVALID_SESSION);
         }
         if(user.getStatus() == 0){
-            throw new InvalidSessionException("失效用户error", ResponseResultConstant.INVALID_SESSION);
+            throw new InvalidSessionException("失效用户error", 902);
         }
         return user;
     }
