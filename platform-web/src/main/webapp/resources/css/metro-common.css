@@ -1,0 +1,86 @@
+
+	.top-nav{
+		height:65px;width:100%;
+        position:relative;z-index:100;
+	}
+    .top-nav .cell{
+        background-color:red;display:block;height:50px;width:50px;
+    }
+    .top-nav .cell:hover{
+        background-color:RGB(89,205,226);display:block;height:50px;width:50px;
+    }
+    .myheight{
+        height:1000px;position:fixed;z-index:10000;top:0px;
+    }
+    .m-menu > li.active-container a, .m-menu .m-menu-item.active-container a{
+        color:rgb(120,120,120);
+    }
+
+    .content_center{
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    /* 旗帜 */
+    .oriflamme{
+        border:1px solid RGB(24,145,204);
+        border-left:7px solid RGB(24,145,204);
+		padding:15px 15px;
+		
+		font-family:"微软雅黑";
+		/*font-size:18px;
+        letter-spacing:5px;*/
+    }
+	/* 表格*/
+        .backstage_container{
+            font-size:14px;font-family: "微软雅黑";
+            width:100%;
+            border:1px solid RGB(24,145,204);
+			position:relative;
+            border-left:7px solid RGB(24,145,204);
+        }
+		.backstage_container>div{
+			padding:5px 10px;
+		}
+		.fields{
+			padding: 0px 10px;float:left;
+		}
+		.backstage_container:after{
+			content:".";
+			display:block;
+			height:0;
+			clear:both;
+			visibility:hidden;
+		}
+		.nomargin{
+			margin:0;
+		}
+		
+		/** 菜单 **/
+		.v-menu {
+			max-width:125% !important;
+			padding-top:65px;
+		}
+		.v-menu li {
+			overflow:hidden;
+		}
+		/** 右侧按键组 **/
+		.right-button-group{
+			margin:5px 5px;position:absolute;top:0px;right:5px;
+		}
+		.right-button-group button{
+			margin-right:10px;
+		}
+		.left-button-group{
+			position:absolute;
+		}
+		.left-button-group:after{
+			content:".";
+			display:block;
+			height:0;
+			clear:both;
+			visibility:hidden;
+		}
+		.left-button-group .item{
+			margin: 16px 5px;float:left;color:rgb(114, 114, 114);font-size:14px;
+		}

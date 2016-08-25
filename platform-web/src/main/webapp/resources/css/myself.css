@@ -1,0 +1,121 @@
+﻿.top-nav{
+		height:65px;width:100%;
+        position:relative;z-index:100;
+	}
+    .top-nav .cell{
+        background-color:red;display:block;height:50px;width:50px;
+    }
+    .top-nav .cell:hover{
+        background-color:RGB(89,205,226);display:block;height:50px;width:50px;
+    }
+    .myheight{
+        height:1000px;position:fixed;z-index:10000;top:0px;
+    }
+    .m-menu > li.active-container a, .m-menu .m-menu-item.active-container a{
+        color:rgb(120,120,120);
+    }
+
+    .content_center{
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    /* 旗帜 */
+    .oriflamme{
+        border:1px solid RGB(24,145,204);
+        border-left:7px solid RGB(24,145,204);
+		padding:15px 15px;
+		
+		font-family:"MicroSoft YaHei";
+		/*font-size:18px;
+        letter-spacing:5px;*/
+    }
+	/*  */
+        .backstage_container{
+            font-size:14px;font-family: "MicroSoft YaHei";
+            width:100%;
+            border:1px solid RGB(24,145,204);
+			position:relative;
+            border-left:7px solid RGB(24,145,204);
+        }
+		.backstage_container>div{
+			padding:5px 10px;
+		}
+		.fields{
+			padding: 0px 10px;float:left;
+		}
+		.backstage_container:after{
+			content:".";
+			display:block;
+			height:0;
+			clear:both;
+			visibility:hidden;
+		}
+		.nomargin{
+			margin:0;
+		}
+		
+		/** 左侧菜单微调 **/
+		.v-menu {
+			max-width:125% !important;
+			padding-top:65px;
+		}
+		.v-menu li {
+			overflow:hidden;
+		}
+		/** right **/
+		.right-button-group{
+			margin:5px 5px;position:absolute;top:0px;right:5px;
+		}
+		.right-button-group button{
+			margin-right:10px;
+		}
+		
+		/* left */
+		.left-button-group{
+			position:absolute;
+		}
+		.left-button-group:after{
+			content:".";
+			display:block;
+			height:0;
+			clear:both;
+			visibility:hidden;
+		}
+		.left-button-group .item{
+			margin: 16px 5px;float:left;color:rgb(114, 114, 114);font-size:14px;
+		}
+		/* table shuxing */
+		.animal{
+		    margin-bottom: 5px;
+			border-right: 1px solid rgb(24,145,204);
+			border-left:7px solid RGB(24,145,204);
+			width:100%;
+		}
+		.animal tr{
+			
+		}
+		
+		.animal td,.animal th{
+			border:1px solid rgb(24,145,204);padding:5px;		
+		}
+		.animal th{
+			background-color:rgb(225,244,244);
+		}
+		.scroll-size{
+			scroll:auto;
+		}
+		.tables{
+			padding:50px 10px 30px 10px;
+		}
+		
+		.left-nav{
+			position: absolute !important;
+			height:100%;
+		}
+		.right-nav{
+		    position: absolute !important;
+			height:100%;
+			left:200px;
+		}
+		
