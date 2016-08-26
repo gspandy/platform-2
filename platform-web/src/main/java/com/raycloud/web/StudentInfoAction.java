@@ -12,8 +12,15 @@ import com.raycloud.response.ViewStudentList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +36,19 @@ public class StudentInfoAction extends BaseAction {
     @Autowired
     private StudentInfoDao studentInfoDao;
 
+
+    @ResponseBody
+    @RequestMapping("/filesUpload")
+    public Response getStudentList(Request request,
+                                  @RequestParam(value = "file1", required = true) MultipartFile file1
+                                  )throws Exception {
+        Response response = new Response(request);
+        //System.out.println("文件个数:"+file.length);
+        return response;
+    }
+
+
+
     /**
      * 获取学生列表
      * @param request
@@ -37,7 +57,7 @@ public class StudentInfoAction extends BaseAction {
      */
     @ResponseBody
     @RequestMapping("/getStudentList")
-    public Response getStudentList(StudentListGetRequest request)throws Exception {
+    public Response getStudentList(StudentListGetRequest request,MultipartFile[] files)throws Exception {
         Response response = new Response(request);
         List<StudentInfo> studentInfoList = null;
         Integer total = 0;
@@ -46,6 +66,7 @@ public class StudentInfoAction extends BaseAction {
         studentInfo.setUserId(request.getUserId());
         studentInfo.setTrain(request.getTrain());
         User user = getUser();
+
         try{
             //分页查询
             studentInfo.setStartRow((request.getPageNo() - 1)*request.getPageSize());
