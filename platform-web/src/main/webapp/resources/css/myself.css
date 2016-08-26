@@ -114,7 +114,7 @@
 			height:100%;
 		}
 		.right-nav{
-		    position: absolute !important;
+		    /*position: absolute !important;*/
 			height:100%;
 			left:200px;
 		}

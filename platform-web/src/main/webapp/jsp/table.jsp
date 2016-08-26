@@ -19,156 +19,9 @@
 		$(function(){
 			//初始化下拉菜单
 			leftNav.init(".v-menu",".d-menu");
-            //
-            studentInfoFunc.init();
+            //初始化内容页面
+            $("#context_main").load("main.jsp");
 		})
-        //公共变量记忆体
-        var pagitation = {
-            "pageNo" : 1,
-            "pageSize" : 4,
-            "total" : 0,
-            "maxPage" : 1,
-            targetFunc : ""
-        }
-
-        var studentInfoFunc = {
-
-
-            init : function(){
-                pagitation.targetFunc = this;
-                this.getList();
-                pagitationFunc.init(this);
-            },
-            getList : function(){
-                //构建参数
-                var dataForm = {
-                    "pageNo" : pagitation.pageNo,
-                    "pageSize" : pagitation.pageSize
-
-                }
-                //调用服务
-                var data = API.getStudentList(dataForm);
-
-                //装载数据
-                this.loadForm(data);
-            },
-            loadForm : function(data){
-                //集合
-                var list = data.data.studentList;
-                //总记录数
-                pagitation.total = data.data.total;
-                //总页数
-                pagitation.maxPage = Math.ceil(pagitation.total / pagitation.pageSize);
-
-                var i = 0 , html = "";
-                for(;list!=null && i<list.length;i++){
-                    html += '<tr>'+
-                    '        <td>'+
-                    '        <label class="input-control checkbox  small-check">'+
-                    '        <input type="checkbox" name="c4" value="1">'+
-                    '        <span class="check"></span>'+
-                    '</label>'+
-                    '</td>'+
-                    '<td>'+list[i].studyNo+'</td><td class="right">'+list[i].realName+'</td><td class="right">'+list[i].age+
-                            '</td><td class="right">'+list[i].sex+'</td><td class="right">'+list[i].address+'</td>'+
-                    '<td class="right">'+list[i].phone+'</td>'+
-                    '<td class="right"><span style="color:red">'+list[i].train+'</span></td>'+
-                    '<td class="right">'+
-                    '        <div data-role="group" data-group-type="one-state">'+
-                    '        <button class="button"><span class="mif-file-text mif-1x"></span></button>'+
-                    '<button class="button"><span class="mif-bin mif-1x"></span></button>'+
-                    '<button class="button"><span class="mif-tags mif-1x"></span></button>'+
-                    '</div>'+
-                    '</td>'+
-                    '</tr>';
-                }
-
-                $(".animal tbody").html(html);
-                //装载页码
-                pagitationFunc.loadForm();
-                //设最大
-                $("#pageInfo").html( pagitation.pageNo+"/"+pagitation.maxPage);
-                //设置条数
-                $("#total").html(pagitation.total);
-            }
-
-
-        }
-
-        /**
-        * 封装好的分页
-         * 调用 pagitationFunc.init();
-* @type {{init: init, nextPage: nextPage, prePage: prePage, to: to, loadForm: loadForm, loadEvent: loadEvent}}
-         */
-        var pagitationFunc = {
-            init : function(){
-                this.loadForm();
-            },
-            nextPage : function(obj){
-                if(pagitation.pageNo + 1 > pagitation.maxPage){
-                    return;
-                }
-                pagitation.pageNo += 1;
-                pagitation.targetFunc.getList();
-            },
-            prePage : function(obj){
-                if(pagitation.pageNo - 1 <= 0){
-                    return;
-                }
-                pagitation.pageNo -= 1;
-                pagitation.targetFunc.getList();
-            },
-            to : function(page){ //跳转到指定页面
-                pagitation.pageNo = parseInt(page);
-                pagitation.targetFunc.getList();
-            },
-            loadForm : function(){
-                var html = "";
-                html += '<span class="item" type="pre">上一页</span>';
-                var i = (pagitation.pageNo - 3) <= 0 ? 1 : (pagitation.pageNo - 3);
-                if( pagitation.pageNo >= 5){
-                    html += '<span class="item" to="1">1</span>'
-                        + '<span class="item spaces">...</span>';
-                }
-                for(; i <= pagitation.maxPage && i<= pagitation.pageNo + 3; i ++){
-                    if( i == pagitation.pageNo){
-                        html += '<span class="item active">'+i+'</span>';
-                    }else{
-                        html += '<span class="item" to='+i+'>'+i+'</span>';
-                    }
-                }
-                if( pagitation.maxPage - pagitation.pageNo >= 4){
-                    html += '<span class="item spaces">...</span>'
-                            + '<span class="item" to='+pagitation.maxPage+'>'+pagitation.maxPage+'</span>';
-                }
-                html += '<span class="item" type="next">下一页</span>';
-                $(".pagination").html(html);
-                //为按钮装载事件
-                this.loadEvent();
-            },
-            loadEvent : function(){
-                $(".pagination span").each(function(){
-
-                    if($(this).attr("type") == "pre"){
-                        $(this).click(function(){
-                            pagitationFunc.prePage();
-                        });
-                    }else if($(this).attr("type") == "next"){
-
-                        $(this).click(function(){
-                            pagitationFunc.nextPage();
-                        });
-                    }else if($(this).attr("to")){
-
-                        $(this).click(function(){
-                            pagitationFunc.to($(this).attr("to"));
-                        });
-                    }
-                });
-
-            }
-
-        }
 	</script>
 
 </head>
@@ -200,7 +53,11 @@
             
             <!-- 加载等待图 -->
             <div class="content_center" >
-                <div class="cell padding20 bg-white" style="display:none;">
+                <div id="wait_loading" class="cell padding20 bg-white" style="
+                    position: absolute;z-index:100;
+                    width: 100%;
+                    height: 100%;
+                    display: none;">
                     <div data-role="preloader" data-type="ring" data-style="color" style="margin: auto" class="preloader-ring color-style">
                         <div class="wrap"><div class="circle"></div></div>
                         <div class="wrap"><div class="circle"></div></div>
@@ -210,142 +67,9 @@
                     </div>
                 </div>
 
-                <div class="grid condensed margin20 scroll-size" style="text-align:left;">
+                <div id="context_main" class="grid condensed margin20 scroll-size" style="text-align:left;">
 				    <!-- 内容修改处 -->
-					<div class="row cells8">
-						<div class="oriflamme">
-							<span class="mif-file-text"></span> 信息查询
-							<div class="right-button-group" >               
-									
-								<button class="button success small-button"><span class="mif-profile mif-lg"></span> 添加</button>
-								<button class="button warning small-button"><span class="mif-download2 mif-lg"></span> 导出</button>
-						
-							</div>
 
-						</div>
-						<div class="backstage_container">
-							<div class="row cells8">
-								<div class="fields">
-									姓名 :
-									<div class="input-control text ">
-										<input type="text" placeholder="姓名">
-									</div>
-								</div>	
-								<div class="fields">
-									身份证号 :
-									<div class="input-control text ">
-										<input type="text" placeholder="身份证号">
-									</div>
-								</div>	
-									
-								<div class="fields">
-									手机 :
-									<div class="input-control text ">
-										<input type="text" placeholder="手机">
-									</div>
-								</div>	
-							</div>
-							<div class="row cells8">
-								<div class="fields">
-									状态 :
-									<div class="input-control select">
-										<select>
-											<option>1</option>
-											<option>2</option>
-											<option>3</option>
-										</select>
-									</div>
-								</div>	
-							</div>
-							<div class="row cells8">
-								<button class="button primary small-button" onclick="pushMessage('info')"><span class="mif-search"></span> 搜索</button>
-							</div>
-							
-						</div>
-					</div>
-                    <div class="row cells8" style="margin-top:20px;">
-					
-						<div class="cell colspan8" style=" overflow-x: scroll;">
-							
-							<table class="hovered animal">
-								<thead>
-									<tr>
-										<th></th>
-										<th>学生编号</th>
-										<th class="right">学生姓名</th>
-										<th class="right">年龄</th>
-										<th class="right">性别</th>
-										<th class="right">家庭住址</th>
-										<th class="right">联系电话</th>
-										<th class="right">标记</th>
-										<th class="right">操作</th>
-									</tr>
-								</thead>
-
-								<tbody>
-									<tr>
-										<td>
-											<label class="input-control checkbox  small-check">
-												 <input type="checkbox" name="c4" value="1">
-												 <span class="check"></span>
-											 </label>
-											
-										</td>
-										<td>Bing</td><td class="right">0:00:01</td><td class="right">0,1 Mb</td><td class="right">0 Mb</td><td class="right">0,1 Mb</td>
-										<td class="right"></td>
-										<td class="right"><span style="color:red">已标记</span></td>
-										<td class="right">
-											<div data-role="group" data-group-type="one-state">
-												<button class="button"><span class="mif-file-text mif-1x"></span></button>
-												<button class="button"><span class="mif-bin mif-1x"></span></button>
-												<button class="button"><span class="mif-tags mif-1x"></span></button>
-											</div>
-										</td>
-									</tr>
-									
-								</tbody>
-				
-								<tfoot></tfoot>
-							</table>
-							
-							
-						</div>
-					<!-- pagination -->
-						<div class="cell colspan8">
-							<div class="oriflamme">
-								<div class="flex-grid">  
-									<div class="left-button-group">
-										<div class="item" style="margin:0;">每页显示 
-											<div class="input-control" data-template-result="fmtState" data-role="select">
-												<select>
-													<option value="10">10</option>
-													<option value="15">15</option>
-													<option value="20">20</option>
-												</select>
-											</div>
-										条 共<span id="total">14</span>条 当前页 <span id="pageInfo"> 1 </span>
-										</div>
-										
-									</div>	
-									<div class="row flex-just-end ">
-										<div class="pagination">
-											<span class="item" type="pre">上一页</span>
-
-                                                <span class="item">1</span>
-                                                <span class="item current">2</span>
-                                                <!-- <span class="item disabled">5</span>
-                                                <span class="item spaces">...</span>
-                                                <span class="item">7</span>
-                                                <span class="item">8</span> -->
-
-											<span class="item" type="next">下一页</span>
-										</div>
-									</div>	
-								</div>
-							</div>
-						</div><!-- //pagination -->
-                       
-                    </div>
                 </div>
             </div>
         </div>

@@ -49,7 +49,7 @@
 					this.container = container;
 					this.subcontainer = subcontainer;
 					this.removeClickEvent();
-					this.clearAllActive();
+					//this.clearAllActive();
 					this.addClickEvent();
 					
 				},
@@ -69,8 +69,9 @@
 							
 							leftNav.clearAllActive();
 							$(this).addClass("active");
-							
-						});
+							//¼ÓÔØÍøÒ³
+                            $("#context_main").load($(this).attr("to"));
+                        });
 					});
 					//·ÀÖ¹ÊÂ¼şÃ°Åİ
 					$(this.subcontainer).click(function(event){
