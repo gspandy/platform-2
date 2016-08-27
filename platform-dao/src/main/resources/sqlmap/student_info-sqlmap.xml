@@ -87,13 +87,13 @@
 
     <!-- 增加 -->
     <insert id="add" parameterClass="StudentInfo">
-        insert into Student_Info
+        insert into student_info
         (
-        id,user_id,study_no,real_name,sex,birthday,phone,address,train,created,modified,status
+        id,user_id,study_no,real_name,sex,birthday,phone,address,created,modified
         )
         values
         (
-        #id#,#userId#,#studyNo#,#realName#,#sex#,#birthday#,#phone#,#address#,#train#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#status#
+        #id#,#userId#,#studyNo#,#realName#,#sex#,#birthday#,#phone#,#address#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP
         )
 
         <selectKey resultClass="Long" keyProperty="id">
@@ -111,7 +111,7 @@
 
     <!-- 修改 -->
     <update id="update" parameterClass="StudentInfo">
-        update Student_Info
+        update student_info
         <dynamic prepend="set">
             <isNotNull prepend="," property="studyNo">
                 study_no = #studyNo#
@@ -119,13 +119,25 @@
             <isNotNull prepend="," property="train">
                 train = #train#
             </isNotNull>
+            <isNotNull prepend="," property="birthday">
+                birthday = #birthday#
+            </isNotNull>
+            <isNotNull prepend="," property="address">
+                address = #address#
+            </isNotNull>
+            <isNotNull prepend="," property="phone">
+                phone = #phone#
+            </isNotNull>
+            <isNotNull prepend="," property="sex">
+                sex = #sex#
+            </isNotNull>
         </dynamic>
         where id = #id#
     </update>
 
     <select id="existStudyNo" parameterClass="StudentInfo"  resultClass="StudentInfo">
         <include refid="selector"></include>
-        where a.studyNo = #studyNo#
+        where a.study_no = #studyNo#
         limit 1
     </select>
 

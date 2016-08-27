@@ -29,7 +29,7 @@ public class ViewStudentList extends ListResponse {
             studentListBean.setPhone(s.getPhone());
             studentListBean.setRealName(s.getRealName());
             studentListBean.setSex(s.getSex());
-            studentListBean.setTrain(s.getTrain() == 1 ? "是" : "否");
+            studentListBean.setTrain(s.getTrain() == 1 ? "<span style='color:red'>是</span>" : "否");
 
             c1.setTimeInMillis(System.currentTimeMillis()
                     - s.getBirthday().getTime());

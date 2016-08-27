@@ -9,6 +9,7 @@ import com.raycloud.request.Request;
 import com.raycloud.request.StudentListGetRequest;
 import com.raycloud.response.Response;
 import com.raycloud.response.ViewStudentList;
+import com.raycloud.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +40,7 @@ public class StudentInfoAction extends BaseAction {
 
     @ResponseBody
     @RequestMapping("/filesUpload")
-    public Response getStudentList(Request request,
+    public Response filesUpload(Request request,
                                   @RequestParam(value = "file1", required = true) MultipartFile file1
                                   )throws Exception {
         Response response = new Response(request);
@@ -57,7 +58,7 @@ public class StudentInfoAction extends BaseAction {
      */
     @ResponseBody
     @RequestMapping("/getStudentList")
-    public Response getStudentList(StudentListGetRequest request,MultipartFile[] files)throws Exception {
+    public Response getStudentList(StudentListGetRequest request)throws Exception {
         Response response = new Response(request);
         List<StudentInfo> studentInfoList = null;
         Integer total = 0;
@@ -88,7 +89,7 @@ public class StudentInfoAction extends BaseAction {
             view.setPageSize(request.getPageSize());
             response.setData(view);
         }catch(Exception e){
-            throw new ServiceException("获取学生列表失败",902);
+            throw new ServiceException("获取学生列表失败",902,e);
         }
 
         return response;
@@ -105,11 +106,11 @@ public class StudentInfoAction extends BaseAction {
     public Response saveStudent(StudentInfo studentInfo,Request request)throws Exception {
         Response response = new Response(request);
         User user = getUser();
-
-        if(studentInfo.getId() != null){
+        studentInfo.setBirthday(DateUtil.getDateTime(studentInfo.getBirthday_(),DateUtil.DATE_FORMAT));
+        if(studentInfo.getId() != null && studentInfo.getId() != 0){
             //修改
             StudentInfo exist = studentInfoDao.existStudyNo(studentInfo);
-            if(exist != null){
+            if(exist != null && exist.getId().longValue() != studentInfo.getId().longValue()){
                 throw new ServiceException("学号已经存在！",902);
             }
             studentInfoDao.update(studentInfo);
@@ -167,6 +168,7 @@ public class StudentInfoAction extends BaseAction {
         User user = getUser();
         studentInfo.setUserId(user.getId());
         studentInfo = studentInfoDao.get(studentInfo);
+        studentInfo.setBirthday_(DateUtil.getDateTime(studentInfo.getBirthday(),DateUtil.DATE_FORMAT));
         if (studentInfo == null) {
             throw new ServiceException("该学生信息已不存在!", 902);
         }
@@ -174,5 +176,33 @@ public class StudentInfoAction extends BaseAction {
         return response;
     }
 
+    /**
+     * 标记学生为提高训练
+     * @param studentInfo
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping("/tagStudent")
+    public Response tagStudent(StudentInfo studentInfo,Request request)throws Exception {
+        Response response = new Response(request);
+        User user = getUser();
+        studentInfo = studentInfoDao.get(studentInfo);
+        if(studentInfo != null){
+            StudentInfo temp = new StudentInfo();
+            temp.setId(studentInfo.getId());
+            if(studentInfo.getTrain() == 1){
+                temp.setTrain(0);
+            }else{
+                temp.setTrain(1);
+            }
+            studentInfoDao.update(temp);
+        }else{
+            throw new ServiceException("该学生信息已被删除,无法标记",902);
+        }
+
+        return response;
+    }
 
 }

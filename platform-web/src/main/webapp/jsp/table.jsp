@@ -14,14 +14,32 @@
     <script src="${pageContext.request.contextPath}/js/metro.js"></script>
     <script src="${pageContext.request.contextPath}/js/myself.js"></script>
     <script src="${pageContext.request.contextPath}/js/api.js"></script>
+    <script src="${pageContext.request.contextPath}/js/util.js"></script>
 
 	<script>
 		$(function(){
 			//初始化下拉菜单
 			leftNav.init(".v-menu",".d-menu");
-            //初始化内容页面
-            $("#context_main").load("main.jsp");
+
+            redirect();
 		})
+
+        function redirect(){
+            //处理链接
+            var url = "";
+            if(location.href.indexOf("#") != -1) {
+                var arr = location.href.substring(location.href.indexOf("#") + 1).split("?");
+                //url
+                url = arr[0];
+            }
+
+            if(url == ""){
+                //初始化内容页面
+                $("#context_main").load("main.jsp");
+            }else{
+                $("#context_main").load(url);
+            }
+        }
 	</script>
 
 </head>

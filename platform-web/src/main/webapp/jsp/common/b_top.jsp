@@ -10,7 +10,7 @@
     <li class="place-right" style="width:100px;">
         <a href="#" class="dropdown-toggle"><span class="mif-exit mif-2x"></span></a>
         <ul class="d-menu" data-role="dropdown" style="display: none;right:0px;width:100px;">
-            <li><a href="#">注销</a></li>
+            <li><a href="/logout">注销</a></li>
         </ul>
     </li>
 </ul>

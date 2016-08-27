@@ -38,12 +38,12 @@
                         '<td>'+list[i].studyNo+'</td><td class="right">'+list[i].realName+'</td><td class="right">'+list[i].age+
                         '</td><td class="right">'+list[i].sex+'</td><td class="right">'+list[i].address+'</td>'+
                         '<td class="right">'+list[i].phone+'</td>'+
-                        '<td class="right"><span style="color:red">'+list[i].train+'</span></td>'+
+                        '<td class="right">'+list[i].train+'</td>'+
                         '<td class="right">'+
                         '        <div data-role="group" data-group-type="one-state">'+
-                        '        <button class="button"><span class="mif-file-text mif-1x"></span></button>'+
-                        '<button class="button"><span class="mif-bin mif-1x"></span></button>'+
-                        '<button class="button"><span class="mif-tags mif-1x"></span></button>'+
+                        '        <button class="button" editno="'+ list[i].id+'"><span class="mif-file-text mif-1x"></span></button>'+
+                        '<button class="button" removeno="'+list[i].id+'"><span class="mif-bin mif-1x"></span></button>'+
+                        '<button class="button" tagno="'+list[i].id+'"><span class="mif-tags mif-1x"></span></button>'+
                         '</div>'+
                         '</td>'+
                         '</tr>';
@@ -58,7 +58,40 @@
             $("#total").html(pagitation.total);
             //关闭显示等待加载ing
             $("#wait_loading").hide();
+            //编辑事件
+            $("button").each(function() {
 
+                if ($(this).attr("editno")/*点击编辑按钮*/) {
+                    $(this).click(function () {
+                         if (location.href.indexOf("#") == -1) {
+                             location.href = location.href + "#" + "studentForm.jsp?id="
+                             + $(this).attr("editno");
+                             window.redirect();//跳转到链接
+                         }else{
+                             location.href = location.href.substring(0,location.href.indexOf("#")) + "#" + "studentForm.jsp?id="
+                                     + $(this).attr("editno");
+                             window.redirect();//跳转到链接
+                         }
+                    });
+                }
+                if ($(this).attr("tagno")/*标记事件*/) {
+                    $(this).click(function(){
+                        studentInfoFunc.tagStudent($(this).attr("tagno"));
+                    });
+                }
+            });
+
+
+        },
+        tagStudent : function(id){
+            var dataForm = {
+                "id" : id
+            };
+            var data = API.tagStudent(dataForm);
+            if(data && data.result == "100"){
+                redirect();
+                alert("标记成功");
+            }
         }
     }
     $(function(){
@@ -68,7 +101,17 @@
         preExecuteAny._init();
     })
 
+    //其他事件
+    $(function(){
+//      //添加学生信息
+        $("#addInfo").click(function(){
+            $("#context_main").load("studentForm.jsp");
+        });
 
+
+
+
+    })
 
 
 
@@ -79,7 +122,7 @@
         <span class="mif-file-text"></span> 信息查询
         <div class="right-button-group" >
 
-            <button class="button success small-button"><span class="mif-profile mif-lg"></span> 添加</button>
+            <button id="addInfo" class="button success small-button"><span class="mif-profile mif-lg"></span> 添加</button>
             <button class="button warning small-button"><span class="mif-download2 mif-lg"></span> 导出</button>
 
         </div>
@@ -158,7 +201,7 @@
                 <td class="right"><span style="color:red">已标记</span></td>
                 <td class="right">
                     <div data-role="group" data-group-type="one-state">
-                        <button class="button"><span class="mif-file-text mif-1x"></span></button>
+                        <button class="button" editno="1"><span class="mif-file-text mif-1x"></span></button>
                         <button class="button"><span class="mif-bin mif-1x"></span></button>
                         <button class="button"><span class="mif-tags mif-1x"></span></button>
                     </div>

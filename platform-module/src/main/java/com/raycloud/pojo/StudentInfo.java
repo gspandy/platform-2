@@ -15,12 +15,22 @@ public class StudentInfo extends BasePojo {
     private String realName;
     private String sex;
     private Date birthday;
+    private String birthday_;
+
     private String phone;
     private String address;
     private Integer train;
     private Date created;
     private Date modified;
     private Integer status;
+
+    public String getBirthday_() {
+        return birthday_;
+    }
+
+    public void setBirthday_(String birthday_) {
+        this.birthday_ = birthday_;
+    }
 
     public Long getId() {
         return id;

@@ -76,6 +76,24 @@ public class BusnessAction extends BaseAction{
         return response;
     }
 
+    /**
+     * 用于表单登录
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/loginByForm")
+    public String loginByForm(UserLoginRequest request)throws Exception {
+        StringUtil.objFilter(request);
+        ViewUserLoginInfo viewUserLoginInfo = userService.login(request,getRequest(),getResponse());
+        if(viewUserLoginInfo != null){
+            return "redirect:/jsp/table.jsp";
+        }else{
+            return "redirect:login";
+        }
+
+    }
+
 
     @RequestMapping("/logout")
     public ModelAndView logout()throws Exception {
@@ -92,10 +110,8 @@ public class BusnessAction extends BaseAction{
             getRequest().getSession().removeAttribute(UserConstant.USER_INFO_KEY);
             getRequest().getSession().removeAttribute("nick");
         }
-        if("persCenter.jsp".equals(referer)){
-            return new ModelAndView("redirect:/"+user.getUsername());
-        }
-        return new ModelAndView("redirect:/"+referer);
+
+        return new ModelAndView("redirect:/jsp/login.jsp");
     }
 
     /**

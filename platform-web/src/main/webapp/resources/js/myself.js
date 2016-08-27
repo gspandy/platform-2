@@ -1,17 +1,5 @@
 
-/*验证输入框,表单提交等*/
-    function no_submit(){
-        return true;
-    }
 
-    function notifyOnErrorInput(input){
-        var message = input.data('validateHint');
-        $.Notify({
-            caption: 'Error',
-            content: message,
-            type: 'alert'
-        });
-    }
 	
 /*进度条*/
    $(function(){
@@ -48,7 +36,7 @@
 				init : function(container,subcontainer){
 					this.container = container;
 					this.subcontainer = subcontainer;
-					this.removeClickEvent();
+					//this.removeClickEvent();
 					//this.clearAllActive();
 					this.addClickEvent();
 					
@@ -70,7 +58,8 @@
 							leftNav.clearAllActive();
 							$(this).addClass("active");
 							//加载网页
-                            $("#context_main").load($(this).attr("to"));
+                           // $("#context_main").load($(this).attr("to"));
+                            jumpToModule($(this).attr("to"));
                         });
 					});
 					//防止事件冒泡
@@ -86,14 +75,14 @@
 							
 						});
 					});
-				},
+				}/*,
 				removeClickEvent : function(){
 					//移除点击事件
 					var $lis = $(this.container).find("li");
 					$lis.each(function(){
 						$(this).unbind("click");
 					});
-				}
+				}*/
 			}
 			
 			

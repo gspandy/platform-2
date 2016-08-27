@@ -5,7 +5,10 @@
 ;(function($){
     //API的url
     var service_url = {
-        "getStudentList_url" : "/platform/getStudentList"
+        "getStudentList_url" : "/platform/getStudentList",
+        "saveStudent_url" : "/platform/saveStudent",
+        "getStudent_url" : "/platform/getStudent",
+        "tagStudent_url" : "/platform/tagStudent"
     };
     //API
     var API = {
@@ -15,13 +18,49 @@
             if(data == false){
                 alert("连接服务器失败");
             }else{
-                if(data && data.data){
-                    if(data.result != "100"){
-                        alert(data.message);
-                    }
+                if(data && data.result == "100"){
+
                     return data;
                 }else{
-                    alert("服务异常");
+                    alert(data.message);
+                }
+            }
+        },
+        saveStudent : function(params){
+            var data = ajaxMethod(service_url.saveStudent_url,params,this.POST);
+            if(data == false){
+                alert("连接服务器失败");
+            }else{
+                if(data && data.result == "100"){
+
+                    return data;
+                }else{
+                    alert(data.message);
+                }
+            }
+        },
+        getStudent : function(params){
+            var data = ajaxMethod(service_url.getStudent_url,params,this.POST);
+            if(data == false){
+                alert("连接服务器失败");
+            }else{
+                if(data && data.result == "100"){
+                    return data;
+                }else{
+                    alert(data.message);
+                }
+            }
+        },
+        tagStudent : function(params){
+            //和保存学生一个url
+            var data = ajaxMethod(service_url.tagStudent_url,params,this.POST);
+            if(data == false){
+                alert("连接服务器失败");
+            }else{
+                if(data && data.result == "100"){
+                    return data;
+                }else{
+                    alert(data.message);
                 }
             }
         }
@@ -61,14 +100,14 @@
         _init : function(){
             //显示加载
             $("#wait_loading").css("display","flex");
-            setTimeout("preExecuteAny.func.init()",1000);
+            setTimeout("preExecuteAny.func.init()",500);
 
 
         },
         _getList : function(){
             //显示加载
             $("#wait_loading").css("display","flex");
-            setTimeout("preExecuteAny.func.getList()",1000);
+            setTimeout("preExecuteAny.func.getList()",500);
         }
 
     };

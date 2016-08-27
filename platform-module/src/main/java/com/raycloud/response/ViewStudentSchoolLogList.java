@@ -35,7 +35,7 @@ public class ViewStudentSchoolLogList extends ListResponse {
      * id : 1
      * userId : 1
      * studyNo : 19210001
-     * courseName : µÎ´ð
+     * courseName : æ»´ç­”
      * condition :
      * remark :
      * created :

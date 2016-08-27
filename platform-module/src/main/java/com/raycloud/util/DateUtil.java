@@ -49,10 +49,9 @@ public class DateUtil {
         if(date==null){
             return null;
         }
-        //获得当前线程的SimpleDateFormate
-        SimpleDateFormat simpleDateFormat = SimpleDateFormatThreadLocal.getSimpleDateFormat();
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         //转换并返回值
-        return simpleDateFormat.parse(date);
+        return sdf.parse(date);
     }
 
     /**
