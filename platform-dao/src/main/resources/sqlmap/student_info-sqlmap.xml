@@ -103,7 +103,7 @@
 
     <!-- 删除,物理删除，最好采用逻辑删除，增加字段status来判断是否删除-->
     <delete id="deleteById" parameterClass="StudentInfo">
-        update from Student_Info set status = 0 where id = #id#
+        update student_info set status = 0 where id = #id#
         <isNotNull property="userId" prepend="and">
             user_id = #userId#
         </isNotNull>
@@ -115,6 +115,9 @@
         <dynamic prepend="set">
             <isNotNull prepend="," property="studyNo">
                 study_no = #studyNo#
+            </isNotNull>
+            <isNotNull prepend="," property="realName">
+                real_name = #realName#
             </isNotNull>
             <isNotNull prepend="," property="train">
                 train = #train#

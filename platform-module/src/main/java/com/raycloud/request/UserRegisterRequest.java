@@ -8,6 +8,7 @@ import java.util.Date;
 public class UserRegisterRequest extends Request {
 
     /**幼儿园项目**/
+    private Long id;
     //机构前缀标识
     private String preNo;
     //联系人
@@ -28,6 +29,14 @@ public class UserRegisterRequest extends Request {
     private String address;
 
     private Date birthday;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getPreNo() {
         return preNo;

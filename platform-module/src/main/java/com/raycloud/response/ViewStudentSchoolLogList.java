@@ -57,11 +57,20 @@ public class ViewStudentSchoolLogList extends ListResponse {
     public static class StudentDayLogListBean {
         private Long id;
         private Long userId;
+        private String realName;
         private String studyNo;
         private String courseName;
         private String condition;
         private String remark;
         private String created;
+
+        public String getRealName() {
+            return realName;
+        }
+
+        public void setRealName(String realName) {
+            this.realName = realName;
+        }
 
         public Long getId() {
             return id;

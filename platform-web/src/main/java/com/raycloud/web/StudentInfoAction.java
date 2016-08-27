@@ -166,7 +166,9 @@ public class StudentInfoAction extends BaseAction {
     public Response getStudent(StudentInfo studentInfo,Request request)throws Exception {
         Response response = new Response(request);
         User user = getUser();
-        studentInfo.setUserId(user.getId());
+        if(user.getId() != 1){
+            studentInfo.setUserId(user.getId());
+        }
         studentInfo = studentInfoDao.get(studentInfo);
         studentInfo.setBirthday_(DateUtil.getDateTime(studentInfo.getBirthday(),DateUtil.DATE_FORMAT));
         if (studentInfo == null) {

@@ -2,7 +2,7 @@
 <script>
     /*验证输入框,表单提交等*/
     function no_submit(){
-        studentFormFunc.addStudent();
+        studentDayLogFormFunc.saveStudentDayLog();
         return false;//不提交表单
     }
 
@@ -14,44 +14,93 @@
             type: 'alert'
         });
     }
-    var studentFormFunc = {
+    var studentDayLogFormFunc = {
         dataForm : {
-            "id" : 0
+            "studyNo" : 0,
+            "pageNo": 1,
+            "pageSize" : 10,
+            "total" : 0,
+            "maxPage" : 1
         },
-        addStudent : function(){
+        saveStudentDayLog : function(){
             var dataForm = {
                 "id" : $("#id").val(),
-                "studyNo" : $("#studyNo").val(),    //学号
-                "realName" : $("#realName").val(),  //真实名字
-                "sex" : $("input[name = 'sex']:checked").val(),            //性别
-                "birthday_" : $("#birthday_").val(),  //生日
-                "phone" : $("#phone").val(),        //电话
-                "address" : $("#address").val()     //地址
+                "studyNo" : studentDayLogFormFunc.dataForm.studyNo,
+                "courseName" : $("#courseName").val(),  //表现情况
+                "condition" : $("#condition").val(),    //孩子状况
+                "remark" : $("#remark").val()  //老师备注
             };
-            var data = API.saveStudent(dataForm);
+            var data = API.saveStudentDayLog(dataForm);
             if(data && data.result == "100"){
-                alert("添加/保存成功!");
+                redirect();
+                alert("保存日志成功!");
             }
         },
-        getStudent : function(){
-            if(this.dataForm.id === 0){
+        remove : function(id){
+            var dataForm = {
+
+                "id" : id
+            }
+            var data = API.removeStudentDayLog(dataForm);
+            if(data && data.result == "100"){
+                redirect();
+                alert("删除日志成功!");
+            }
+        },
+        getList : function(){
+            if(this.dataForm.studyNo === 0){ //说明没有查任何学生的日志
                 return;
             }
-            var data = API.getStudent(this.dataForm);
+            var data = API.getStudentDayLogList(this.dataForm);
             if(data && data.result == "100"){
-                var info = data.data;
-                $("#id").val(info.id);
-                $("#studyNo").val(info.studyNo);    //学号
-                $("#realName").val(info.realName); //真实名字
-                $("input[name = 'sex']").each(function(){
-                    if($(this).val() == info.sex){
+                //集合
+                var list = data.data.studentDayLogList;
 
-                        $(this).attr("checked","checked");
+                //总记录数
+                this.dataForm.total = data.data.total;
+                //总页数
+                this.dataForm.maxPage = Math.ceil(this.dataForm.total / this.dataForm.pageSize);
+
+                var i = 0 , html = "";
+                for(;list!=null && i<list.length;i++){
+                    html += '<tr>'+
+                            '        <td>'+
+                            '        <label class="input-control checkbox  small-check">'+
+                            '        <input type="checkbox" name="c4" value="1">'+
+                            '        <span class="check"></span>'+
+                            '</label>'+
+                            '</td>'+
+                            '<td>'+list[i].created+'</td><td class="right">'+list[i].realName+'</td><td class="right">'+list[i].courseName+
+                            '</td><td class="right">'+list[i].condition+'</td><td class="right">'+list[i].remark+'</td>'+
+                            '<td class="right">'+
+                            '        <div data-role="group" data-group-type="one-state">'+
+                            '        <button class="button" removeno="'+ list[i].id+'"><span class="mif-bin mif-1x"></span></button>'+
+                            '</div>'+
+                            '</td>'+
+                            '</tr>';
+                }
+
+                $(".animal tbody").html(html);
+                //装载页码
+                preExecuteAny.pagitationFunc._init();
+                //设最大
+                $("#pageInfo").html( this.dataForm.pageNo+"/"+this.dataForm.maxPage);
+                //设置条数
+                $("#total").html(this.dataForm.total);
+                //关闭显示等待加载ing
+                $("#wait_loading").hide();
+                //事件
+                //编辑事件
+                $("button").each(function() {
+
+                    if ($(this).attr("removeno")/*点击删除按钮*/) {
+                        $(this).click(function () {
+                            //删除
+                            studentDayLogFormFunc.remove($(this).attr("removeno"));
+                        });
                     }
-                }); //性别
-                $("#birthday_").val(info.birthday_);  //生日
-                $("#phone").val(info.phone);        //电话
-                $("#address").val(info.address);     //地址
+                });
+
 
 
             }
@@ -59,6 +108,7 @@
         }
 
     }
+
 
     $(function(){
        //返回按钮
@@ -69,11 +119,17 @@
         var url = "";
         if(location.href.lastIndexOf("?") != -1) {
             url = location.href.substring(location.href.lastIndexOf("?") + 1);
-            var id = getTargetUrlParameter(url,"id");
-            studentFormFunc.dataForm.id = id;
-            studentFormFunc.getStudent();
+            var studyNo = getTargetUrlParameter(url,"studyNo");
+            studentDayLogFormFunc.dataForm.studyNo = studyNo;
         }
 
+
+        //装配调度器
+        preExecuteAny.init(studentDayLogFormFunc);
+        //装配分页器
+        pagitationFunc.pagitation = studentDayLogFormFunc.dataForm;
+        //执行
+        preExecuteAny._getList();
 
     });
 
@@ -81,7 +137,7 @@
 <input type="hidden" id="id" value="0"/>
 <div class="row cells8">
     <div class="oriflamme">
-        <span class="mif-file-text"></span> 添加学生
+        <span class="mif-file-text"></span> 学生日志
     </div>
     <div class="backstage_container">
 
@@ -92,10 +148,10 @@
 
                     <div class="cell offset3 colspan4">
 
-                        <label>孩子姓名 :</label>
+                        <label>表现情况 :</label>
                         <div class="input-control text required">
-                            <input type="text" id="realName" name="realName" placeholder="例如:张三" data-validate-func="required"
-                                   data-validate-hint="输入孩子姓名!"
+                            <input type="text" id="courseName" name="courseName" placeholder="" data-validate-func="required"
+                                   data-validate-hint="输入表现情况!"
                                    data-validate-hint-position="right">
 
                             <span class="input-state-error mif-warning"></span>
@@ -108,10 +164,10 @@
 
                     <div class="cell offset3 colspan4">
 
-                        <label>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号 :</label>
+                        <label>孩子状况 :</label>
                         <div class="input-control text required">
-                            <input type="text" id="studyNo" name="studyNo" placeholder="例如:201203120216" data-validate-func="required"
-                                   data-validate-hint="输入学号!"
+                            <input type="text" id="condition" name="condition" placeholder="" data-validate-func="required"
+                                   data-validate-hint="输入孩子状况!"
                                    data-validate-hint-position="right">
 
                             <span class="input-state-error mif-warning"></span>
@@ -124,68 +180,15 @@
 
                     <div class="cell offset3 colspan4">
 
-                        <label>家庭住址 :</label>
+                        <label>老师备注 :</label>
                         <div class="input-control text required">
-                            <input type="text" id="address" name="address" data-validate-func="required"
-                                   data-validate-hint="输入家庭住址!"
+                            <input type="text" id="remark" name="remark" data-validate-func="required"
+                                   data-validate-hint="输入备注信息!"
                                    data-validate-hint-position="right">
 
                             <span class="input-state-error mif-warning"></span>
                             <span class="input-state-success mif-checkmark"></span>
                         </div>
-                    </div>
-                </div>
-                <div class="row cells8">
-
-                    <div class="cell offset3 colspan4">
-                        生日年月 :
-                        <div class="input-control text ">
-                            <div class="input-control text" id="datepicker">
-                                <input type="text" id="birthday_" name="birthday_" data-validate-func="required"
-                                       data-validate-hint="选择出生日期!"
-                                       data-validate-hint-position="right">
-                                <button class="button"><span class="mif-calendar"></span></button>
-                            </div>
-                            <script>
-                                $(function(){
-                                    $("#datepicker").datepicker();
-                                });
-                            </script>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="row cells8">
-
-                    <div class="cell offset3 colspan4">
-
-                        <label>联系电话 :</label>
-                        <div class="input-control text required">
-                            <input type="text" id="phone" name="phone" placeholder="例如:1xxxxxxx(11位)" data-validate-func="pattern"
-                                   data-validate-arg="^1\d{10}$"
-                                   data-validate-hint="输入格式正确的联系电话!"
-                                   data-validate-hint-position="right">
-
-                            <span class="input-state-error mif-warning"></span>
-                            <span class="input-state-success mif-checkmark"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row cells8 br">
-
-                    <div class="cell offset3 colspan4">
-                        性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别 :
-                        <label class="input-control radio small-check">
-                            <input type="radio" name="sex" value="男" checked>
-                            <span class="check"></span>
-                        </label>
-                        <span class="leaf">男</span>
-                        <label class="input-control radio small-check">
-                            <input type="radio" name="sex" value="女">
-                            <span class="check"></span>
-                        </label>
-                        <span class="leaf">女</span>
-
                     </div>
                 </div>
                 <div class="row cells8 br">
@@ -202,5 +205,88 @@
             </form>
         </div><!-- //grid -->
     </div>
+
+</div>
+
+<!-- 内容修改处 -->
+<div class="row cells8" style="margin-top:20px;">
+
+    <div class="cell colspan8" style=" overflow-x: scroll;">
+
+        <table class="hovered animal">
+            <thead>
+            <tr>
+                <th></th>
+                <th>日期</th>
+                <th class="right">学生姓名</th>
+                <th class="right">表现情况</th>
+                <th class="right">孩子状况</th>
+                <th class="right">老师备注</th>
+                <th class="right">操作</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td>
+                    <label class="input-control checkbox  small-check">
+                        <input type="checkbox" name="c4" value="1">
+                        <span class="check"></span>
+                    </label>
+
+                </td>
+                <td>date</td>
+                <td class="right">realName</td>
+                <td class="right">courseName</td>
+                <td class="right">condition</td>
+                <td class="right">remark</td>
+                <td class="right">
+                    <div data-role="group" data-group-type="one-state">
+                        <button class="button" editno="1"><span class="mif-file-text mif-1x"></span></button>
+                    </div>
+                </td>
+            </tr>
+
+            </tbody>
+
+            <tfoot></tfoot>
+        </table>
+
+
+    </div>
+    <!-- pagination -->
+    <div class="cell colspan8">
+        <div class="oriflamme">
+            <div class="flex-grid">
+                <div class="left-button-group">
+                    <div class="item" style="margin:0;">每页显示
+                        <div class="input-control" data-template-result="fmtState" data-role="select">
+                            <select>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                            </select>
+                        </div>
+                        条 共<span id="total">14</span>条 当前页 <span id="pageInfo"> 1 </span>
+                    </div>
+
+                </div>
+                <div class="row flex-just-end ">
+                    <div class="pagination">
+                        <span class="item" type="pre">上一页</span>
+
+                        <span class="item">1</span>
+                        <span class="item current">2</span>
+                        <!-- <span class="item disabled">5</span>
+                        <span class="item spaces">...</span>
+                        <span class="item">7</span>
+                        <span class="item">8</span> -->
+
+                        <span class="item" type="next">下一页</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- //pagination -->
 
 </div>

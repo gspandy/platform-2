@@ -89,11 +89,11 @@
     <insert id="add" parameterClass="StudentSchoolLog">
         insert into student_school_log
         (
-        id,user_id,study_no,course_name,condition,remark,created,modified,status
+        id,user_id,study_no,course_name,`condition`,remark,created,modified
         )
         values
         (
-        #id#,#userId#,#studyNo#,#courseName#,#condition#,#remark#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#status#
+        #id#,#userId#,#studyNo#,#courseName#,#condition#,#remark#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP
         )
 
         <selectKey resultClass="Long" keyProperty="id">
@@ -103,7 +103,7 @@
 
     <!-- 删除,物理删除，最好采用逻辑删除，增加字段status来判断是否删除-->
     <delete id="deleteById" parameterClass="StudentSchoolLog">
-        update from student_school_log set status = 0 where id = #id#
+        update student_school_log set status = 0 where id = #id#
         <isNotNull property="userId" prepend="and">
             user_id = #userId#
         </isNotNull>
@@ -117,7 +117,7 @@
                 course_name = #courseName#
             </isNotNull>
             <isNotNull prepend="," property="condition">
-                condition = #condition#
+                `condition` = #condition#
             </isNotNull>
             <isNotNull prepend="," property="remark">
                 remark = #remark#

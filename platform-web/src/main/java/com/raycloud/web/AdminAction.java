@@ -11,6 +11,7 @@ import com.raycloud.response.ViewUserList;
 import com.raycloud.response.ViewUserLoginInfo;
 import com.raycloud.service.impl.PublicService;
 import com.raycloud.service.impl.UserService;
+import com.raycloud.util.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,15 +40,52 @@ public class AdminAction extends BaseAction {
      * @throws Exception
      */
     @ResponseBody
-    @RequestMapping("/addInstitution")
-    public Response addInstitution(UserRegisterRequest request)throws Exception {
+    @RequestMapping("/saveInstitution")
+    public Response saveInstitution(UserRegisterRequest request)throws Exception {
         Response response = new Response(request);
-        System.out.println("幼儿园账号添加");
-        boolean status = false;
-        userService.addInstitution(request,getRequest());
+        if(request.getId() == null || request.getId() == 0 ){
+            //新增
+            userService.addInstitution(request,getRequest());
+        }else{
+            //修改
+            User user = new User();
+            user.setId(request.getId());
+            user.setUsername(request.getUsername());
+            user.setPreNo(request.getPreNo());
+            user.setInstitution(request.getInstitution());
+            user.setOwner(request.getOwner());
+            user.setPhone(request.getPhone());
+            //密码
+            if(request.getPassword() != null && !"".equals(request.getPassword().trim())){
+                user.setPassword(MD5Utils
+                        .toHexString(MD5Utils.encodeByMD5(request.getPassword().getBytes())));
+            }
+            userDao.update(user);
+        }
+
         ViewUserLoginInfo viewUserLoginInfo = new ViewUserLoginInfo();
         viewUserLoginInfo.setUsername(request.getUsername());
         response.setData(viewUserLoginInfo);
+        return response;
+    }
+
+    /**
+     * 获得机构信息
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping("/getInstitution")
+    public Response getInstitution(Request request,User user)throws Exception {
+        Response response = new Response(request);
+
+        user = userDao.get(user);
+        if(user == null){
+            throw new ServiceException("用户已经不存在!",902);
+        }
+        user.setPassword(null);
+        response.setData(user);
         return response;
     }
 
@@ -61,7 +99,6 @@ public class AdminAction extends BaseAction {
     @RequestMapping("/getInstitutionList")
     public Response getInstitutionList(InstitutionListGetRequest request)throws Exception {
         Response response = new Response(request);
-        boolean status = false;
         ViewUserList view = userService.getInstitutionList(request);
         response.setData(view);
         return response;

@@ -57,6 +57,8 @@
 							
 							leftNav.clearAllActive();
 							$(this).addClass("active");
+                            pagitation.pageNo = 1;
+                            pagitation.pageSize = 10;
 							//º”‘ÿÕ¯“≥
                            // $("#context_main").load($(this).attr("to"));
                             jumpToModule($(this).attr("to"));

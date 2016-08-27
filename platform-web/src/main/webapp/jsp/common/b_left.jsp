@@ -9,7 +9,8 @@
 <ul class="v-menu subdown block-shadow-impact min-size-required myheight" style="border-top:0px !important;">
     <li class="active" to="main.jsp"><a href="javascript:void(0)"><span class="mif-home"></span>  主页</a></li>
     <li class="divider"></li>
-    <li to="studentList.jsp"><a href="javascript:void(0)"><span class="mif-users"></span> 用户管理</a></li>
+    <li to="userList.jsp"><a href="javascript:void(0)"><span class="mif-user"></span> 用户管理</a></li>
+    <li to="studentList.jsp"><a href="javascript:void(0)"><span class="mif-users"></span> 学生管理</a></li>
     <li to="orderList.jsp"><a href="javascript:void(0)"><span class="mif-truck"></span> 订单管理</a></li>
     <li class="divider"></li>
     <li class="">

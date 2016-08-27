@@ -8,7 +8,14 @@
         "getStudentList_url" : "/platform/getStudentList",
         "saveStudent_url" : "/platform/saveStudent",
         "getStudent_url" : "/platform/getStudent",
-        "tagStudent_url" : "/platform/tagStudent"
+        "tagStudent_url" : "/platform/tagStudent",
+        "getStudentDayLogList_url" : "/platform/getStudentDayLogList",
+        "saveStudentDayLog_url" : "/platform/saveStudentDayLog",
+        "removeStudentDayLog_url" : "/platform/removeStudentDayLog",
+        "getInstitutionList_url" : "/platform/admin/getInstitutionList",
+        "saveInstitution_url" : "/platform/admin/saveInstitution",
+        "switchInstitution_url" : "/platform/admin/switchInstitution",
+        "getInstitution_url" : "/platform/admin/getInstitution"
     };
     //API
     var API = {
@@ -54,6 +61,90 @@
         tagStudent : function(params){
             //和保存学生一个url
             var data = ajaxMethod(service_url.tagStudent_url,params,this.POST);
+            if(data == false){
+                alert("连接服务器失败");
+            }else{
+                if(data && data.result == "100"){
+                    return data;
+                }else{
+                    alert(data.message);
+                }
+            }
+        },
+        getStudentDayLogList : function(params){
+            var data = ajaxMethod(service_url.getStudentDayLogList_url,params,this.POST);
+            if(data == false){
+                alert("连接服务器失败");
+            }else{
+                if(data && data.result == "100"){
+                    return data;
+                }else{
+                    alert(data.message);
+                }
+            }
+        },
+        saveStudentDayLog : function(params){
+            var data = ajaxMethod(service_url.saveStudentDayLog_url,params,this.POST);
+            if(data == false){
+                alert("连接服务器失败");
+            }else{
+                if(data && data.result == "100"){
+                    return data;
+                }else{
+                    alert(data.message);
+                }
+            }
+        },
+        removeStudentDayLog : function(params){
+            var data = ajaxMethod(service_url.removeStudentDayLog_url,params,this.POST);
+            if(data == false){
+                alert("连接服务器失败");
+            }else{
+                if(data && data.result == "100"){
+                    return data;
+                }else{
+                    alert(data.message);
+                }
+            }
+        },
+        getInstitutionList : function(params){
+            var data = ajaxMethod(service_url.getInstitutionList_url,params,this.POST);
+            if(data == false){
+                alert("连接服务器失败");
+            }else{
+                if(data && data.result == "100"){
+                    return data;
+                }else{
+                    alert(data.message);
+                }
+            }
+        },
+        switchInstitution : function(params){
+            var data = ajaxMethod(service_url.switchInstitution_url,params,this.POST);
+            if(data == false){
+                alert("连接服务器失败");
+            }else{
+                if(data && data.result == "100"){
+                    return data;
+                }else{
+                    alert(data.message);
+                }
+            }
+        },
+        saveInstitution : function(params){
+            var data = ajaxMethod(service_url.saveInstitution_url,params,this.POST);
+            if(data == false){
+                alert("连接服务器失败");
+            }else{
+                if(data && data.result == "100"){
+                    return data;
+                }else{
+                    alert(data.message);
+                }
+            }
+        },
+        getInstitution : function(params){
+            var data = ajaxMethod(service_url.getInstitution_url,params,this.POST);
             if(data == false){
                 alert("连接服务器失败");
             }else{
@@ -114,6 +205,7 @@
 
     //统一分页方法
     var pagitationFunc = {
+        pagitation : {},
         init : function(){
 
         },
@@ -121,41 +213,41 @@
             this.loadForm();
         },
         nextPage : function(obj){
-            if(pagitation.pageNo + 1 > pagitation.maxPage){
+            if(this.pagitation.pageNo + 1 > this.pagitation.maxPage){
                 return;
             }
-            pagitation.pageNo += 1;
+            this.pagitation.pageNo += 1;
             preExecuteAny._getList();
         },
         prePage : function(obj){
-            if(pagitation.pageNo - 1 <= 0){
+            if(this.pagitation.pageNo - 1 <= 0){
                 return;
             }
-            pagitation.pageNo -= 1;
+            this.pagitation.pageNo -= 1;
             preExecuteAny._getList();
         },
         to : function(page){ //跳转到指定页面
-            pagitation.pageNo = parseInt(page);
+            this.pagitation.pageNo = parseInt(page);
             preExecuteAny._getList();
         },
         loadForm : function(){
             var html = "";
             html += '<span class="item" type="pre">上一页</span>';
-            var i = (pagitation.pageNo - 3) <= 0 ? 1 : (pagitation.pageNo - 3);
-            if( pagitation.pageNo >= 5){
+            var i = (this.pagitation.pageNo - 3) <= 0 ? 1 : (this.pagitation.pageNo - 3);
+            if( this.pagitation.pageNo >= 5){
                 html += '<span class="item" to="1">1</span>'
                     + '<span class="item spaces">...</span>';
             }
-            for(; i <= pagitation.maxPage && i<= pagitation.pageNo + 3; i ++){
-                if( i == pagitation.pageNo){
+            for(; i <= this.pagitation.maxPage && i<= this.pagitation.pageNo + 3; i ++){
+                if( i == this.pagitation.pageNo){
                     html += '<span class="item active">'+i+'</span>';
                 }else{
                     html += '<span class="item" to='+i+'>'+i+'</span>';
                 }
             }
-            if( pagitation.maxPage - pagitation.pageNo >= 4){
+            if( this.pagitation.maxPage - this.pagitation.pageNo >= 4){
                 html += '<span class="item spaces">...</span>'
-                    + '<span class="item" to='+pagitation.maxPage+'>'+pagitation.maxPage+'</span>';
+                    + '<span class="item" to='+this.pagitation.maxPage+'>'+this.pagitation.maxPage+'</span>';
             }
             html += '<span class="item" type="next">下一页</span>';
             $(".pagination").html(html);
@@ -187,7 +279,7 @@
     }
     preExecuteAny.pagitationFunc = pagitationFunc;
     window.preExecuteAny = preExecuteAny;
-
+    window.pagitationFunc = pagitationFunc;
 })(jQuery)
 
 /**

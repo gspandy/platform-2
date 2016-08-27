@@ -66,6 +66,9 @@ public class UserService {
         User user = new User();
         user.setUsername(request.getUsername());
         if((user = userDao.get(user)) != null){
+            if(user.getStatus() == 0){
+                throw new ServiceException(request.getUsername()+"账号已停用", 902);
+            }
             if(!MD5Utils.toHexString(MD5Utils.encodeByMD5(request.getPassword().getBytes())).equals(user.getPassword())){
                 throw new ServiceException(request.getUsername()+"密码错误", 902);
             }
@@ -148,7 +151,7 @@ public class UserService {
         try {
             userDao.addUser(user);
         }catch(Exception e){
-            throw new ServiceException("分配账号失败",ResponseResultConstant.USER_REGISTER_ERROR,e);
+            throw new ServiceException("分配账号失败",902,e);
         }
     }
 

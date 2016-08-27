@@ -1,6 +1,6 @@
 ﻿.top-nav{
 		height:65px;width:100%;
-        position:relative;z-index:100;
+        position:relative;z-index:10000;
 	}
     .top-nav .cell{
         background-color:red;display:block;height:50px;width:50px;

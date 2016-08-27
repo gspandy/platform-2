@@ -72,7 +72,7 @@
             <!-- 加载等待图 -->
             <div class="content_center" >
                 <div id="wait_loading" class="cell padding20 bg-white" style="
-                    position: absolute;z-index:100;
+                    position: absolute;z-index:99;
                     width: 100%;
                     height: 100%;
                     display: none;">

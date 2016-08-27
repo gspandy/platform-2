@@ -2,7 +2,7 @@
 <script>
     /*验证输入框,表单提交等*/
     function no_submit(){
-        studentFormFunc.addStudent();
+        userFormFunc.saveInstitution();
         return false;//不提交表单
     }
 
@@ -14,44 +14,39 @@
             type: 'alert'
         });
     }
-    var studentFormFunc = {
+    var userFormFunc = {
         dataForm : {
             "id" : 0
         },
-        addStudent : function(){
+        saveInstitution : function(){
             var dataForm = {
                 "id" : $("#id").val(),
-                "studyNo" : $("#studyNo").val(),    //学号
-                "realName" : $("#realName").val(),  //真实名字
-                "sex" : $("input[name = 'sex']:checked").val(),            //性别
-                "birthday_" : $("#birthday_").val(),  //生日
-                "phone" : $("#phone").val(),        //电话
-                "address" : $("#address").val()     //地址
+                "institution" : $("#institution").val(),    //机构名
+                "preNo" : $("#preNo").val(),                //前缀标识
+                "username" : $("#username").val(),          //用户名
+                "password" : $("#password").val(),          //密码
+                "phone" : $("#phone").val(),                //电话
+                "owner" : $("#owner").val()                 //联系人
             };
-            var data = API.saveStudent(dataForm);
+            var data = API.saveInstitution(dataForm);
             if(data && data.result == "100"){
                 alert("添加/保存成功!");
             }
         },
-        getStudent : function(){
+        getInstitution : function(){
             if(this.dataForm.id === 0){
                 return;
             }
-            var data = API.getStudent(this.dataForm);
+            var data = API.getInstitution(this.dataForm);
             if(data && data.result == "100"){
                 var info = data.data;
                 $("#id").val(info.id);
-                $("#studyNo").val(info.studyNo);    //学号
-                $("#realName").val(info.realName); //真实名字
-                $("input[name = 'sex']").each(function(){
-                    if($(this).val() == info.sex){
-
-                        $(this).attr("checked","checked");
-                    }
-                }); //性别
-                $("#birthday_").val(info.birthday_);  //生日
-                $("#phone").val(info.phone);        //电话
-                $("#address").val(info.address);     //地址
+                $("#institution").val(info.institution);    //机构名称
+                $("#preNo").val(info.preNo);                //前缀标识
+                $("#username").val(info.username);         //用户名
+                //密码不需要显示出来
+                $("#phone").val(info.phone);                //手机号
+                $("#owner").val(info.owner);            //联系人
 
 
             }
@@ -63,15 +58,16 @@
     $(function(){
        //返回按钮
         $("#back").click(function(){
-            jumpToModule("studentList.jsp");
+            jumpToModule("userList.jsp");
        });
         //处理链接
         var url = "";
         if(location.href.lastIndexOf("?") != -1) {
             url = location.href.substring(location.href.lastIndexOf("?") + 1);
             var id = getTargetUrlParameter(url,"id");
-            studentFormFunc.dataForm.id = id;
-            studentFormFunc.getStudent();
+            userFormFunc.dataForm.id = id;
+            userFormFunc.getInstitution();
+            $("#username").attr("disabled","disabled");
         }
 
 
@@ -81,7 +77,7 @@
 <input type="hidden" id="id" value="0"/>
 <div class="row cells8">
     <div class="oriflamme">
-        <span class="mif-file-text"></span> 添加/保存学生
+        <span class="mif-file-text"></span> 添加/保存用户
     </div>
     <div class="backstage_container">
 
@@ -92,10 +88,10 @@
 
                     <div class="cell offset3 colspan4">
 
-                        <label>孩子姓名 :</label>
+                        <label>机构名称 :</label>
                         <div class="input-control text required">
-                            <input type="text" id="realName" name="realName" placeholder="例如:张三" data-validate-func="required"
-                                   data-validate-hint="输入孩子姓名!"
+                            <input type="text" id="institution" name="institution" placeholder="例如:华天幼儿园" data-validate-func="required"
+                                   data-validate-hint="输入机构名称!"
                                    data-validate-hint-position="right">
 
                             <span class="input-state-error mif-warning"></span>
@@ -108,10 +104,10 @@
 
                     <div class="cell offset3 colspan4">
 
-                        <label>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号 :</label>
+                        <label>前缀标识 :</label>
                         <div class="input-control text required">
-                            <input type="text" id="studyNo" name="studyNo" placeholder="例如:201203120216" data-validate-func="required"
-                                   data-validate-hint="输入学号!"
+                            <input type="text" id="preNo" name="preNo" placeholder="例如:170" data-validate-func="required"
+                                   data-validate-hint="输入前缀标识!"
                                    data-validate-hint-position="right">
 
                             <span class="input-state-error mif-warning"></span>
@@ -124,10 +120,10 @@
 
                     <div class="cell offset3 colspan4">
 
-                        <label>家庭住址 :</label>
+                        <label>用&nbsp;户&nbsp;名 :</label>
                         <div class="input-control text required">
-                            <input type="text" id="address" name="address" data-validate-func="required"
-                                   data-validate-hint="输入家庭住址!"
+                            <input type="text" id="username" name="username" data-validate-func="required"
+                                   data-validate-hint="输入登陆用户名!"
                                    data-validate-hint-position="right">
 
                             <span class="input-state-error mif-warning"></span>
@@ -138,20 +134,15 @@
                 <div class="row cells8">
 
                     <div class="cell offset3 colspan4">
-                        生日年月 :
-                        <div class="input-control text ">
-                            <div class="input-control text" id="datepicker">
-                                <input type="text" id="birthday_" name="birthday_" data-validate-func="required"
-                                       data-validate-hint="选择出生日期!"
-                                       data-validate-hint-position="right">
-                                <button class="button"><span class="mif-calendar"></span></button>
-                            </div>
-                            <script>
-                                $(function(){
-                                    $("#datepicker").datepicker();
-                                });
-                            </script>
 
+                        <label>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码 :</label>
+                        <div class="input-control text required">
+                            <input type="text" id="password" name="password"
+                                   data-validate-hint="输入密码!"
+                                   data-validate-hint-position="right">
+
+                            <span class="input-state-error mif-warning"></span>
+                            <span class="input-state-success mif-checkmark"></span>
                         </div>
                     </div>
                 </div>
@@ -159,33 +150,31 @@
 
                     <div class="cell offset3 colspan4">
 
-                        <label>联系电话 :</label>
+                        <label>联&nbsp;系&nbsp;人 :</label>
+                        <div class="input-control text required">
+                            <input type="text" id="owner" name="owner" placeholder="" data-validate-func="required"
+                                   data-validate-hint="输入联系人!"
+                                   data-validate-hint-position="right">
+
+                            <span class="input-state-error mif-warning"></span>
+                            <span class="input-state-success mif-checkmark"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row cells8">
+
+                    <div class="cell offset3 colspan4">
+
+                        <label>联系手机 :</label>
                         <div class="input-control text required">
                             <input type="text" id="phone" name="phone" placeholder="例如:1xxxxxxx(11位)" data-validate-func="pattern"
                                    data-validate-arg="^1\d{10}$"
-                                   data-validate-hint="输入格式正确的联系电话!"
+                                   data-validate-hint="输入11位手机号码!"
                                    data-validate-hint-position="right">
 
                             <span class="input-state-error mif-warning"></span>
                             <span class="input-state-success mif-checkmark"></span>
                         </div>
-                    </div>
-                </div>
-                <div class="row cells8 br">
-
-                    <div class="cell offset3 colspan4">
-                        性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别 :
-                        <label class="input-control radio small-check">
-                            <input type="radio" name="sex" value="男" checked>
-                            <span class="check"></span>
-                        </label>
-                        <span class="leaf">男</span>
-                        <label class="input-control radio small-check">
-                            <input type="radio" name="sex" value="女">
-                            <span class="check"></span>
-                        </label>
-                        <span class="leaf">女</span>
-
                     </div>
                 </div>
                 <div class="row cells8 br">

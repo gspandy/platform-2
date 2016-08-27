@@ -103,8 +103,14 @@
             <isNotNull prepend="," property="password">
                 password = #password#
             </isNotNull>
+            <isNotNull prepend="," property="preNo">
+                pre_no = #preNo#
+            </isNotNull>
             <isNotNull prepend="," property="owner">
                 owner = #owner#
+            </isNotNull>
+            <isNotNull prepend="," property="phone">
+                phone = #phone#
             </isNotNull>
             <isNotNull prepend="," property="institution">
                 institution = #institution#

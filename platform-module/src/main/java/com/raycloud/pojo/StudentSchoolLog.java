@@ -19,6 +19,11 @@ public class StudentSchoolLog extends BasePojo {
     private Date modified;
     private Integer status;
 
+    public StudentSchoolLog orderByCreated(boolean desc){
+        orderFields.add(new OrderField("created",desc == true ? "desc" : ""));
+        return this;
+    }
+
     public Long getId() {
         return id;
     }
