@@ -23,6 +23,16 @@ public class User extends BasePojo implements Serializable {
      */
     private Long id;
 
+    private Boolean noadmin;
+
+    public Boolean getNoadmin() {
+        return noadmin;
+    }
+
+    public void setNoadmin(Boolean noadmin) {
+        this.noadmin = noadmin;
+    }
+
     /**
      * 用户名
      */

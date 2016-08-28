@@ -65,6 +65,7 @@ public class StudentInfoAction extends BaseAction {
         StudentInfo studentInfo = new StudentInfo();
         studentInfo.setStudyNo(request.getStudyNo());
         studentInfo.setUserId(request.getUserId());
+        studentInfo.setRealName(request.getRealName());
         studentInfo.setTrain(request.getTrain());
         User user = getUser();
 
@@ -144,8 +145,9 @@ public class StudentInfoAction extends BaseAction {
     public Response removeStudent(StudentInfo studentInfo,Request request)throws Exception {
         Response response = new Response(request);
         User user = getUser();
-        studentInfo.setUserId(user.getId());
-
+        if(user.getId() == null || user.getId() != 1){
+            studentInfo.setUserId(user.getId());
+        }
         Integer count = studentInfoDao.delete(studentInfo);
         if (count <= 0) {
             throw new ServiceException("请勿重复删除!", 902);

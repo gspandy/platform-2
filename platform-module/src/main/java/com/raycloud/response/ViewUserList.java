@@ -27,7 +27,9 @@ public class ViewUserList extends ListResponse {
             institutionListBean.setPhone(u.getPhone());
             institutionListBean.setCreated(DateUtil.getDateTime(u.getCreated(),
                     DateUtil.DATE_FORMAT));
-            institutionListBean.setStatus(u.getStatus() == 0 ? "停用" : "正常");
+            institutionListBean.setStatus(u.getStatus() == 0 ?
+                    "<span style='color:red'>停用</span>"
+                    : "<span style='color:rgb(73,117,73);'>正常</span>");
             institutionList.add(institutionListBean);
         }
 

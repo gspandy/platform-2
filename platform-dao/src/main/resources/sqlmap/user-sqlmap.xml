@@ -22,6 +22,9 @@
     </sql>
     <sql id="user.where">
         <dynamic prepend="where">
+            <isEqual property="noadmin" compareValue="true" prepend="and">
+                a.id != 1
+            </isEqual>
             <isNotNull property="id" prepend="and">
                 a.id = #id#
             </isNotNull>
@@ -35,9 +38,14 @@
             <isNotNull property="username" prepend="and">
                 a.username = #username#
             </isNotNull>
+            <isNotNull property="institution" prepend="and">
+                a.institution like concat('%',#institution#,'%')
+            </isNotNull>
             <isNotNull property="status" prepend="and">
                 a.status = #status#
             </isNotNull>
+
+
         </dynamic>
     </sql>
 

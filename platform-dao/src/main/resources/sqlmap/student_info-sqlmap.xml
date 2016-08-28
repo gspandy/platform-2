@@ -38,6 +38,12 @@
             <isNotNull property="studyNo" prepend="and">
                 a.study_no = #studyNo#
             </isNotNull>
+            <isNotNull property="train" prepend="and">
+                a.train = #train#
+            </isNotNull>
+            <isNotNull property="realName" prepend="and">
+                a.real_name like concat('%',#realName#,'%')
+            </isNotNull>
             <isNull property="status" prepend="and">
                 a.status = 1
             </isNull>

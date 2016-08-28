@@ -11,6 +11,18 @@
                 "pageNo" : pagitation.pageNo,
                 "pageSize" : pagitation.pageSize
             }
+            //机构搜索
+            if($("#institution").val().trim() != ""){
+                dataForm.institution = $("#institution").val().trim();
+            }
+            //用户名搜索
+            if($("#username").val().trim() != ""){
+                dataForm.username = $("#username").val().trim();
+            }
+            //状态搜索
+            if($("#status").val() != -1){
+                dataForm.status = $("#status").val();
+            }
             //调用服务
             var data = API.getInstitutionList(dataForm);
 
@@ -41,7 +53,7 @@
                         '<td class="right">'+
                         '        <div data-role="group" data-group-type="one-state">'+
                         '        <button class="button" editno="'+ list[i].id+'"><span data-role="hint" data-hint="修改" data-hint-position="top" data-hint-timeout="2000"><span class="mif-tools mif-1x"></span></span></button>'+
-                        '<button class="button" lockno="'+list[i].id+'" ><span data-role="hint" data-hint="锁定" data-hint-position="top" data-hint-timeout="2000"><span class="mif-lock mif-1x"></span></span></button>'+
+                        ' <button class="button" lockno="'+list[i].id+'" ><span data-role="hint" data-hint="锁定" data-hint-position="top" data-hint-timeout="2000"><span class="mif-lock mif-1x"></span></span></button>'+
                         '</div>'+
                         '</td>'+
                         '</tr>';
@@ -109,7 +121,10 @@
         $("#addInfo").click(function(){
             $("#context_main").load("userForm.jsp");
         });
-
+        //搜索事件
+        $("#searchInfo").click(function(){
+            preExecuteAny._init();
+        });
 
 
 
@@ -133,39 +148,30 @@
     <div class="backstage_container">
         <div class="row cells8">
             <div class="fields">
+                机构名称 :
+                <div class="input-control text ">
+                    <input type="text" id="institution" placeholder="机构名称">
+                </div>
+            </div>
+            <div class="fields">
                 用户名 :
                 <div class="input-control text ">
-                    <input type="text" placeholder="姓名">
+                    <input type="text" id="username" placeholder="用户名">
                 </div>
             </div>
-            <div class="fields">
-                学号 :
-                <div class="input-control text ">
-                    <input type="text" placeholder="学号">
-                </div>
-            </div>
-
-            <div class="fields">
-                手机 :
-                <div class="input-control text ">
-                    <input type="text" placeholder="手机">
-                </div>
-            </div>
-        </div>
-        <div class="row cells8">
             <div class="fields">
                 状态 :
                 <div class="input-control select">
-                    <select>
-                        <option selected>全部</option>
-                        <option>标记</option>
-                        <option>未标记</option>
+                    <select id="status">
+                        <option selected value="-1">全部</option>
+                        <option value="1">正常</option>
+                        <option value="0">停用</option>
                     </select>
                 </div>
             </div>
         </div>
         <div class="row cells8">
-            <button class="button primary small-button" onclick="pushMessage('info')"><span class="mif-search"></span> 搜索</button>
+            <button id="searchInfo" class="button primary small-button"><span class="mif-search"></span> 搜索</button>
         </div>
 
     </div>
@@ -231,8 +237,6 @@
                         <div class="input-control" data-template-result="fmtState" data-role="select">
                             <select>
                                 <option value="10">10</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
                             </select>
                         </div>
                         条 共<span id="total">14</span>条 当前页 <span id="pageInfo"> 1 </span>

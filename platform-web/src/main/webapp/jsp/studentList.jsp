@@ -12,6 +12,18 @@
                 "pageSize" : pagitation.pageSize
 
             }
+            //姓名搜索
+            if($("#realName").val().trim() != ""){
+                dataForm.realName = $("#realName").val().trim();
+            }
+            //学号搜索
+            if($("#studyNo").val().trim() != ""){
+                dataForm.studyNo = $("#studyNo").val().trim();
+            }
+            //标记状态搜索
+            if($("#train").val() != -1){
+                dataForm.train = $("#train").val();
+            }
             //调用服务
             var data = API.getStudentList(dataForm);
 
@@ -42,9 +54,9 @@
                         '<td class="right">'+
                         '        <div data-role="group" data-group-type="one-state">'+
                         '        <button class="button" editno="'+ list[i].id+'"><span data-role="hint" data-hint="修改" data-hint-position="top" data-hint-timeout="2000"><span class="mif-tools mif-1x"></span></span></button>'+
-                        '<button class="button" removeno="'+list[i].id+'"><span data-role="hint" data-hint="删除" data-hint-position="top" data-hint-timeout="2000"><span class="mif-bin mif-1x"></span></span></button>'+
-                        '<button class="button" tagno="'+list[i].id+'"><span data-role="hint" data-hint="标记训练" data-hint-position="top" data-hint-timeout="2000"><span class="mif-tags mif-1x"></span></span></button>' +
-                        '<button class="button" logno="'+list[i].studyNo+'"><span data-role="hint" data-hint="添加日志" data-hint-position="top" data-hint-timeout="2000"><span class="mif-pencil mif-1x"></span></span></button>'+
+                        ' <button class="button" removeno="'+list[i].id+'"><span data-role="hint" data-hint="删除" data-hint-position="top" data-hint-timeout="2000"><span class="mif-bin mif-1x"></span></span></button>'+
+                        ' <button class="button" tagno="'+list[i].id+'"><span data-role="hint" data-hint="标记训练" data-hint-position="top" data-hint-timeout="2000"><span class="mif-tags mif-1x"></span></span></button>' +
+                        ' <button class="button" logno="'+list[i].studyNo+'"><span data-role="hint" data-hint="添加日志" data-hint-position="top" data-hint-timeout="2000"><span class="mif-pencil mif-1x"></span></span></button>'+
                         '</div>'+
                         '</td>'+
                         '</tr>';
@@ -94,6 +106,11 @@
                         }
                     });
                 }
+                if ($(this).attr("removeno")/*删除事件*/) {
+                    $(this).click(function(){
+                        studentInfoFunc.remove($(this).attr("removeno"));
+                    });
+                }
             });
 
 
@@ -105,7 +122,15 @@
             var data = API.tagStudent(dataForm);
             if(data && data.result == "100"){
                 redirect();
-                alert("标记成功");
+            }
+        },
+        remove : function(id){
+            var dataForm = {
+                "id" : id
+            }
+            var data = API.removeStudent(dataForm);
+            if(data && data.result == "100"){
+                redirect();
             }
         }
     }
@@ -124,7 +149,10 @@
         $("#addInfo").click(function(){
             $("#context_main").load("studentForm.jsp");
         });
-
+        //搜索事件
+        $("#searchInfo").click(function(){
+            preExecuteAny._init();
+        });
 
 
 
@@ -150,37 +178,29 @@
             <div class="fields">
                 姓名 :
                 <div class="input-control text ">
-                    <input type="text" placeholder="姓名">
+                    <input type="text" id="realName" placeholder="姓名">
                 </div>
             </div>
             <div class="fields">
                 学号 :
                 <div class="input-control text ">
-                    <input type="text" placeholder="学号">
+                    <input type="text" id="studyNo" placeholder="学号">
                 </div>
             </div>
-
-            <div class="fields">
-                手机 :
-                <div class="input-control text ">
-                    <input type="text" placeholder="手机">
-                </div>
-            </div>
-        </div>
-        <div class="row cells8">
             <div class="fields">
                 状态 :
                 <div class="input-control select">
-                    <select>
-                        <option selected>全部</option>
-                        <option>标记</option>
-                        <option>未标记</option>
+                    <select id="train">
+                        <option selected value="-1">全部</option>
+                        <option value="1">标记</option>
+                        <option value="0">未标记</option>
                     </select>
                 </div>
             </div>
         </div>
+
         <div class="row cells8">
-            <button class="button primary small-button" onclick="pushMessage('info')"><span class="mif-search"></span> 搜索</button>
+            <button id="searchInfo" class="button primary small-button" ><span class="mif-search"></span> 搜索</button>
         </div>
 
     </div>
@@ -242,8 +262,6 @@
                         <div class="input-control" data-template-result="fmtState" data-role="select">
                             <select>
                                 <option value="10">10</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
                             </select>
                         </div>
                         条 共<span id="total">14</span>条 当前页 <span id="pageInfo"> 1 </span>

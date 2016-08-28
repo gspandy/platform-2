@@ -165,6 +165,10 @@ public class UserService {
         //分页查询
         user.setStartRow((request.getPageNo() - 1)*request.getPageSize());
         user.setPageSize(request.getPageSize());
+        user.setInstitution(request.getInstitution());
+        user.setUsername(request.getUsername());
+        user.setStatus(request.getStatus());
+        user.setNoadmin(true);
         List<User> userList = userDao.getUserList(user);
         //记录结果
         ViewUserList view = new ViewUserList();

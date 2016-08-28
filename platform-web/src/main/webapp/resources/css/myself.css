@@ -93,11 +93,12 @@
 			width:100%;
 		}
 		.animal tr{
-			
+            white-space:nowrap;overflow:hidden;
 		}
 		
 		.animal td,.animal th{
-			border:1px solid rgb(24,145,204);padding:5px;		
+			border:1px solid rgb(24,145,204);padding:5px;
+
 		}
 		.animal th{
 			background-color:rgb(225,244,244);

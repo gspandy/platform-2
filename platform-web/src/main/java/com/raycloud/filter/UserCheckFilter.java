@@ -29,7 +29,7 @@ public class UserCheckFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse)resp;
         //拦截的逻辑
         String uri = request.getRequestURI();
-        if("/admin/".equals(uri)){
+        if(uri.contains("/admin/")){
             /*Cookie[] cookies = request.getCookies();
             for(Cookie c : cookies){
                 if(UserConstant.USER_INFO_KEY.equals(c.getName())){
@@ -39,10 +39,11 @@ public class UserCheckFilter implements Filter {
                 }
             }*/
             User user = (User)request.getSession().getAttribute(UserConstant.USER_INFO_KEY);
-            if(user != null){
+            if(user != null && user.getId() != null && user.getId() == 1){
                 chain.doFilter(req, resp);
+            }else {
+                throw new ServletException("权限不足");
             }
-            //throw new ServiceException("权限不足",902);
         }else {
             chain.doFilter(req, resp);
         }

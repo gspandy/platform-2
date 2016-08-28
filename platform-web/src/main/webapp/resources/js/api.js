@@ -9,6 +9,7 @@
         "saveStudent_url" : "/platform/saveStudent",
         "getStudent_url" : "/platform/getStudent",
         "tagStudent_url" : "/platform/tagStudent",
+        "removeStudent_url" : "/platform/removeStudent",
         "getStudentDayLogList_url" : "/platform/getStudentDayLogList",
         "saveStudentDayLog_url" : "/platform/saveStudentDayLog",
         "removeStudentDayLog_url" : "/platform/removeStudentDayLog",
@@ -61,6 +62,19 @@
         tagStudent : function(params){
             //和保存学生一个url
             var data = ajaxMethod(service_url.tagStudent_url,params,this.POST);
+            if(data == false){
+                alert("连接服务器失败");
+            }else{
+                if(data && data.result == "100"){
+                    return data;
+                }else{
+                    alert(data.message);
+                }
+            }
+        },
+        removeStudent : function(params){
+            //和保存学生一个url
+            var data = ajaxMethod(service_url.removeStudent_url,params,this.POST);
             if(data == false){
                 alert("连接服务器失败");
             }else{
@@ -291,7 +305,7 @@
     //公共变量记忆体
     var pagitation = {
         "pageNo" : 1,
-        "pageSize" : 4,
+        "pageSize" : 10,
         "total" : 0,
         "maxPage" : 1
     }
