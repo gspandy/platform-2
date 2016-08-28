@@ -1,4 +1,6 @@
-﻿.top-nav{
+﻿*{margin:0px;padding:0px;font-family: "Microsoft Yahei";}
+
+ .top-nav{
 		height:65px;width:100%;
         position:relative;z-index:10000;
 	}
@@ -90,18 +92,26 @@
 		    margin-bottom: 5px;
 			border-right: 1px solid rgb(24,145,204);
 			border-left:7px solid RGB(24,145,204);
-			width:100%;
+			width:100%;max-height:120px;
 		}
 		.animal tr{
             white-space:nowrap;overflow:hidden;
-		}
-		
-		.animal td,.animal th{
-			border:1px solid rgb(24,145,204);padding:5px;
 
 		}
+        .animal tr:nth-child(2n){
+            background-color:rgb(244,246,245);
+        }
+		
+		.animal td,.animal th{
+            overflow:hidden;text-overflow:ellipsis;
+		}
+        .animal td{
+            padding:10px;padding-top:0px;padding-bottom: 0px;
+        }
 		.animal th{
-			background-color:rgb(225,244,244);
+			/*background-color:rgb(225,244,244);*/padding:10px;
+            border-bottom: 1px solid rgb(24,145,204);
+            border-top: 1px solid rgb(24,145,204);
 		}
 		.scroll-size{
 			scroll:auto;
