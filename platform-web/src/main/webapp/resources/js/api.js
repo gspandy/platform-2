@@ -16,7 +16,8 @@
         "getInstitutionList_url" : "/platform/admin/getInstitutionList",
         "saveInstitution_url" : "/platform/admin/saveInstitution",
         "switchInstitution_url" : "/platform/admin/switchInstitution",
-        "getInstitution_url" : "/platform/admin/getInstitution"
+        "getInstitution_url" : "/platform/admin/getInstitution",
+        "getChildByStudyNo_url" : "/platform/getChildByStudyNo"
     };
     //API
     var API = {
@@ -159,6 +160,18 @@
         },
         getInstitution : function(params){
             var data = ajaxMethod(service_url.getInstitution_url,params,this.POST);
+            if(data == false){
+                alert("连接服务器失败");
+            }else{
+                if(data && data.result == "100"){
+                    return data;
+                }else{
+                    alert(data.message);
+                }
+            }
+        },
+        getChildByStudyNo : function(params){
+            var data = ajaxMethod(service_url.getChildByStudyNo_url,params,this.POST);
             if(data == false){
                 alert("连接服务器失败");
             }else{

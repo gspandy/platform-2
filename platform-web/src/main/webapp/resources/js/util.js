@@ -25,3 +25,20 @@ var jumpToModule = function(module){
     location.href = location.href.substring(0,location.href.indexOf("#")) + "#" + module;
     window.redirect();//跳转到链接
 }
+
+function redirect(){
+    //处理链接
+    var url = "";
+    if(location.href.indexOf("#") != -1) {
+        var arr = location.href.substring(location.href.indexOf("#") + 1).split("?");
+        //url
+        url = arr[0];
+    }
+
+    if(url == ""){
+        //初始化内容页面
+        $("#context_main").load("main.jsp");
+    }else{
+        $("#context_main").load(url);
+    }
+}
