@@ -37,19 +37,6 @@ public class StudentInfoAction extends BaseAction {
     @Autowired
     private StudentInfoDao studentInfoDao;
 
-
-    @ResponseBody
-    @RequestMapping("/filesUpload")
-    public Response filesUpload(Request request,
-                                  @RequestParam(value = "file1", required = true) MultipartFile file1
-                                  )throws Exception {
-        Response response = new Response(request);
-        //System.out.println("文件个数:"+file.length);
-        return response;
-    }
-
-
-
     /**
      * 获取学生列表
      * @param request
