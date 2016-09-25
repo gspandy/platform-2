@@ -47,18 +47,30 @@ public class ShopAction extends BaseAction {
 
     /**
      * 根据名字模糊搜索商品
-     * @param
+     * @param p 商品名字
      * @return
      */
     @RequestMapping("/seachGoodsByName.do")
-    public String seachGoodsByName(String name,ModelMap modelMap){
-
+    public String seachGoodsByName(String p,ModelMap modelMap){
+        Integer pageNo = adjustPageNo();
+        Integer pageSize = adjustPageSize();
+        Integer startRow = (pageNo - 1) * pageSize;
         ShopGoodsPojo shopGoodsPojo = new ShopGoodsPojo();
-        shopGoodsPojo.setName(name);
+        shopGoodsPojo.setName(p);
+        shopGoodsPojo.setStartRow(startRow);
+        shopGoodsPojo.setPageSize(pageSize);
+        //获取列表
         List<ShopGoodsPojo> shopGoodsPojoList =  shopGoodsDao.getList(shopGoodsPojo);
+        //获取总数
         Integer total = shopGoodsDao.getCount(shopGoodsPojo);
+        //最大页
+        Integer max = (int)Math.ceil(total * 1.0/pageSize);
         modelMap.put("goodsList",shopGoodsPojoList);
         modelMap.put("total",total);
+        modelMap.put("pageNo",pageNo);
+        modelMap.put("pageSize",pageSize);
+        modelMap.put("max",max);
+        modelMap.put("p",p);
         return "shop/search_goods";
     }
 

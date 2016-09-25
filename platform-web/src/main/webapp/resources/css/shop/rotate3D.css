@@ -1,0 +1,40 @@
+			#rote_3d{
+				-webkit-perspective:1800;
+				-webkit-perspective-orign:50% 50%;
+				-webkit-transform-style:-webkit-preserve-3d;	
+				
+				margin:0 auto;		
+			}
+			#rote_3d img{
+			}
+			#rote_in,#rote_in2,#rote_in3{
+				position:absolute;
+				top:50px;
+				left:100px;
+				width:200px;   /*只需要设置这儿的宽高即可调整三棱柱大小！*/
+				height:350px;
+				background:no-repeat;
+			}
+			#rote_in{
+				/*background-color:red;*/
+				z-index:5;
+				-webkit-transform:rotateY(30deg) ;
+				-webkit-transform-origin:50% 0%;
+			}
+			#rote_in2{
+				z-index:0;
+				/*background-color:green;*/
+				-webkit-transform:rotateY(150deg) ;
+				-webkit-transform-origin:50% 0%;
+			}
+			#rote_in3{
+				/*background-color:blue;*/
+				-webkit-transform:rotateY(90deg) ;
+				-webkit-transform-origin:50% 0%;
+				z-index:0;
+			}
+			#rang{
+				position:absolute;
+				left:auto;
+				top:500px;
+			}

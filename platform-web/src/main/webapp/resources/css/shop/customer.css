@@ -1,0 +1,12 @@
+		body{margin:0px;paddding:0px;background-color:RGB(238,242,251)}
+		.user_table{
+			width:800px;text-align:center;border:1px solid #dfdfdf;background-color:white;
+		}
+		.user_table>tbody>tr td{
+			border:0px;height:35px;
+
+		}
+		.user_table>tbody>tr{
+			height:35px;
+		}
+		

@@ -1,0 +1,134 @@
+	*{margin:0px;padding:0px;font-family:"Microsoft Yahei";}
+		body{text-align:text-center;font-family:"Microsoft Yahei";}
+		a:hover{color:red;text-decoration:underline;}
+		a{color:green;}
+		.filter-head{
+			position:absolute;
+			background:url(../image/bg1.jpg);
+			height:180px;width:1380px;
+			
+		}
+		
+		.filter-container{
+			width:100%;
+			margin:0 auto;
+			position:relative;top:0px;
+			z-index:0;
+		}
+		.filter-container img{
+			border:0px;
+			height:260px;
+		}
+		.filter-container img:hover{
+			border-color:RGB(252,222,190);
+		}
+		.filter-itemcc{
+			position:relative;left:0px;top:20px;width:1000px;
+		}	
+		.filter-items{
+			position:absolute;
+			background-color:RGB(243,243,243);
+			left:0px;top:0px;
+			padding:15px 0px 10px 15px;
+			font-size:12px;height:20px;width:90px;line-height:20px;
+		}
+		.filter-right{
+			position:absolute;left:106px;top:0px;background-color:#fafafa;
+			width:1000px;height:45px;line-height:20px;
+		}
+		.inner{
+			position:relative;height:45px;width:1000px;
+		
+		}
+		.inner ul{
+			list-style:none;
+			height:45px;
+			border-top:1px solid RGB(243,243,243);
+		}
+		.inner ul li{
+		float:left;
+		height:32px;
+		margin:13px 0px 0px 30px;
+		font-size:12px;
+		}
+		
+		.filter_bottom{
+			position:relative;
+			margin:0 auto;
+			background-color:blue;
+			top:345px;padding-left:20px;
+		}
+		.filter_bottom ul{
+			position:absolute;
+			list-style:none;
+			width:1300px;
+		}
+		.filter_bottom ul li{
+			position:relative;
+			padding:0px 0px 0px 20px;
+			display:inline;
+		}
+		.filter_bottom img{
+			width:220px;height:330px;
+		
+		}
+		
+		/*收藏栏*/
+			.user_cc{
+				position:relative;
+				left:0px;top:0px;width:1100px;z-index:-2;
+			}
+			.user_collection{
+				
+				width:1300px;height:200px;z-index:1;
+				
+			}
+			.user_collection>ul{
+				list-style:none;width:1300px;height:410px;
+			}
+			.user_collection>ul>li{
+				display:inline;padding-left:20px;
+			}
+			.user_collection>ul>li>div{
+				padding-left:20px;font-size:13px;position:relative;
+				height:100%;margin-left:40px;
+			}
+			.user_collection>ul>li>div>a>img{
+				height:330px;width:220px;
+			}
+			.user_collection>ul>li>div>a>img:hover{
+				filter:alpha(opacity=90);opacity:0.9;
+				
+			}
+			
+			/*商品名字，价格*/
+			.name_price{
+				position:absolute;left:19px;top:290px;text-align:left;
+				
+			}
+			.name_price a{color:black;}
+			.name_price a:hover{color:red;text-decoration:underline;
+			}
+			.name_price div{position:absolute;height:40px;top:0px;}	
+			.img_float{
+				left:0px;width:220px;height:150px;background-color:#000;
+				filter:alpha(opacity=20);opacity:0.2;
+				
+			}
+			.img_float:hover{
+				
+				filter:alpha(opacity=60);opacity:0.6;
+				
+			}
+			.img_xiai img{
+				width:25px;height:25px;border:0px;
+			}
+			.filter-cc{
+				position:relative;left:0px;top:0px;height:45px;
+			}
+			
+			.img_float{
+				top:0px;
+			}
+			
+			#flags a{color:red;}

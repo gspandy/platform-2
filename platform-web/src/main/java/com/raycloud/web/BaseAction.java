@@ -69,5 +69,30 @@ public class BaseAction implements Serializable{
         return user;
     }
 
+    /**
+     * 获取页码
+     */
+    private static final String PAGE_NO = "pageNo";
+    private static final String PAGE_SIZE = "pageSize";
+    private static final int PAGE_NO_DIGIT = 1;
+    private static final int PAGE_SIZE_DIGIT = 6;
+    public Integer adjustPageNo(){
+        String pageNo = getRequest().getParameter(PAGE_NO);
+        if(pageNo == null)
+            return PAGE_NO_DIGIT;
+        Integer pageNoDigit =  Integer.valueOf(pageNo);
+        return pageNoDigit < 1 ? PAGE_NO_DIGIT : pageNoDigit;
+
+    }
+
+    public Integer adjustPageSize(){
+        String pageSize = getRequest().getParameter(PAGE_SIZE);
+        if(pageSize == null)
+            return PAGE_SIZE_DIGIT;
+        Integer pageSizeDigit =  Integer.valueOf(pageSize);
+        return pageSizeDigit < 1 ? PAGE_SIZE_DIGIT : pageSizeDigit;
+
+    }
+
 
 }
