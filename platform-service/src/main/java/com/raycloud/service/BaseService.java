@@ -1,7 +1,7 @@
 package com.raycloud.service;
 
 import com.raycloud.dao.UserDao;
-import com.raycloud.pojo.User;
+import com.raycloud.module.pojo.User;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 

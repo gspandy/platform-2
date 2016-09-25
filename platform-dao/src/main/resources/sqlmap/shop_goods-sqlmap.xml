@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="ShopGoods">
+    <!-- 取别名 -->
+    <typeAlias alias="ShopGoodsPojo" type="com.raycloud.module.pojo.ShopGoodsPojo"/>
+
+    <sql id="fieldsAs">
+        a.id,a.goods_id as goodsId,a.category_id as categoryId,a.name,a.ori_price as oriPrice,a.current_price as currentPrice,a.sales,a.pic_url as picUrl,a.bonus_url as bonusUrl,a.goods_url as goodsUrl,a.rect_num as rectNum,a.season_id as seasonId,a.left_id as leftId,a.program_id as programId,a.created,a.modified,a.status
+    </sql>
+    <sql id="selector">
+        select
+        <dynamic>
+            <isNotEmpty property="fields">
+                $fields$
+            </isNotEmpty>
+            <isEmpty property="fields">
+               <include refid="fieldsAs"></include>
+            </isEmpty>
+        </dynamic>
+        from shop_goods a
+    </sql>
+    <sql id="where">
+        <dynamic prepend="where">
+            <isNotNull property="id" prepend="and">
+                a.id = #id#
+            </isNotNull>
+            <!-- 支持id集合来查找多个 -->
+            <isNotEmpty property="keys" prepend="and">
+                a.id in
+                <iterate open="(" close=")" conjunction="," property="keys">
+                    #keys[]#
+                </iterate>
+            </isNotEmpty>
+            <isNull property="name" prepend="and">
+                a.name like concat("%",#name#,"%")
+            </isNull>
+            <isNull property="status" prepend="and">
+                a.status = 1
+            </isNull>
+            <isNotNull property="status" prepend="and">
+                a.status = #status#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <!-- 切记，order 后面不能用##,而应该用$$ -->
+    <sql id="order">
+        <dynamic prepend="order by">
+            <isNotEmpty property="orderFields">
+                <iterate property="orderFields" conjunction="," open="" close="">
+                    $orderFields[].fieldName$ $orderFields[].order$
+                </iterate>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <sql id="limit">
+        <dynamic prepend="limit">
+            <isNotEmpty property="startRow">
+                $startRow$,$pageSize$
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+
+
+    <!-- 获取列表 -->
+    <select id="getList" parameterClass="ShopGoodsPojo"  resultClass="ShopGoodsPojo">
+        <include refid="selector"></include>
+        <include refid="where"></include>
+        <include refid="order"></include>
+        <include refid="limit"></include>
+    </select>
+
+    <select id="getCount" parameterClass="ShopGoodsPojo" resultClass="int">
+        select count(1) from shop_goods a
+        <include refid="where"></include>
+    </select>
+
+    <!-- 获取one -->
+    <select id="get" parameterClass="ShopGoodsPojo"  resultClass="ShopGoodsPojo">
+        <include refid="selector"></include>
+        <include refid="where"></include>
+        limit 1
+    </select>
+
+    <insert id="insert" parameterClass="ShopGoodsPojo">
+        insert into shop_goods
+        (
+        id,goods_id,category_id,name,ori_price,current_price,sales,pic_url,bonus_url,goods_url,rect_num,season_id,left_id,program_id,created,modified,status
+        )
+        values
+        (
+        #id#,#goodsId#,#categoryId#,#name#,#oriPrice#,#currentPrice#,#sales#,#picUrl#,#bonusUrl#,#goodsUrl#,#rectNum#,#seasonId#,#leftId#,#programId#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#status#
+        )
+        <selectKey keyProperty="id" resultClass="long">
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+</sqlMap>

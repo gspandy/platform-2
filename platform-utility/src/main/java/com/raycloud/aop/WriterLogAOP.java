@@ -1,14 +1,8 @@
 package com.raycloud.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.springframework.aop.AfterReturningAdvice;
-import org.springframework.aop.aspectj.AspectJAroundAdvice;
 import org.springframework.stereotype.Component;
-
-import java.lang.reflect.Method;
 
 /**
  * Created by linjunjie(490456661@qq.com) on 2016/4/30.

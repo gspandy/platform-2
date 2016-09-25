@@ -1,21 +1,20 @@
 package com.raycloud.service.impl;
 
-import com.raycloud.constant.ResponseResultConstant;
+import com.raycloud.module.constant.ResponseResultConstant;
 import com.raycloud.dao.*;
-import com.raycloud.exception.ServiceException;
-import com.raycloud.pojo.*;
-import com.raycloud.request.*;
-import com.raycloud.response.ViewArticleList;
-import com.raycloud.response.ViewCourseList;
-import com.raycloud.response.ViewTeacherList;
-import com.raycloud.response.ViewTrainingInformation;
-import com.raycloud.util.qiniu.QiniuUtils;
+import com.raycloud.module.exception.ServiceException;
+import com.raycloud.module.pojo.*;
+import com.raycloud.module.request.*;
+import com.raycloud.module.response.ViewArticleList;
+import com.raycloud.module.response.ViewCourseList;
+import com.raycloud.module.response.ViewTeacherList;
+import com.raycloud.module.response.ViewTrainingInformation;
+import com.raycloud.module.util.qiniu.QiniuUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -59,7 +58,7 @@ public class PublicService {
         trainingInformationResponse.setBusinessCode(user.getBusinessCode());
         trainingInformationResponse.setDesc(user.getDesc());
         trainingInformationResponse.setInsititution(user.getInstitution());
-        trainingInformationResponse.setLogoPicUrl(com.raycloud.util.qiniu.QiniuUtils.getInstance().getDownloadLink(user.getLogoPicUrl()));
+        trainingInformationResponse.setLogoPicUrl(com.raycloud.module.util.qiniu.QiniuUtils.getInstance().getDownloadLink(user.getLogoPicUrl()));
         trainingInformationResponse.setContactHotline(user.getContactHotline());
 
         return trainingInformationResponse;

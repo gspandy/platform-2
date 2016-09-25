@@ -2,7 +2,7 @@
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 <sqlMap namespace="StudentSchoolLog">
     <!-- 取别名 -->
-    <typeAlias alias="StudentSchoolLog" type="com.raycloud.pojo.StudentSchoolLog"/>
+    <typeAlias alias="StudentSchoolLog" type="com.raycloud.module.pojo.StudentSchoolLog"/>
 
     <sql id="fieldAs">
         a.id,a.user_id as userId,a.study_no as studyNo,a.course_name as courseName,a.condition,a.remark,a.created,a.modified,a.status

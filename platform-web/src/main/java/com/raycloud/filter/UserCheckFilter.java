@@ -1,18 +1,12 @@
 package com.raycloud.filter;
 
-import com.raycloud.constant.UserConstant;
-import com.raycloud.exception.ServiceException;
-import com.raycloud.pojo.User;
+import com.raycloud.module.constant.UserConstant;
+import com.raycloud.module.pojo.User;
 
 import javax.servlet.*;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Created by linjunjie(490456661@qq.com) on 2016/4/28.

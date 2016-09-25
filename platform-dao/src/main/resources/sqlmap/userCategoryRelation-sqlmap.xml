@@ -2,7 +2,7 @@
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 <sqlMap namespace="UserCategoryRelation">
     <!-- 取别名 -->
-    <typeAlias alias="UserCategoryRelation" type="com.raycloud.pojo.UserCategoryRelation"/>
+    <typeAlias alias="UserCategoryRelation" type="com.raycloud.module.pojo.UserCategoryRelation"/>
 
     <sql id="fieldsAs">
         category_id as categoryId,

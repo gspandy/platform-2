@@ -2,7 +2,7 @@
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 <sqlMap namespace="Article">
     <!-- 取别名 -->
-    <typeAlias alias="Article" type="com.raycloud.pojo.Article"/>
+    <typeAlias alias="Article" type="com.raycloud.module.pojo.Article"/>
 
     <sql id="fieldsAs">
         a.id,a.config_rule as configRule,a.username,a.title,a.content,a.head_photo_url as headPhotoUrl,a.read_num as readNum,a.author,a.category_id as categoryId,a.board_num as boardNum,a.created,a.modified,a.status

@@ -2,27 +2,19 @@ package com.raycloud.web;
 
 import com.raycloud.dao.StudentInfoDao;
 import com.raycloud.dao.StudentSchoolLogDao;
-import com.raycloud.exception.ServiceException;
-import com.raycloud.pojo.StudentInfo;
-import com.raycloud.pojo.User;
-import com.raycloud.request.Request;
-import com.raycloud.request.StudentListGetRequest;
-import com.raycloud.response.Response;
-import com.raycloud.response.ViewStudentList;
-import com.raycloud.util.DateUtil;
+import com.raycloud.module.exception.ServiceException;
+import com.raycloud.module.pojo.StudentInfo;
+import com.raycloud.module.pojo.User;
+import com.raycloud.module.request.Request;
+import com.raycloud.module.request.StudentListGetRequest;
+import com.raycloud.module.response.Response;
+import com.raycloud.module.response.ViewStudentList;
+import com.raycloud.module.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

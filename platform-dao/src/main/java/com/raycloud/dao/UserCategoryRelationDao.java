@@ -1,7 +1,7 @@
 package com.raycloud.dao;
 
 import com.raycloud.dao.common.BaseDao;
-import com.raycloud.pojo.UserCategoryRelation;
+import com.raycloud.module.pojo.UserCategoryRelation;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

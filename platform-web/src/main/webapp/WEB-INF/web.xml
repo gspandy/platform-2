@@ -25,7 +25,7 @@
         <param-value>3000</param-value>
     </context-param>
     <listener>
-        <listener-class>com.raycloud.listener.InitServletContext</listener-class>
+        <listener-class>com.raycloud.module.listener.InitServletContext</listener-class>
     </listener>
     <listener>
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>

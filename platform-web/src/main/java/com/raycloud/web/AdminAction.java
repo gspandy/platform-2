@@ -1,17 +1,17 @@
 package com.raycloud.web;
 
 import com.raycloud.dao.UserDao;
-import com.raycloud.exception.ServiceException;
-import com.raycloud.pojo.User;
-import com.raycloud.request.InstitutionListGetRequest;
-import com.raycloud.request.Request;
-import com.raycloud.request.UserRegisterRequest;
-import com.raycloud.response.Response;
-import com.raycloud.response.ViewUserList;
-import com.raycloud.response.ViewUserLoginInfo;
+import com.raycloud.module.exception.ServiceException;
+import com.raycloud.module.pojo.User;
+import com.raycloud.module.request.InstitutionListGetRequest;
+import com.raycloud.module.request.Request;
+import com.raycloud.module.request.UserRegisterRequest;
+import com.raycloud.module.response.Response;
+import com.raycloud.module.response.ViewUserList;
+import com.raycloud.module.response.ViewUserLoginInfo;
 import com.raycloud.service.impl.PublicService;
 import com.raycloud.service.impl.UserService;
-import com.raycloud.util.MD5Utils;
+import com.raycloud.module.util.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

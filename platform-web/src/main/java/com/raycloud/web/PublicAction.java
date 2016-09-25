@@ -1,19 +1,14 @@
 package com.raycloud.web;
 
-import com.raycloud.exception.ServiceException;
-import com.raycloud.pojo.User;
-import com.raycloud.request.*;
-import com.raycloud.response.*;
+import com.raycloud.module.exception.ServiceException;
+import com.raycloud.module.request.*;
+import com.raycloud.module.response.*;
+import com.raycloud.module.util.StringUtil;
 import com.raycloud.service.impl.PublicService;
-import com.raycloud.util.StringUtil;
-import org.apache.http.auth.AUTH;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
 
 /**
  * Created by on 2016/5/10.

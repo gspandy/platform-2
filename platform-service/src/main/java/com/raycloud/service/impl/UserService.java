@@ -1,21 +1,18 @@
 package com.raycloud.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
-import com.raycloud.constant.ResponseResultConstant;
-import com.raycloud.constant.UserConstant;
+import com.raycloud.module.constant.ResponseResultConstant;
+import com.raycloud.module.constant.UserConstant;
 import com.raycloud.dao.UserDao;
-import com.raycloud.exception.InvalidSessionException;
-import com.raycloud.exception.ServiceException;
-import com.raycloud.pojo.User;
-import com.raycloud.request.InstitutionListGetRequest;
-import com.raycloud.request.UserLoginRequest;
-import com.raycloud.request.UserRegisterRequest;
-import com.raycloud.response.ViewStudentSchoolLogList;
-import com.raycloud.response.ViewUserList;
-import com.raycloud.response.ViewUserLoginInfo;
-import com.raycloud.session.Session;
-import com.raycloud.util.DataBaseUtil;
-import com.raycloud.util.MD5Utils;
+import com.raycloud.module.exception.InvalidSessionException;
+import com.raycloud.module.exception.ServiceException;
+import com.raycloud.module.pojo.User;
+import com.raycloud.module.request.InstitutionListGetRequest;
+import com.raycloud.module.request.UserLoginRequest;
+import com.raycloud.module.request.UserRegisterRequest;
+import com.raycloud.module.response.ViewUserList;
+import com.raycloud.module.response.ViewUserLoginInfo;
+import com.raycloud.module.session.Session;
+import com.raycloud.module.util.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -24,10 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by linjunjie on 2016/1/25 (linjunjie@raycloud.com).
@@ -44,7 +39,7 @@ public class UserService {
     /**
      * 添加用户
      *
-     * @throws com.raycloud.exception.ServiceException
+     * @throws com.raycloud.module.exception.ServiceException
      */
     public void addUser(User user) throws ServiceException {
         //userDao.addUser(user);

@@ -1,15 +1,5 @@
 package com.raycloud.web.test;
 
-import com.alibaba.fastjson.JSONObject;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * Created by linjunjie(490456661@qq.com) on 2016/3/24.
  */

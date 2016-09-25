@@ -1,9 +1,4 @@
 import com.mysql.jdbc.Connection;
-import com.raycloud.dao.UserDao;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import java.sql.*;
 

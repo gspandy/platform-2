@@ -2,27 +2,23 @@ package com.raycloud.web;
 
 
 
-import com.raycloud.constant.UserConstant;
-import com.raycloud.exception.InvalidSessionException;
-import com.raycloud.exception.ServiceException;
-import com.raycloud.pojo.User;
-import com.raycloud.request.Request;
-import com.raycloud.request.UserLoginRequest;
-import com.raycloud.request.UserRegisterRequest;
-import com.raycloud.response.Response;
+import com.raycloud.module.constant.UserConstant;
+import com.raycloud.module.exception.InvalidSessionException;
+import com.raycloud.module.pojo.User;
+import com.raycloud.module.request.Request;
+import com.raycloud.module.request.UserLoginRequest;
+import com.raycloud.module.request.UserRegisterRequest;
+import com.raycloud.module.response.Response;
 
-import com.raycloud.response.ViewUserLoginInfo;
+import com.raycloud.module.response.ViewUserLoginInfo;
 import com.raycloud.service.impl.UserService;
-import com.raycloud.util.BooleanStatusResponse;
-import com.raycloud.util.StringUtil;
-import org.apache.log4j.Logger;
+import com.raycloud.module.util.BooleanStatusResponse;
+import com.raycloud.module.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by linjunjie on 2016/1/25 (linjunjie@raycloud.com).

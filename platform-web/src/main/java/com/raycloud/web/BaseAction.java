@@ -1,12 +1,11 @@
 package com.raycloud.web;
 
-import com.raycloud.constant.ResponseResultConstant;
-import com.raycloud.constant.UserConstant;
-import com.raycloud.exception.InvalidSessionException;
+import com.raycloud.module.constant.ResponseResultConstant;
+import com.raycloud.module.constant.UserConstant;
+import com.raycloud.module.exception.InvalidSessionException;
 import com.raycloud.interceptor.ExceptionHandle;
-import com.raycloud.pojo.User;
-import com.raycloud.request.Request;
-import com.raycloud.session.Session;
+import com.raycloud.module.pojo.User;
+import com.raycloud.module.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -57,7 +56,7 @@ public class BaseAction implements Serializable{
     /**
      *  从session中取出存在里面的用户对象
      * @return
-     * @throws com.raycloud.exception.InvalidSessionException
+     * @throws com.raycloud.module.exception.InvalidSessionException
      */
     public User getUser()throws InvalidSessionException {
         User user = (User)session.getAttribute(getRequest(), UserConstant.USER_INFO_KEY);

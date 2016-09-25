@@ -1,29 +1,18 @@
 package com.raycloud.web;
 
 
-import com.raycloud.constant.UserConstant;
 import com.raycloud.dao.StudentInfoDao;
 import com.raycloud.dao.StudentSchoolLogDao;
-import com.raycloud.exception.InvalidSessionException;
-import com.raycloud.exception.ServiceException;
-import com.raycloud.pojo.StudentInfo;
-import com.raycloud.pojo.StudentSchoolLog;
-import com.raycloud.pojo.User;
-import com.raycloud.request.Request;
-import com.raycloud.request.StudentSchoolLogListGetRequest;
-import com.raycloud.request.UserLoginRequest;
-import com.raycloud.request.UserRegisterRequest;
-import com.raycloud.response.Response;
-import com.raycloud.response.ViewStudentSchoolLogList;
-import com.raycloud.response.ViewUserLoginInfo;
-import com.raycloud.service.impl.UserService;
-import com.raycloud.util.BooleanStatusResponse;
-import com.raycloud.util.StringUtil;
+import com.raycloud.module.exception.ServiceException;
+import com.raycloud.module.pojo.StudentInfo;
+import com.raycloud.module.pojo.StudentSchoolLog;
+import com.raycloud.module.request.StudentSchoolLogListGetRequest;
+import com.raycloud.module.response.Response;
+import com.raycloud.module.response.ViewStudentSchoolLogList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 

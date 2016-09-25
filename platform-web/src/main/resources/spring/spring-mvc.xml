@@ -50,7 +50,7 @@
     <!-- HandlerMapping, 无需配置， Spring MVC可以默认启动。 DefaultAnnotationHandlerMapping
          annotation-driven HandlerMapping -->
 
-    <context:component-scan base-package="com.raycloud"></context:component-scan>
+    <context:component-scan base-package="com.raycloud.*"></context:component-scan>
 
     <!-- 扩充了注解驱动，可以将请求参数绑定到控制器参数 -->
     <mvc:annotation-driven>
@@ -65,11 +65,7 @@
     </mvc:annotation-driven>
 
     <!-- 静态资源处理， css， js， img -->
-    <mvc:resources mapping="/img/**" location="/resources/img/**" />
-    <mvc:resources mapping="/js/**" location="/resources/js/**" />
-    <mvc:resources mapping="/css/**" location="/resources/css/**" />
-    <mvc:resources mapping="/fonts/**" location="/resources/fonts/**" />
-
+    <mvc:resources mapping="/**" location="/resources/" />
 
 
     <!-- 这里是配置json -->

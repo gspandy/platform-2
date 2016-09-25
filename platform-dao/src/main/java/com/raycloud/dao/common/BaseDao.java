@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.ibatis.SqlMapClientCallback;
 import org.springframework.orm.ibatis.SqlMapClientTemplate;
-import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;

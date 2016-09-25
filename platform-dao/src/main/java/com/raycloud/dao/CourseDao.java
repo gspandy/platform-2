@@ -1,8 +1,7 @@
 package com.raycloud.dao;
 
 import com.raycloud.dao.common.BaseDao;
-import com.raycloud.pojo.Course;
-import com.raycloud.pojo.TeacherInfo;
+import com.raycloud.module.pojo.Course;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

@@ -2,7 +2,7 @@
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 <sqlMap namespace="User">
     <!-- 取别名 -->
-    <typeAlias alias="User" type="com.raycloud.pojo.User"/>
+    <typeAlias alias="User" type="com.raycloud.module.pojo.User"/>
 
     <sql id="fieldAs">
         a.id,a.username,a.password,a.pre_no as preNo,a.config_rule as configRule,a.owner,a.phone,a.institution,a.desc,a.business_code as businessCode,a.address_detail as addressDetail,a.address_code as addressCode,a.logo_pic_url as logoPicUrl,a.invitation_code as invitationCode,a.contact_hotline as contactHotline,a.authenticate,a.created,a.modified,a.status
