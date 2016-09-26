@@ -38,14 +38,15 @@
     <div class = "wrap">
         <div class = "nav_1">
             <ul>
-                <li><a href = "#" class = "on">首页</a></li>
-                <li><a href = "#">服饰</a></li>
+                <li><a href = "${pageContext.request.contextPath}/index.html" class = "on">天猫购物</a></li>
+                <li><a href = "${pageContext.request.contextPath}/index.html" >淘宝购物</a></li>
+                <%--<li><a href = "#">服饰</a></li>
                 <li><a href = "#">搭配</a></li>
                 <li><a href = "#">达人</a></li>
                 <li><a href = "#">美装</a></li>
                 <li><a href = "#">团购</a></li>
                 <li><a href = "#">新款</a></li>
-                <li><a href = "#">名店</a></li>
+                <li><a href = "#">名店</a></li>--%>
                 <div style="clear:both;"></div>
             </ul>
         </div>

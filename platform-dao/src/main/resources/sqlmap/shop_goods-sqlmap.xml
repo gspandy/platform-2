@@ -31,6 +31,12 @@
                     #keys[]#
                 </iterate>
             </isNotEmpty>
+            <isNotEmpty property="parentIds" prepend="and">
+                a.category_id in
+                <iterate open="(" close=")" conjunction="," property="parentIds">
+                    #parentIds[]#
+                </iterate>
+            </isNotEmpty>
             <isNotNull property="name" prepend="and">
                 a.name like concat("%",#name#,"%")
             </isNotNull>

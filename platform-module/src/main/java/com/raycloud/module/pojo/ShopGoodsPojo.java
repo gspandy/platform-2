@@ -4,6 +4,7 @@ import com.raycloud.module.pojo.common.BasePojo;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by linjunjie(490456661@qq.com) on 2016/9/22.
@@ -27,6 +28,16 @@ public class ShopGoodsPojo extends BasePojo {
     private Date created;
     private Date modified;
     private Integer status;
+
+    private List<Long> parentIds;
+
+    public List<Long> getParentIds() {
+        return parentIds;
+    }
+
+    public void setParentIds(List<Long> parentIds) {
+        this.parentIds = parentIds;
+    }
 
     public Integer getSales() {
         return sales;

@@ -127,7 +127,15 @@
                     <!-- 左侧导航 -->
                     <div class="nav_left_container">
                         <ul>
+                            <c:forEach items="${left}" var="i">
                             <li>
+                                <h3>${i.name}</h3>
+                                <c:forEach items="${i.subList}" var="j">
+                                <a href="#${j.id}">${j.name}</a>
+                                </c:forEach>
+                            </li>
+                            </c:forEach>
+                           <%-- <li>
                                 <h3>衣服</h3>
                                 <a href="#">秋の新品</a>
                                 <a href="#">针织衫</a>
@@ -173,7 +181,7 @@
                                 <a href="#">轻逸雪纺</a>
                                 <a href="#">T恤搭配</a>
                                 <a href="#">潮范休闲裤</a>
-                            </li>
+                            </li>--%>
                         </ul>
                     </div>
                     <!-- // -->
@@ -228,31 +236,6 @@
             </div>
 	    </center>
 	</div><!-- //中心超大屏幕!-->
-
-		<!-- banner关注点 -->
-		<div id="bcg_container" style="position:fixed;z-index:100;top:0px;width:100%;">
-			<div id="bcg1" class="bcg"></div>
-			
-		<div id="he_container" class="he_container">
-			<span id="close_bcg" class="close_bcg">关闭</span>
-			<div id="focPic0" class="he" style="background:url('images/k0.jpg')"><ul><li>天生关爱男友!</li><li>质量超好</li><li>现在就开始抢购!满减不停歇。<br>哈哈哈哈哈哈哈哈哈哈</li><li>你值得拥有 6.18</li></ul>
-				<div class="bot"></div><!--下面的字幕背景色-->
-			</div>
-			<div id="focPic1" class="he" style="background:url('images/k1.jpg')"><ul><li>天生关爱男友!</li><li>质量超好</li><li>现在就开始抢购!满减不停歇。<br>哈哈哈哈哈哈哈哈哈哈</li><li>你值得拥有 6.18</li></ul>
-				<div class="bot"></div><!--下面的字幕背景色-->
-			</div>
-			<div id="focPic2" class="he" style="background:url('images/k2.jpg')"><ul><li>天生关爱男友!</li><li>质量超好</li><li>现在就开始抢购!满减不停歇。<br>哈哈哈哈哈哈哈哈哈哈</li><li>你值得拥有 6.18</li></ul>
-				<div class="bot"></div><!--下面的字幕背景色-->
-			</div>
-			<div id="focPic3" class="he" style="background:url('images/k3.jpg')"><ul><li>天生关爱男友!</li><li>质量超好</li><li>现在就开始抢购!满减不停歇。<br>哈哈哈哈哈哈哈哈哈哈</li><li>你值得拥有 6.18</li></ul>
-				<div class="bot"></div><!--下面的字幕背景色-->
-			</div>
-			<div id="focPic4" class="he" style="background:url('images/k4.jpg')"><ul><li>天生关爱男友!</li><li>质量超好</li><li>现在就开始抢购!满减不停歇。<br>哈哈哈哈哈哈哈哈哈哈</li><li>你值得拥有 6.18</li></ul>
-				<div class="bot"></div><!--下面的字幕背景色-->
-			</div>
-		</div>
-		
-	</div>
 	
 </div><!-- ljj_container -->
 
@@ -271,314 +254,170 @@
 			</ul>
 			<div style="clear:both"></div>
 		</div>
-		
-		<!-- 买手推荐系列 -->
+
+        <style>
+            .mytj:after{
+                content:".";
+                display:block;
+                height:0;
+                clear:both;
+                visibility:hidden;
+            }
+
+            .search-box-result{
+                position:relative;
+
+            }
+            .search-box-result:after{
+                content:".";
+                display:block;
+                height:0;
+                clear:both;
+                visibility:hidden;
+            }
+
+            .search-box-result a,.search-box-result a:link {
+                color:#8a7777;
+            }
+            .search-box-result a:hover{
+                color:#f50;
+            }
+            .search-box-result .block-search-box{
+                float:left;cursor:pointer;
+                border:1px solid #E8E8E8;
+                width: 220px;
+                height: 382px;
+                margin-top:20px;margin-left:37px;
+            }
+            .search-box-result .block-search-box:hover{
+                border:1px solid #999;
+                box-shadow: 0 2px 4px 0 rgba(32,32,64,.16);
+            }
+            .search-box-result .block-search-box .shop-pic{
+
+            }
+            .search-box-result .block-search-box .shop-pic img{
+                margin:0 auto;
+                width:218px;height:218px;border: 1px solid white;
+            }
+            .search-box-result .block-search-box .shop-info{
+                width:210px;border:solid 1px white;
+            }
+            .search-box-result .block-search-box .shop-info .content-line{
+                padding: 0px 8px;
+                line-height: 35px;
+                width: 200px;font-size:13px;
+                white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+            }
+
+            .integer{
+                font-size:16px;
+            }
+            .fr{
+                float:right;
+            }
+            .fl{
+                float:left;
+            }
+            .fw{
+                font-weight:600;
+            }
+            /*促销*/
+            .cx{
+                font-size:36px;
+            }
+            .jh{
+                color:#f50;
+            }
+            .hs{
+                color:#8a7777;
+            }
+            .bt-yhq{
+                cursor: pointer;
+                display: inline-block;
+                width: 100px;
+                height: 35px;
+                text-align: center;
+                line-height: 35px;
+            }
+            .fh{
+                background-color:rgb(255,228,208);color:#f50;
+            }
+            .tmbuy{
+                background-color:#f36;color:rgb(254,254,254);
+            }
+        </style>
+		<c:forEach items="${program}" var="i">
+        <%-- 买手推荐系列 --%>
 		<div class="mytj">
-			<!--推荐头部  -->
+			<%--推荐头部  --%>
 			<div class="mytj_top">
-				<h3>旺季直销</h3>
+				<h3>${i.name}</h3>
+
+
+
 				<div class="top_link">
-					<a href="#">秋季热卖</a>
-					<a href="#">秋季热卖</a>
-					<a href="#">秋季热卖</a>
-					<a href="#">秋季热卖</a>
-					<a href="#">秋季热卖</a>
-					<a href="#">秋季热卖</a>
-					<a href="#">More</a>
+                    <c:forEach items="${i.subList}" var="j">
+					<a href="#${j.id}">${j.name}</a>
+                    </c:forEach>
 				</div>
 				<div style="clear:both"></div>
 			</div>
             <div style="clear:both"></div>
-            <!--推荐头部end -->
-			<!-- 推荐内容 -->
-            <style>
-                .mytj:after{
-                    content:".";
-                    display:block;
-                    height:0;
-                    clear:both;
-                    visibility:hidden;
-                }
-
-                .search-box-result{
-                    position:relative;
-
-                }
-                .search-box-result:after{
-                    content:".";
-                    display:block;
-                    height:0;
-                    clear:both;
-                    visibility:hidden;
-                }
-
-                .search-box-result a,.search-box-result a:link {
-                    color:#8a7777;
-                }
-                .search-box-result a:hover{
-                    color:#f50;
-                }
-                .search-box-result .block-search-box{
-                    float:left;cursor:pointer;
-                    border:1px solid #E8E8E8;
-                    width: 220px;
-                    height: 382px;
-                    margin-top:20px;margin-left:37px;
-                }
-                .search-box-result .block-search-box:hover{
-                    border:1px solid #999;
-                    box-shadow: 0 2px 4px 0 rgba(32,32,64,.16);
-                }
-                .search-box-result .block-search-box .shop-pic{
-
-                }
-                .search-box-result .block-search-box .shop-pic img{
-                    margin:0 auto;
-                    width:218px;height:218px;border: 1px solid white;
-                }
-                .search-box-result .block-search-box .shop-info{
-                    width:210px;border:solid 1px white;
-                }
-                .search-box-result .block-search-box .shop-info .content-line{
-                    padding: 0px 8px;
-                    line-height: 35px;
-                    width: 200px;font-size:13px;
-                    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-                }
-
-                .integer{
-                    font-size:16px;
-                }
-                .fr{
-                    float:right;
-                }
-                .fl{
-                    float:left;
-                }
-                .fw{
-                    font-weight:600;
-                }
-                /*促销*/
-                .cx{
-                    font-size:36px;
-                }
-                .jh{
-                    color:#f50;
-                }
-                .hs{
-                    color:#8a7777;
-                }
-                .bt-yhq{
-                    cursor: pointer;
-                    display: inline-block;
-                    width: 100px;
-                    height: 35px;
-                    text-align: center;
-                    line-height: 35px;
-                }
-                .fh{
-                    background-color:rgb(255,228,208);color:#f50;
-                }
-                .tmbuy{
-                    background-color:#f36;color:rgb(254,254,254);
-                }
-            </style>
-            <!-- 推荐内容 -->
+            <%--推荐头部end --%>
+                <%-- 推荐内容 --%>
                 <div class="search-box-result">
-                    <!-- item begin -->
+                    <c:forEach items="${i.goodList}" var="j">
+                    <%-- item begin --%>
                     <div class="block-search-box">
-                        <div class="shop-pic"><img src="http://img04.taobaocdn.com/bao/uploaded/i4/TB1u3I6LXXXXXb5aXXXXXXXXXXX_!!0-item_pic.jpg_220x220_.webp"></div>
+                        <a href="${j.goodsUrl}" target="_blank">
+                        <div class="shop-pic"><img src="${j.picUrl}"></div>
+                        </a>
                         <div class="shop-info">
                             <div class="content-line">
-                                <a href="javascript:void(0)">春夏新品圆领T恤修身短袖上衣百搭打底衫390002</a>
+                                <a href="${j.goodsUrl}" target="_blank">${j.name}</a>
                             </div>
                             <div class="content-line">
                                 <div class="fl">
                                     <span class="yuan">￥</span>
-                                    <span class="integer fw">199</span>
+                                    <span class="integer fw">${fn:split(j.oriPrice,".")[0]}</span>
                                     <span class="pointer">.</span>
-                                    <span class="decimal">00</span>
+                                    <span class="decimal">${fn:split(j.oriPrice,".")[1]}</span>
                                 </div>
                                 <div class="fr hs">
-                                    月销:123
+                                    月销:${j.sales}
                                 </div>
                             </div>
                             <div class="content-line">
                                 <div class="fl">
                                     <span class="hs">优惠后</span>
                                     <span class="yuan jh">￥</span>
-                                    <span class="integer fw cx jh">66</span>
+                                    <span class="integer fw cx jh">${fn:split(j.currentPrice,".")[0]}</span>
                                     <span class="pointer jh">.</span>
-                                    <span class="decimal jh">00</span>
+                                    <span class="decimal jh">${fn:split(j.currentPrice,".")[1]}</span>
                                 </div>
                             </div>
                             <div class="content-line">
+                                <a href="${j.goodsUrl}" target="_blank">
                                 <div class="bt-yhq fh">
                                     领取优惠券
                                 </div>
+                                </a>
+                                <a href="${j.goodsUrl}" target="_blank">
                                 <div class="bt-yhq tmbuy">
                                     去天猫购买
                                 </div>
+                                </a>
                             </div>
                         </div>
-                    </div><!-- //item-end -->
-                    <!-- item begin -->
-                    <div class="block-search-box">
-                        <div class="shop-pic"><img src="http://img04.taobaocdn.com/bao/uploaded/i4/TB1u3I6LXXXXXb5aXXXXXXXXXXX_!!0-item_pic.jpg_220x220_.webp"></div>
-                        <div class="shop-info">
-                            <div class="content-line">
-                                <a href="javascript:void(0)">春夏新品圆领T恤修身短袖上衣百搭打底衫390002</a>
-                            </div>
-                            <div class="content-line">
-                                <div class="fl">
-                                    <span class="yuan">￥</span>
-                                    <span class="integer fw">199</span>
-                                    <span class="pointer">.</span>
-                                    <span class="decimal">00</span>
-                                </div>
-                                <div class="fr hs">
-                                    月销:123
-                                </div>
-                            </div>
-                            <div class="content-line">
-                                <div class="fl">
-                                    <span class="hs">优惠后</span>
-                                    <span class="yuan jh">￥</span>
-                                    <span class="integer fw cx jh">66</span>
-                                    <span class="pointer jh">.</span>
-                                    <span class="decimal jh">00</span>
-                                </div>
-                            </div>
-                            <div class="content-line">
-                                <div class="bt-yhq fh">
-                                    领取优惠券
-                                </div>
-                                <div class="bt-yhq tmbuy">
-                                    去天猫购买
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- //item-end -->
-                    <!-- item begin -->
-                    <div class="block-search-box">
-                        <div class="shop-pic"><img src="http://img04.taobaocdn.com/bao/uploaded/i4/TB1u3I6LXXXXXb5aXXXXXXXXXXX_!!0-item_pic.jpg_220x220_.webp"></div>
-                        <div class="shop-info">
-                            <div class="content-line">
-                                <a href="javascript:void(0)">春夏新品圆领T恤修身短袖上衣百搭打底衫390002</a>
-                            </div>
-                            <div class="content-line">
-                                <div class="fl">
-                                    <span class="yuan">￥</span>
-                                    <span class="integer fw">199</span>
-                                    <span class="pointer">.</span>
-                                    <span class="decimal">00</span>
-                                </div>
-                                <div class="fr hs">
-                                    月销:123
-                                </div>
-                            </div>
-                            <div class="content-line">
-                                <div class="fl">
-                                    <span class="hs">优惠后</span>
-                                    <span class="yuan jh">￥</span>
-                                    <span class="integer fw cx jh">66</span>
-                                    <span class="pointer jh">.</span>
-                                    <span class="decimal jh">00</span>
-                                </div>
-                            </div>
-                            <div class="content-line">
-                                <div class="bt-yhq fh">
-                                    领取优惠券
-                                </div>
-                                <div class="bt-yhq tmbuy">
-                                    去天猫购买
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- //item-end -->
-
-                    <!-- item begin -->
-                    <div class="block-search-box">
-                        <div class="shop-pic"><img src="http://img04.taobaocdn.com/bao/uploaded/i4/TB1u3I6LXXXXXb5aXXXXXXXXXXX_!!0-item_pic.jpg_220x220_.webp"></div>
-                        <div class="shop-info">
-                            <div class="content-line">
-                                <a href="javascript:void(0)">春夏新品圆领T恤修身短袖上衣百搭打底衫390002</a>
-                            </div>
-                            <div class="content-line">
-                                <div class="fl">
-                                    <span class="yuan">￥</span>
-                                    <span class="integer fw">199</span>
-                                    <span class="pointer">.</span>
-                                    <span class="decimal">00</span>
-                                </div>
-                                <div class="fr hs">
-                                    月销:123
-                                </div>
-                            </div>
-                            <div class="content-line">
-                                <div class="fl">
-                                    <span class="hs">优惠后</span>
-                                    <span class="yuan jh">￥</span>
-                                    <span class="integer fw cx jh">66</span>
-                                    <span class="pointer jh">.</span>
-                                    <span class="decimal jh">00</span>
-                                </div>
-                            </div>
-                            <div class="content-line">
-                                <div class="bt-yhq fh">
-                                    领取优惠券
-                                </div>
-                                <div class="bt-yhq tmbuy">
-                                    去天猫购买
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- //item-end -->
-
-                    <!-- item begin -->
-                    <div class="block-search-box">
-                        <div class="shop-pic"><img src="http://img04.taobaocdn.com/bao/uploaded/i4/TB1u3I6LXXXXXb5aXXXXXXXXXXX_!!0-item_pic.jpg_220x220_.webp"></div>
-                        <div class="shop-info">
-                            <div class="content-line">
-                                <a href="javascript:void(0)">春夏新品圆领T恤修身短袖上衣百搭打底衫390002</a>
-                            </div>
-                            <div class="content-line">
-                                <div class="fl">
-                                    <span class="yuan">￥</span>
-                                    <span class="integer fw">199</span>
-                                    <span class="pointer">.</span>
-                                    <span class="decimal">00</span>
-                                </div>
-                                <div class="fr hs">
-                                    月销:123
-                                </div>
-                            </div>
-                            <div class="content-line">
-                                <div class="fl">
-                                    <span class="hs">优惠后</span>
-                                    <span class="yuan jh">￥</span>
-                                    <span class="integer fw cx jh">66</span>
-                                    <span class="pointer jh">.</span>
-                                    <span class="decimal jh">00</span>
-                                </div>
-                            </div>
-                            <div class="content-line">
-                                <div class="bt-yhq fh">
-                                    领取优惠券
-                                </div>
-                                <div class="bt-yhq tmbuy">
-                                    去天猫购买
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- //item-end -->
-
-
+                    </div>
+                    <%-- item end --%>
+                    </c:forEach>
                 </div>
-			<!-- 推荐内容end -->
+			    <%-- 推荐内容end --%>
 		</div>
-		
-		<div class="mytj">
+        </c:forEach>
+		<%--<div class="mytj">
 			<!--推荐头部  -->
 			<div class="mytj_top">
 				<h3>买手销量版</h3>
@@ -634,236 +473,11 @@
                         </div>
                     </div>
                 </div><!-- //item-end -->
-                <!-- item begin -->
-                <div class="block-search-box">
-                    <div class="shop-pic"><img src="http://img04.taobaocdn.com/bao/uploaded/i4/TB1u3I6LXXXXXb5aXXXXXXXXXXX_!!0-item_pic.jpg_220x220_.webp"></div>
-                    <div class="shop-info">
-                        <div class="content-line">
-                            <a href="javascript:void(0)">春夏新品圆领T恤修身短袖上衣百搭打底衫390002</a>
-                        </div>
-                        <div class="content-line">
-                            <div class="fl">
-                                <span class="yuan">￥</span>
-                                <span class="integer fw">199</span>
-                                <span class="pointer">.</span>
-                                <span class="decimal">00</span>
-                            </div>
-                            <div class="fr hs">
-                                月销:123
-                            </div>
-                        </div>
-                        <div class="content-line">
-                            <div class="fl">
-                                <span class="hs">优惠后</span>
-                                <span class="yuan jh">￥</span>
-                                <span class="integer fw cx jh">66</span>
-                                <span class="pointer jh">.</span>
-                                <span class="decimal jh">00</span>
-                            </div>
-                        </div>
-                        <div class="content-line">
-                            <div class="bt-yhq fh">
-                                领取优惠券
-                            </div>
-                            <div class="bt-yhq tmbuy">
-                                去天猫购买
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- //item-end -->
-                <!-- item begin -->
-                <div class="block-search-box">
-                    <div class="shop-pic"><img src="http://img04.taobaocdn.com/bao/uploaded/i4/TB1u3I6LXXXXXb5aXXXXXXXXXXX_!!0-item_pic.jpg_220x220_.webp"></div>
-                    <div class="shop-info">
-                        <div class="content-line">
-                            <a href="javascript:void(0)">春夏新品圆领T恤修身短袖上衣百搭打底衫390002</a>
-                        </div>
-                        <div class="content-line">
-                            <div class="fl">
-                                <span class="yuan">￥</span>
-                                <span class="integer fw">199</span>
-                                <span class="pointer">.</span>
-                                <span class="decimal">00</span>
-                            </div>
-                            <div class="fr hs">
-                                月销:123
-                            </div>
-                        </div>
-                        <div class="content-line">
-                            <div class="fl">
-                                <span class="hs">优惠后</span>
-                                <span class="yuan jh">￥</span>
-                                <span class="integer fw cx jh">66</span>
-                                <span class="pointer jh">.</span>
-                                <span class="decimal jh">00</span>
-                            </div>
-                        </div>
-                        <div class="content-line">
-                            <div class="bt-yhq fh">
-                                领取优惠券
-                            </div>
-                            <div class="bt-yhq tmbuy">
-                                去天猫购买
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- //item-end -->
 
-                <!-- item begin -->
-                <div class="block-search-box">
-                    <div class="shop-pic"><img src="http://img04.taobaocdn.com/bao/uploaded/i4/TB1u3I6LXXXXXb5aXXXXXXXXXXX_!!0-item_pic.jpg_220x220_.webp"></div>
-                    <div class="shop-info">
-                        <div class="content-line">
-                            <a href="javascript:void(0)">春夏新品圆领T恤修身短袖上衣百搭打底衫390002</a>
-                        </div>
-                        <div class="content-line">
-                            <div class="fl">
-                                <span class="yuan">￥</span>
-                                <span class="integer fw">199</span>
-                                <span class="pointer">.</span>
-                                <span class="decimal">00</span>
-                            </div>
-                            <div class="fr hs">
-                                月销:123
-                            </div>
-                        </div>
-                        <div class="content-line">
-                            <div class="fl">
-                                <span class="hs">优惠后</span>
-                                <span class="yuan jh">￥</span>
-                                <span class="integer fw cx jh">66</span>
-                                <span class="pointer jh">.</span>
-                                <span class="decimal jh">00</span>
-                            </div>
-                        </div>
-                        <div class="content-line">
-                            <div class="bt-yhq fh">
-                                领取优惠券
-                            </div>
-                            <div class="bt-yhq tmbuy">
-                                去天猫购买
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- //item-end -->
-
-                <!-- item begin -->
-                <div class="block-search-box">
-                    <div class="shop-pic"><img src="http://img04.taobaocdn.com/bao/uploaded/i4/TB1u3I6LXXXXXb5aXXXXXXXXXXX_!!0-item_pic.jpg_220x220_.webp"></div>
-                    <div class="shop-info">
-                        <div class="content-line">
-                            <a href="javascript:void(0)">春夏新品圆领T恤修身短袖上衣百搭打底衫390002</a>
-                        </div>
-                        <div class="content-line">
-                            <div class="fl">
-                                <span class="yuan">￥</span>
-                                <span class="integer fw">199</span>
-                                <span class="pointer">.</span>
-                                <span class="decimal">00</span>
-                            </div>
-                            <div class="fr hs">
-                                月销:123
-                            </div>
-                        </div>
-                        <div class="content-line">
-                            <div class="fl">
-                                <span class="hs">优惠后</span>
-                                <span class="yuan jh">￥</span>
-                                <span class="integer fw cx jh">66</span>
-                                <span class="pointer jh">.</span>
-                                <span class="decimal jh">00</span>
-                            </div>
-                        </div>
-                        <div class="content-line">
-                            <div class="bt-yhq fh">
-                                领取优惠券
-                            </div>
-                            <div class="bt-yhq tmbuy">
-                                去天猫购买
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- //item-end -->
-
-                <!-- item begin -->
-                <div class="block-search-box">
-                    <div class="shop-pic"><img src="http://img04.taobaocdn.com/bao/uploaded/i4/TB1u3I6LXXXXXb5aXXXXXXXXXXX_!!0-item_pic.jpg_220x220_.webp"></div>
-                    <div class="shop-info">
-                        <div class="content-line">
-                            <a href="javascript:void(0)">春夏新品圆领T恤修身短袖上衣百搭打底衫390002</a>
-                        </div>
-                        <div class="content-line">
-                            <div class="fl">
-                                <span class="yuan">￥</span>
-                                <span class="integer fw">199</span>
-                                <span class="pointer">.</span>
-                                <span class="decimal">00</span>
-                            </div>
-                            <div class="fr hs">
-                                月销:123
-                            </div>
-                        </div>
-                        <div class="content-line">
-                            <div class="fl">
-                                <span class="hs">优惠后</span>
-                                <span class="yuan jh">￥</span>
-                                <span class="integer fw cx jh">66</span>
-                                <span class="pointer jh">.</span>
-                                <span class="decimal jh">00</span>
-                            </div>
-                        </div>
-                        <div class="content-line">
-                            <div class="bt-yhq fh">
-                                领取优惠券
-                            </div>
-                            <div class="bt-yhq tmbuy">
-                                去天猫购买
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- //item-end -->
-
-                <!-- item begin -->
-                <div class="block-search-box">
-                    <div class="shop-pic"><img src="http://img04.taobaocdn.com/bao/uploaded/i4/TB1u3I6LXXXXXb5aXXXXXXXXXXX_!!0-item_pic.jpg_220x220_.webp"></div>
-                    <div class="shop-info">
-                        <div class="content-line">
-                            <a href="javascript:void(0)">春夏新品圆领T恤修身短袖上衣百搭打底衫390002</a>
-                        </div>
-                        <div class="content-line">
-                            <div class="fl">
-                                <span class="yuan">￥</span>
-                                <span class="integer fw">199</span>
-                                <span class="pointer">.</span>
-                                <span class="decimal">00</span>
-                            </div>
-                            <div class="fr hs">
-                                月销:123
-                            </div>
-                        </div>
-                        <div class="content-line">
-                            <div class="fl">
-                                <span class="hs">优惠后</span>
-                                <span class="yuan jh">￥</span>
-                                <span class="integer fw cx jh">66</span>
-                                <span class="pointer jh">.</span>
-                                <span class="decimal jh">00</span>
-                            </div>
-                        </div>
-                        <div class="content-line">
-                            <div class="bt-yhq fh">
-                                领取优惠券
-                            </div>
-                            <div class="bt-yhq tmbuy">
-                                去天猫购买
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- //item-end -->
 
             </div><!-- //推荐内容 -->
 		</div><!-- 买手推荐系列 end -->
-
+--%>
 
         <!-- 底部 -->
         <jsp:include page="footer.jsp"></jsp:include>

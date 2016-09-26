@@ -20,7 +20,7 @@
     http://code.alibabatech.com/schema/dubbo
     http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <!-- 本配置文件是工名为mvc-dispatcher的DispatcherServlet使用， 提供其相关的Spring MVC配置 -->
-
+   <!-- <bean id="springUtils" class="com.raycloud.module.util.SpringUtils"></bean>-->
 
     <!-- 事务的注解 -->
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>

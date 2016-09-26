@@ -1,11 +1,16 @@
 package com.raycloud.web;
 
 
+import com.raycloud.dao.ShopGoodsCategoryDao;
 import com.raycloud.dao.ShopGoodsDao;
+import com.raycloud.listener.InitServletContext;
+import com.raycloud.module.pojo.ShopGoodsCategoryPojo;
 import com.raycloud.module.pojo.ShopGoodsPojo;
 import com.raycloud.module.request.GoodsAddRequest;
 import com.raycloud.module.request.Request;
 import com.raycloud.module.response.Response;
+import com.raycloud.module.response.ViewUserList;
+import com.raycloud.module.util.CategoryUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +27,9 @@ public class ShopAction extends BaseAction {
 
     @Resource
     private ShopGoodsDao shopGoodsDao;
+
+    @Resource
+    private ShopGoodsCategoryDao shopGoodsCategoryDao;
 
     /**
      * 添加商品
@@ -72,6 +80,33 @@ public class ShopAction extends BaseAction {
         modelMap.put("max",max);
         modelMap.put("p",p);
         return "shop/search_goods";
+    }
+
+    /**
+     * 首页
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping("/index.html")
+    public String index(ModelMap modelMap){
+
+        modelMap.put("left", CategoryUtil.getLeft());
+        modelMap.put("program", CategoryUtil.getProgram());
+        return "shop/maishoujie";
+    }
+
+    /**
+     * 刷新缓存
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping("/indexRefresh.do")
+    public String indexRefresh(ModelMap modelMap){
+
+        InitServletContext.refresh();
+        modelMap.put("left", CategoryUtil.getLeft());
+        modelMap.put("program", CategoryUtil.getProgram());
+        return "shop/maishoujie";
     }
 
 }

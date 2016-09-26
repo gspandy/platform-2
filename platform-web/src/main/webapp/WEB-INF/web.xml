@@ -24,15 +24,19 @@
         <param-name>log4jRefreshInterval</param-name>
         <param-value>3000</param-value>
     </context-param>
-    <listener>
-        <listener-class>com.raycloud.module.listener.InitServletContext</listener-class>
-    </listener>
+
     <listener>
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
     </listener>
+
     <!-- App启动监听器,spring自带的,实现了SerlvetContextListener接口 -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <!-- 必须在spring的监听器后面 -->
+    <listener>
+        <listener-class>com.raycloud.listener.InitServletContext</listener-class>
     </listener>
 
     <filter>

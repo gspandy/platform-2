@@ -31,8 +31,9 @@
                     #keys[]#
                 </iterate>
             </isNotEmpty>
+
             <isNotNull property="parentId" prepend="and">
-                a.parentId = #parentId#
+                a.parent_id = #parentId#
             </isNotNull>
             <isNotNull property="type" prepend="and">
                 a.type = #type#
