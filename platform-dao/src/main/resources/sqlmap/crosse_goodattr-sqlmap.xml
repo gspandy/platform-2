@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="CrosseGoodattr">
+    <!-- 取别名 -->
+    <typeAlias alias="CrosseGoodattrPojo" type="com.raycloud.module.pojo.CrosseGoodattrPojo"/>
+
+
+    <sql id="fieldsAs">
+        id,parent_id as parentId,name,status,gmt_create as gmtCreate,gmt_modified as gmtModified,gmt_creator as gmtCreator,gmt_modifier as gmtModifier,memo
+    </sql>
+    <sql id="selector">
+        select
+        <dynamic>
+            <isNotEmpty property="fields">
+                $fields$
+            </isNotEmpty>
+            <isEmpty property="fields">
+               <include refid="fieldsAs"></include>
+            </isEmpty>
+        </dynamic>
+        from category
+    </sql>
+    <sql id="where">
+        <dynamic prepend="where">
+            <isNotNull property="id" prepend="and">
+                id = #id#
+            </isNotNull>
+            <!-- 支持id集合来查找多个 -->
+            <isNotEmpty property="keys" prepend="and">
+                id in
+                <iterate open="(" close=")" conjunction="," property="keys">
+                    #keys[]#
+                </iterate>
+            </isNotEmpty>
+            <isNotNull property="name" prepend="and">
+                name = #name#
+            </isNotNull>
+            <isNotNull property="created" prepend="and">
+                created = #created#
+            </isNotNull>
+            <isNotNull property="modified" prepend="and">
+                modified = #modified#
+            </isNotNull>
+            <isNotNull property="status" prepend="and">
+                status = #status#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <!-- 切记，order 后面不能用##,而应该用$$ -->
+    <sql id="order">
+        <dynamic prepend="order by">
+            <isNotEmpty property="orderFields">
+                <iterate property="orderFields" conjunction="," open="" close="">
+                    $orderFields[].fieldName$ $orderFields[].order$
+                </iterate>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <sql id="limit">
+        <dynamic prepend="limit">
+            <isNotEmpty property="startRow">
+                $startRow$,$pageSize$
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <insert id="insert" parameterClass="CrosseGoodattrPojo">
+        insert into crosse_goodattr
+        (id,attr_name,attr_type,status,optional,pricing,gmt_create,gmt_modified,gmt_creator,gmt_modifier,memo)
+        values
+        (#id#,#attrName#,#attrType#,'ENABLED',#optional#,#pricing#,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,#gmtCreator#,#gmtModifier#,#memo#)
+
+    </insert>
+
+    <select id="exists"  parameterClass="CrosseGoodattrPojo" resultClass="int">
+        select count(1) from crosse_goodattr where id = #id#
+    </select>
+
+</sqlMap>
